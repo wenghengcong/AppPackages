@@ -1,5 +1,5 @@
 import Foundation
-import Models
+import HCModels
 
 public enum Apps: Endpoint {
   case registerApp

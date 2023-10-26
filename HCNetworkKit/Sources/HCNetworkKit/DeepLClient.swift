@@ -1,5 +1,5 @@
 import Foundation
-import Models
+import HCModels
 
 public struct DeepLClient {
   public enum DeepLError: Error {

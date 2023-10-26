@@ -1,6 +1,6 @@
 import Foundation
 import KeychainSwift
-import Models
+import HCModels
 import SwiftUI
 
 @MainActor

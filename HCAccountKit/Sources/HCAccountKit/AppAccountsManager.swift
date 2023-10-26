@@ -1,7 +1,7 @@
 import Combine
-import Env
-import Models
-import Network
+import HCAppEnv
+import HCModels
+import HCNetworkKit
 import SwiftUI
 
 @MainActor

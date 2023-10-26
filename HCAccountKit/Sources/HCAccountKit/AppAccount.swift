@@ -2,8 +2,8 @@
 // https://docs.swift.org/swift-book
 import CryptoKit
 import KeychainSwift
-import Models
-import Network
+import HCModels
+import HCNetworkKit
 import SwiftUI
 
 public extension AppAccount {

@@ -17,18 +17,20 @@ let package = Package(
             targets: ["HCDesignKit"]),
     ],
     dependencies: [
-       .package(name: "HCModels", path: "../HCModels"),
-       .package(name: "HCAppEnv", path: "../HCAppEnv"),
-       .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.1.0"),
-       .package(url: "https://github.com/kean/Nuke", from: "12.0.0"),
-       .package(url: "https://github.com/divadretlaw/EmojiText", from: "2.6.0"),
-     ],
+        .package(name: "HCUtilKit", path: "../HCUtilKit"),
+        .package(name: "HCModels", path: "../HCModels"),
+        .package(name: "HCAppEnv", path: "../HCAppEnv"),
+        .package(url: "https://github.com/markiv/SwiftUI-Shimmer", exact: "1.1.0"),
+        .package(url: "https://github.com/kean/Nuke", from: "12.0.0"),
+        .package(url: "https://github.com/divadretlaw/EmojiText", from: "2.6.0"),
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "HCDesignKit",
             dependencies: [
+                .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCModels", package: "HCModels"),
                 .product(name: "HCAppEnv", package: "HCAppEnv"),
                 .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
@@ -39,9 +41,6 @@ let package = Package(
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
-        ),
-        .testTarget(
-            name: "HCDesignKitTests",
-            dependencies: ["HCDesignKit"]),
+        )
     ]
 )

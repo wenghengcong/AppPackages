@@ -1,6 +1,7 @@
-import Env
+import HCAppEnv
 import SwiftUI
 
+#if !os(macOS)
 public struct FontPicker: UIViewControllerRepresentable {
     @Environment(\.dismiss) var dismiss
     
@@ -35,3 +36,4 @@ public struct FontPicker: UIViewControllerRepresentable {
     
     public func updateUIViewController(_: UIFontPickerViewController, context _: Context) {}
 }
+#endif

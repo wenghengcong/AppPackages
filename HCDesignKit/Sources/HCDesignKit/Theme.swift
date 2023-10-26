@@ -1,5 +1,6 @@
 import Combine
 import SwiftUI
+import HCUtilKit
 
 public class Theme: ObservableObject {
   enum ThemeKey: String {
@@ -91,14 +92,14 @@ public class Theme: ObservableObject {
     }
   }
 
-  private var _cachedChoosenFont: UIFont?
-  public var chosenFont: UIFont? {
+  private var _cachedChoosenFont: HCUniversalFont?
+  public var chosenFont: HCUniversalFont? {
     get {
       if let _cachedChoosenFont {
         return _cachedChoosenFont
       }
       guard let chosenFontData,
-            let font = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIFont.self, from: chosenFontData) else { return nil }
+            let font = try? NSKeyedUnarchiver.unarchivedObject(ofClass: HCUniversalFont.self, from: chosenFontData) else { return nil }
 
       _cachedChoosenFont = font
       return font

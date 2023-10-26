@@ -17,6 +17,7 @@ let package = Package(
             targets: ["HCAppEnv"]),
     ],
     dependencies: [
+        .package(name: "HCUtilKit", path: "../HCUtilKit"),
         .package(name: "HCModels", path: "../HCModels"),
         .package(name: "HCNetworkKit", path: "../HCNetworkKit"),
         .package(url: "https://github.com/evgenyneu/keychain-swift", branch: "master"),
@@ -27,8 +28,9 @@ let package = Package(
         .target(
             name: "HCAppEnv",
             dependencies: [
+                .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCModels", package: "HCModels"),
-                .product(name: "HCNetworkKit", package: "HCNetworkKit"),
+                .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "KeychainSwift", package: "keychain-swift"),
             ],
             swiftSettings: [

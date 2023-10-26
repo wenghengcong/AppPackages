@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import Models
-import Network
+import HCModels
+import HCNetworkKit
 
 @MainActor
 public class StreamWatcher: ObservableObject {

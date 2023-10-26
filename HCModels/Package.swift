@@ -17,6 +17,7 @@ let package = Package(
             targets: ["HCModels"]),
     ],
     dependencies: [
+        .package(name: "HCUtilKit", path: "../HCUtilKit"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.4.3"),
     ],
     targets: [
@@ -25,6 +26,7 @@ let package = Package(
         .target(
             name: "HCModels",
             dependencies: [
+                .product(name: "HCUtilKit", package: "HCUtilKit"),
                 "SwiftSoup",
             ],
             swiftSettings: [

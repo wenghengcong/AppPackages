@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import Models
-import Network
+import HCModels
+import HCNetworkKit
 import SwiftUI
 
 @MainActor
@@ -24,8 +24,8 @@ public class UserPreferences: ObservableObject {
   @AppStorage("use_instance_content_settings") public var useInstanceContentSettings: Bool = true
   @AppStorage("app_auto_expand_spoilers") public var appAutoExpandSpoilers = false
   @AppStorage("app_auto_expand_media") public var appAutoExpandMedia: ServerPreferences.AutoExpandMedia = .hideSensitive
-  @AppStorage("app_default_post_visibility") public var appDefaultPostVisibility: Models.Visibility = .pub
-  @AppStorage("app_default_reply_visibility") public var appDefaultReplyVisibility: Models.Visibility = .pub
+  @AppStorage("app_default_post_visibility") public var appDefaultPostVisibility: HCModels.Visibility = .pub
+  @AppStorage("app_default_reply_visibility") public var appDefaultReplyVisibility: HCModels.Visibility = .pub
   @AppStorage("app_default_posts_sensitive") public var appDefaultPostsSensitive = false
   @AppStorage("autoplay_video") public var autoPlayVideo = true
   @AppStorage("always_use_deepl") public var alwaysUseDeepl = false
@@ -82,7 +82,7 @@ public class UserPreferences: ObservableObject {
     }
   }
 
-  public var postVisibility: Models.Visibility {
+  public var postVisibility: HCModels.Visibility {
     if useInstanceContentSettings {
       serverPreferences?.postVisibility ?? .pub
     } else {
@@ -94,15 +94,15 @@ public class UserPreferences: ObservableObject {
     appDefaultReplyVisibility = getReplyVisibility()
   }
 
-  private func getReplyVisibility() -> Models.Visibility {
+  private func getReplyVisibility() -> HCModels.Visibility {
     getMinVisibility(postVisibility, appDefaultReplyVisibility)
   }
 
-  public func getReplyVisibility(of status: Status) -> Models.Visibility {
+  public func getReplyVisibility(of status: Status) -> HCModels.Visibility {
     getMinVisibility(getReplyVisibility(), status.visibility)
   }
 
-  private func getMinVisibility(_ vis1: Models.Visibility, _ vis2: Models.Visibility) -> Models.Visibility {
+  private func getMinVisibility(_ vis1: HCModels.Visibility, _ vis2: HCModels.Visibility) -> HCModels.Visibility {
     let no1 = Self.getIntOfVisibility(vis1)
     let no2 = Self.getIntOfVisibility(vis2)
 
@@ -175,7 +175,7 @@ public class UserPreferences: ObservableObject {
     recentlyUsedLanguages = Array(copy.prefix(3))
   }
 
-  public static func getIntOfVisibility(_ vis: Models.Visibility) -> Int {
+  public static func getIntOfVisibility(_ vis: HCModels.Visibility) -> Int {
     switch vis {
     case .direct:
       0

@@ -2,8 +2,8 @@ import Combine
 import CryptoKit
 import Foundation
 import KeychainSwift
-import Models
-import Network
+import HCModels
+import HCNetworkKit
 import SwiftUI
 import UserNotifications
 
@@ -24,7 +24,7 @@ public struct PushAccount: Equatable {
 
 public struct HandledNotification: Equatable {
   public let account: PushAccount
-  public let notification: Models.Notification
+  public let notification: HCModels.Notification
 }
 
 @MainActor
@@ -152,7 +152,7 @@ extension PushNotificationsService: UNUserNotificationCenterDelegate {
     }
     do {
       let client = Client(server: account.account.server, oauthToken: account.account.token)
-      let notification: Models.Notification =
+      let notification: HCModels.Notification =
         try await client.get(endpoint: Notifications.notification(id: String(mastodonPushNotification.notificationID)))
       handledNotification = .init(account: account.account, notification: notification)
     } catch {}

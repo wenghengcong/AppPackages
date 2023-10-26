@@ -1,5 +1,5 @@
 import Foundation
-import Models
+import HCModels
 import NukeUI
 import SwiftUI
 

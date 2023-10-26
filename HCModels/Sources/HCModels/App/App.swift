@@ -11,4 +11,3 @@ public enum AppInfo {
   public static let keychainGroup = "346J38YKE3.com.thomasricouard.IceCubesApp"
 }
 
-typealias

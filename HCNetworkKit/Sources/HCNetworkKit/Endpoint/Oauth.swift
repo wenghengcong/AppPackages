@@ -1,5 +1,5 @@
 import Foundation
-import Models
+import HCModels
 
 public enum Oauth: Endpoint {
   case authorize(clientId: String)

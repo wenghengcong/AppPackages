@@ -1,6 +1,6 @@
 import EmojiText
 import Foundation
-import Models
+import HCModels
 import SwiftUI
 
 public struct EmojiTextApp: View {

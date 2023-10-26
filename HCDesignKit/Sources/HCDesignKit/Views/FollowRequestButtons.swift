@@ -1,5 +1,5 @@
-import Env
-import Models
+import HCAppEnv
+import HCModels
 import SwiftUI
 
 public struct FollowRequestButtons: View {

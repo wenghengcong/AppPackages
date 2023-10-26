@@ -1,4 +1,5 @@
-import Env
+import HCAppEnv
+import HCUtilKit
 import SwiftUI
 
 @MainActor
@@ -26,7 +27,7 @@ public extension Font {
         return .system(size: size, design: .default)
     }
     
-    private static func customUIFont(size: CGFloat) -> UIFont {
+    private static func customUIFont(size: CGFloat) -> HCUniversalFont {
         if let chosenFont = Theme.shared.chosenFont {
             return chosenFont.withSize(size)
         }
@@ -34,7 +35,11 @@ public extension Font {
     }
     
     private static func userScaledFontSize(baseSize: CGFloat) -> CGFloat {
+#if os(macOS)
+        return 1.0
+#else
         UIFontMetrics.default.scaledValue(for: baseSize * Theme.shared.fontSizeScale)
+#endif
     }
     
     static var scaledTitle: Font {
@@ -45,7 +50,7 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: headline), relativeTo: .headline).weight(.semibold)
     }
     
-    static var scaledHeadlineFont: UIFont {
+    static var scaledHeadlineFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: headline))
     }
     
@@ -53,7 +58,7 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: body + 2), relativeTo: .body)
     }
     
-    static var scaledBodyFocusedFont: UIFont {
+    static var scaledBodyFocusedFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body + 2))
     }
     
@@ -61,11 +66,11 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: body), relativeTo: .body)
     }
     
-    static var scaledBodyFont: UIFont {
+    static var scaledBodyFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body))
     }
     
-    static var scaledBodyUIFont: UIFont {
+    static var scaledBodyUIFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body))
     }
     
@@ -73,7 +78,7 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: callout), relativeTo: .callout)
     }
     
-    static var scaledCalloutFont: UIFont {
+    static var scaledCalloutFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body))
     }
     
@@ -81,7 +86,7 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: subheadline), relativeTo: .subheadline)
     }
     
-    static var scaledSubheadlineFont: UIFont {
+    static var scaledSubheadlineFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: subheadline))
     }
     
@@ -89,7 +94,7 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: footnote), relativeTo: .footnote)
     }
     
-    static var scaledFootnoteFont: UIFont {
+    static var scaledFootnoteFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: footnote))
     }
     
@@ -97,19 +102,28 @@ public extension Font {
         customFont(size: userScaledFontSize(baseSize: caption), relativeTo: .caption)
     }
     
-    static var scaledCaptionFont: UIFont {
+    static var scaledCaptionFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: caption))
     }
 }
 
-public extension UIFont {
+public extension HCUniversalFont {
+#if os(macOS)
+    func rounded() -> NSFont {
+        guard let descriptor = fontDescriptor.withDesign(.rounded) else {
+            return self
+        }
+        return NSFont(descriptor: descriptor, size: pointSize) ?? NSFont.systemFont(ofSize: pointSize)
+    }
+#else
     func rounded() -> UIFont {
         guard let descriptor = fontDescriptor.withDesign(.rounded) else {
             return self
         }
         return UIFont(descriptor: descriptor, size: pointSize)
     }
-    
+#endif
+
     var emojiSize: CGFloat {
         pointSize
     }

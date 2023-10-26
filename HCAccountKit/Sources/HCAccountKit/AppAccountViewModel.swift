@@ -1,12 +1,13 @@
 import Combine
-import DesignSystem
-import Models
-import Network
+import HCDesignKit
+import HCModels
+import HCNetworkKit
 import SwiftUI
+import HCUtilKit
 
 @MainActor
 public class AppAccountViewModel: ObservableObject {
-  private static var avatarsCache: [String: UIImage] = [:]
+  private static var avatarsCache: [String: HCUniversalImage] = [:]
   private static var accountsCache: [String: Account] = [:]
 
   var appAccount: AppAccount
