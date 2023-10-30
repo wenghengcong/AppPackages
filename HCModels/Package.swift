@@ -32,9 +32,6 @@ let package = Package(
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
-        ),
-        .testTarget(
-            name: "HCModelsTests",
-            dependencies: ["HCModels"]),
+        )
     ]
 )

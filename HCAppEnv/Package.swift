@@ -36,9 +36,6 @@ let package = Package(
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
-        ),
-        .testTarget(
-            name: "HCAppEnvTests",
-            dependencies: ["HCAppEnv"]),
+        )
     ]
 )

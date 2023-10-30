@@ -20,6 +20,7 @@ let package = Package(
         .package(name: "HCUtilKit", path: "../HCUtilKit"),
         .package(name: "HCModels", path: "../HCModels"),
         .package(name: "HCNetworkKit", path: "../HCNetworkKit"),
+        .package(name: "HCDesignKit", path: "../HCDesignKit"),
         .package(url: "https://github.com/evgenyneu/keychain-swift", branch: "master"),
     ],
     targets: [
@@ -31,14 +32,12 @@ let package = Package(
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCModels", package: "HCModels"),
                 .product(name: "HCNetworkKit", package: "HCNetworkKit"),
+                .product(name: "HCDesignKit", package: "HCDesignKit"),
                 .product(name: "KeychainSwift", package: "keychain-swift"),
             ],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
-        ),
-        .testTarget(
-            name: "HCAccountKitTests",
-            dependencies: ["HCAccountKit"]),
+        )
     ]
 )
