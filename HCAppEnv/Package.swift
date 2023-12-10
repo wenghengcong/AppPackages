@@ -30,7 +30,7 @@ let package = Package(
             dependencies: [
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCModels", package: "HCModels"),
-                .product(name: "HCUtilKit", package: "HCUtilKit"),
+                .product(name: "HCNetworkKit", package: "HCNetworkKit"),
                 .product(name: "KeychainSwift", package: "keychain-swift"),
             ],
             swiftSettings: [

@@ -1,4 +1,5 @@
 import Foundation
+
 import SwiftSoup
 import SwiftUI
 
@@ -267,3 +268,4 @@ public extension URL {
     self.init(string: encodedUrlString)
   }
 }
+
