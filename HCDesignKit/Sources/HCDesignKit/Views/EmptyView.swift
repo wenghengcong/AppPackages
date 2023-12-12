@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct EmptyView: View {
+public struct HCEmptyView: View {
   public let iconName: String
   public let title: LocalizedStringKey
   public let message: LocalizedStringKey

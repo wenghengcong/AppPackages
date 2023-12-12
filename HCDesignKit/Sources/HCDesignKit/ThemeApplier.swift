@@ -18,7 +18,7 @@ struct ThemeApplier: ViewModifier {
     if theme.followSystemColorScheme {
       return nil
     }
-    return theme.selectedScheme == ColorScheme.dark ? .dark : .light
+    return theme.selectedScheme == HCColorScheme.dark ? .dark : .light
   }
 
   func body(content: Content) -> some View {
@@ -62,7 +62,7 @@ struct ThemeApplier: ViewModifier {
   }
 
   #if canImport(UIKit)
-    private func setWindowUserInterfaceStyle(from colorScheme: ColorScheme) {
+    private func setWindowUserInterfaceStyle(from colorScheme: HCColorScheme) {
       guard !theme.followSystemColorScheme else {
         setWindowUserInterfaceStyle(.unspecified)
         return

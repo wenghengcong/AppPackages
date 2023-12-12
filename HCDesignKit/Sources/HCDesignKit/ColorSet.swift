@@ -10,14 +10,14 @@ public let availableColorsSets: [ColorSetCouple] =
 
 public protocol ColorSet {
   var name: ColorSetName { get }
-  var scheme: ColorScheme { get }
+  var scheme: HCColorScheme { get }
   var tintColor: Color { get set }
   var primaryBackgroundColor: Color { get set }
   var secondaryBackgroundColor: Color { get set }
   var labelColor: Color { get set }
 }
 
-public enum ColorScheme: String {
+public enum HCColorScheme: String {
   case dark, light
 }
 
@@ -47,7 +47,7 @@ public struct ColorSetCouple: Identifiable {
 
 public struct IceCubeDark: ColorSet {
   public var name: ColorSetName = .iceCubeDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
   public var primaryBackgroundColor: Color = .init(red: 16 / 255, green: 21 / 255, blue: 35 / 255)
   public var secondaryBackgroundColor: Color = .init(red: 30 / 255, green: 35 / 255, blue: 62 / 255)
@@ -58,7 +58,7 @@ public struct IceCubeDark: ColorSet {
 
 public struct IceCubeLight: ColorSet {
   public var name: ColorSetName = .iceCubeLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
   public var primaryBackgroundColor: Color = .white
   public var secondaryBackgroundColor: Color = .init(hex: 0xF0F1F2)
@@ -69,7 +69,7 @@ public struct IceCubeLight: ColorSet {
 
 public struct IceCubeNeonDark: ColorSet {
   public var name: ColorSetName = .iceCubeNeonDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(red: 213 / 255, green: 46 / 255, blue: 245 / 255)
   public var primaryBackgroundColor: Color = .black
   public var secondaryBackgroundColor: Color = .init(red: 19 / 255, green: 0 / 255, blue: 32 / 255)
@@ -80,7 +80,7 @@ public struct IceCubeNeonDark: ColorSet {
 
 public struct IceCubeNeonLight: ColorSet {
   public var name: ColorSetName = .iceCubeNeonLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(red: 213 / 255, green: 46 / 255, blue: 245 / 255)
   public var primaryBackgroundColor: Color = .white
   public var secondaryBackgroundColor: Color = .init(hex: 0xF0F1F2)
@@ -91,7 +91,7 @@ public struct IceCubeNeonLight: ColorSet {
 
 public struct DesertDark: ColorSet {
   public var name: ColorSetName = .desertDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(hex: 0xDF915E)
   public var primaryBackgroundColor: Color = .init(hex: 0x433744)
   public var secondaryBackgroundColor: Color = .init(hex: 0x654868)
@@ -102,7 +102,7 @@ public struct DesertDark: ColorSet {
 
 public struct DesertLight: ColorSet {
   public var name: ColorSetName = .desertLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(hex: 0xDF915E)
   public var primaryBackgroundColor: Color = .init(hex: 0xFCF2EB)
   public var secondaryBackgroundColor: Color = .init(hex: 0xEEEDE7)
@@ -113,7 +113,7 @@ public struct DesertLight: ColorSet {
 
 public struct NemesisDark: ColorSet {
   public var name: ColorSetName = .nemesisDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(hex: 0x17A2F2)
   public var primaryBackgroundColor: Color = .init(hex: 0x000000)
   public var secondaryBackgroundColor: Color = .init(hex: 0x151E2B)
@@ -124,7 +124,7 @@ public struct NemesisDark: ColorSet {
 
 public struct NemesisLight: ColorSet {
   public var name: ColorSetName = .nemesisLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(hex: 0x17A2F2)
   public var primaryBackgroundColor: Color = .init(hex: 0xFFFFFF)
   public var secondaryBackgroundColor: Color = .init(hex: 0xE8ECEF)
@@ -135,7 +135,7 @@ public struct NemesisLight: ColorSet {
 
 public struct MediumDark: ColorSet {
   public var name: ColorSetName = .mediumDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(hex: 0x1A8917)
   public var primaryBackgroundColor: Color = .init(hex: 0x121212)
   public var secondaryBackgroundColor: Color = .init(hex: 0x191919)
@@ -146,7 +146,7 @@ public struct MediumDark: ColorSet {
 
 public struct MediumLight: ColorSet {
   public var name: ColorSetName = .mediumLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(hex: 0x1A8917)
   public var primaryBackgroundColor: Color = .init(hex: 0xFFFFFF)
   public var secondaryBackgroundColor: Color = .init(hex: 0xFAFAFA)
@@ -157,7 +157,7 @@ public struct MediumLight: ColorSet {
 
 public struct ConstellationDark: ColorSet {
   public var name: ColorSetName = .constellationDark
-  public var scheme: ColorScheme = .dark
+  public var scheme: HCColorScheme = .dark
   public var tintColor: Color = .init(hex: 0xFFD966)
   public var primaryBackgroundColor: Color = .init(hex: 0x09192C)
   public var secondaryBackgroundColor: Color = .init(hex: 0x304C7A)
@@ -168,7 +168,7 @@ public struct ConstellationDark: ColorSet {
 
 public struct ConstellationLight: ColorSet {
   public var name: ColorSetName = .constellationLight
-  public var scheme: ColorScheme = .light
+  public var scheme: HCColorScheme = .light
   public var tintColor: Color = .init(hex: 0xC82238)
   public var primaryBackgroundColor: Color = .init(hex: 0xF4F5F7)
   public var secondaryBackgroundColor: Color = .init(hex: 0xACC7E5)
