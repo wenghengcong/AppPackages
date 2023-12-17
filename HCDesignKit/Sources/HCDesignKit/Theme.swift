@@ -10,6 +10,8 @@ public class Theme: ObservableObject {
     case followSystemColorSchme
     case displayFullUsernameTimeline
     case lineSpacing
+
+      
   }
 
   public enum FontState: Int, CaseIterable {
