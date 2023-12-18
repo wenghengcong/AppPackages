@@ -8,11 +8,11 @@ import SwiftUI
 // images inamed in CamelCase are custom
 
 public extension Label where Title == Text, Icon == Image {
-  init(_ title: LocalizedStringKey, imageNamed: String) {
-    if imageNamed.lowercased() == imageNamed {
-      self.init(title, systemImage: imageNamed)
-    } else {
-      self.init(title, image: imageNamed)
+    init(_ title: LocalizedStringKey, imageNamed: String) {
+        if imageNamed.lowercased() == imageNamed {
+            self.init(title, systemImage: imageNamed)
+        } else {
+            self.init(title, image: imageNamed)
+        }
     }
-  }
 }

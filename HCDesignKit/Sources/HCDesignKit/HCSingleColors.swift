@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Nemo on 2023/10/25.
 //
@@ -23,15 +23,15 @@ import SwiftUI
 public extension Color {
     
     static var brand: Color {
-      Color(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
+        Color(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
     }
-
+    
     static var primaryBackground: Color {
-      Color(red: 16 / 255, green: 21 / 255, blue: 35 / 255)
+        Color(red: 16 / 255, green: 21 / 255, blue: 35 / 255)
     }
-
+    
     static var secondaryBackground: Color {
-      Color(red: 30 / 255, green: 35 / 255, blue: 62 / 255)
+        Color(red: 30 / 255, green: 35 / 255, blue: 62 / 255)
     }
     
     /// A blue color that automatically adapts to the current trait environment.

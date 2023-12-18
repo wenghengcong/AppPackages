@@ -123,7 +123,7 @@ public extension HCUniversalFont {
         return UIFont(descriptor: descriptor, size: pointSize)
     }
 #endif
-
+    
     var emojiSize: CGFloat {
         pointSize
     }

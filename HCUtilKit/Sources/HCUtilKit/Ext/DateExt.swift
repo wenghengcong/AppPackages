@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 public extension Date {
     func startOfMonth(using calendar: Calendar) -> Date {
         calendar.date(

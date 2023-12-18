@@ -17,7 +17,7 @@ public enum ColorSpace: String {
 public struct ColorInfo {
     /// 颜色空间： 如果你在不同的颜色空间之间进行操作，可以存储当前颜色的颜色空间信息
     var colorSpace: ColorSpace
-
+    
     /// Red、Green、Blue 值： RGB 值是颜色的基本构成元素，它们表示红、绿、蓝三个通道的颜色强度。
     var red: Double
     var green: Double
@@ -36,7 +36,7 @@ public struct ColorInfo {
     
     /// Alpha 通道（透明度）： 表示颜色的透明度，0 表示完全透明，1 表示完全不透明。
     var alpha: Double
-
+    
     init(colorSpace: ColorSpace,
          red: Double, green: Double, blue: Double,
          hue: Double, saturation: Double, brightness: Double,
@@ -54,20 +54,20 @@ public struct ColorInfo {
         self.black = black
         self.alpha = alpha
     }
-
+    
     init(from string: String) {
         let propertyPairs = string.components(separatedBy: "_")
         var colorInfoDict: [String: Any] = [:]
-
+        
         for pair in propertyPairs {
             let components = pair.components(separatedBy: ":")
             if components.count == 2, let value = Double(components[1]) {
                 colorInfoDict[components[0]] = value
             }
         }
-
+        
         let sapce = ColorSpace(rawValue: (colorInfoDict["colorSpace"] as? String) ?? "sRGB")
-
+        
         self.colorSpace = sapce ?? .sRGB
         self.red = (colorInfoDict["red"] as? Double) ?? 0
         self.green = (colorInfoDict["green"] as? Double) ?? 0
@@ -81,23 +81,23 @@ public struct ColorInfo {
         self.black = (colorInfoDict["black"] as? Double) ?? 0
         self.alpha = (colorInfoDict["alpha"] as? Double) ?? 1
     }
-
+    
     /// 转换成字符串
     func stringify() -> String {
         let properties = Mirror(reflecting: self).children
         var result = ""
-
+        
         for (label, value) in properties {
             if let label = label {
                 result += "\(label):\(value)_"
             }
         }
-
+        
         // Remove the trailing underscore
         if result.hasSuffix("_") {
             result.removeLast()
         }
-
+        
         return result
     }
     
@@ -108,14 +108,14 @@ public struct ColorInfo {
         }
         let propertyPairs = string.components(separatedBy: "_")
         var colorInfoDict: [String: Any] = [:]
-
+        
         for pair in propertyPairs {
             let components = pair.components(separatedBy: ":")
             if components.count == 2, let value = Double(components[1]) {
                 colorInfoDict[components[0]] = value
             }
         }
-
+        
         let sapce = ColorSpace(rawValue: (colorInfoDict["colorSpace"] as? String) ?? "sRGB")
         // Create ColorInfo object using the dictionary
         return ColorInfo(
@@ -137,7 +137,7 @@ public struct ColorInfo {
 
 
 public extension Color {
-
+    
     /// 通过 ColorInfo 字符串创建 Color 对象
     init?(colorInfoString: String?) {
         guard let infoStr = colorInfoString else {
@@ -145,23 +145,23 @@ public extension Color {
             return
         }
         let colorInfo = ColorInfo.init(from: infoStr)
-    #if canImport(UIKit)
+#if canImport(UIKit)
         self.init(red: colorInfo.red, green: colorInfo.green, blue: colorInfo.blue, opacity: colorInfo.alpha)
-    #elseif canImport(AppKit)
+#elseif canImport(AppKit)
         self.init(
             .sRGB,
             red: colorInfo.red, green: colorInfo.green, blue: colorInfo.blue,
             opacity: colorInfo.alpha
         )
-    #endif
+#endif
     }
-
+    
     func toColorInfoString() -> String {
         let colorInfo = toColorInfo()
         let string = colorInfo.stringify()
         return string
     }
-
+    
     /// Color 转 ColorInfo
     /// 注意，ColorInfo 的 CMYK 颜色属性在这里被设置为零，因为 SwiftUI 的 Color 类型不直接提供 CMYK 颜色信息。
     func toColorInfo() -> ColorInfo {
@@ -169,21 +169,21 @@ public extension Color {
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var opacity: CGFloat = 1.0
-
-        #if canImport(UIKit)
+        
+#if canImport(UIKit)
         UIColor(self).getRed(&red, green: &green, blue: &blue, alpha: &opacity)
-        #elseif canImport(AppKit)
+#elseif canImport(AppKit)
         NSColor(self).getRed(&red, green: &green, blue: &blue, alpha: &opacity)
-        #endif
-
+#endif
+        
         let uiColor = UIColor(self)
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
         var brightness: CGFloat = 0
         var alpha: CGFloat = 0
-
+        
         uiColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-
+        
         return ColorInfo(
             colorSpace: .sRGB,
             red: Double(red),
@@ -199,72 +199,72 @@ public extension Color {
             alpha: Double(alpha)
         )
     }
-
-
+    
+    
     static var PrimaryBackground: Color {
         return Color("PrimaryBackground")
     }
-
+    
     static var SecondaryBackground: Color {
         return Color("SecondaryBackground")
     }
-
+    
     static var DarkBackground: Color {
         return Color("DarkBackground")
     }
-
+    
     static var PrimaryText: Color {
         return Color("PrimaryText")
     }
-
+    
     static var AlertRed: Color {
         return Color("AlertRed")
     }
-
+    
     static var IncomeGreen: Color {
         return Color("IncomeGreen")
     }
-
+    
     static var BudgetBackground: Color {
         return Color("BudgetBackground")
     }
-
+    
     static var SubtitleText: Color {
         return Color("SubtitleText")
     }
-
+    
     static var Outline: Color {
         return Color("Outline")
     }
-
+    
     static var LightIcon: Color {
         return Color("LightIcon")
     }
-
+    
     static var DarkIcon: Color {
         return Color("DarkIcon")
     }
-
+    
     static var GreyIcon: Color {
         return Color("GreyIcon")
     }
-
+    
     static var BudgetRed: Color {
         return Color("BudgetRed")
     }
-
+    
     static var Alert: Color {
         return Color("Alert")
     }
-
+    
     static var TertiaryBackground: Color {
         return Color("TertiaryBackground")
     }
-
+    
     static var SettingsBackground: Color {
         return Color("Settings")
     }
-
+    
     static var EvenLighterText: Color {
         return Color("EvenLighterText")
     }

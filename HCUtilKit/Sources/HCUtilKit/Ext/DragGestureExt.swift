@@ -28,7 +28,7 @@ public extension DragGesture.Value {
         if startLocation.y < location.y - tolerance { return .down }
         return nil
     }
-
+    
     enum SwipeDirection {
         case left
         case right
