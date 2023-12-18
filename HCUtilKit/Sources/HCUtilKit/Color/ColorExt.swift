@@ -10,6 +10,35 @@ import SwiftUI
 
 public extension Color {
 
+    init(hex value: Any) {
+        self.init(hex: value, alpha: 1.0)
+    }
+
+    init(hex value: Any, alpha: Double = 1.0) {
+        switch value {
+        case let hexString as String:
+            self.init(hexString: hexString, alpha:  alpha)
+        case let hexInt as Int:
+            self.init(hexInt: hexInt, alpha: alpha)
+        default:
+            fatalError("Invalid color value. Please provide a valid hex string or hex integer.")
+        }
+    }
+
+    init(rgb:(r: Double, g: Double, b: Double)) {
+        self.init(r: rgb.r, g: rgb.g, b: rgb.b, alpha: 1.0)
+    }
+
+    init(rgba:(r: Double, g: Double, b: Double, alpha: Double)) {
+        self.init(r: rgba.r, g: rgba.g, b: rgba.b, alpha: rgba.alpha)
+    }
+
+    init(r: Double, g: Double, b: Double, alpha: Double = 1.0) {
+        let red = r / 255.0
+        let green = g / 255.0
+        let blue = b / 255.0
+        self.init(.sRGB, red: red, green: green, blue: blue)
+    }
     /**
      Create a color with an integer hex, e.g. `0xabcdef`.
 
@@ -17,15 +46,14 @@ public extension Color {
        - hex: The hex value to apply.
        - alpha: The alpha value to apply, from 0 to 1.
      */
-    init(hex: Int, alpha: Double = 1) {
-        let opacity = 1.0-alpha
-        self.init(hex: hex, opacity: alpha)
+    init(hexInt: Int, alpha: Double = 1.0) {
+        self.init(hexInt: hexInt, opacity: alpha)
     }
 
-    init(hex: Int, opacity: Double) {
-        let red = Double((hex & 0xff0000) >> 16) / 255.0
-        let green = Double((hex & 0xff00) >> 8) / 255.0
-        let blue = Double((hex & 0xff) >> 0) / 255.0
+    init(hexInt: Int, opacity: Double) {
+        let red = Double((hexInt & 0xff0000) >> 16) / 255.0
+        let green = Double((hexInt & 0xff00) >> 8) / 255.0
+        let blue = Double((hexInt & 0xff) >> 0) / 255.0
         self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
     }
 
@@ -39,34 +67,33 @@ public extension Color {
        - hex: The hex string to parse.
        - alpha: The alpha value to apply, from 0 to 1.
      */
-    init(hexStr: String, alpha: CGFloat = 1) {
-        self.init(hexStr: hexStr)
+    init(hexString: String, alpha: CGFloat = 1) {
+        self.init(hexString: hexString)
     }
 
-    init(hexStr: String) {
-        var hexSanitized = hexStr.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-        var red: Double = 0.0, green: Double = 0.0, blue: Double = 0.0
-        var opacity: Double = 1.0
-
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else {
-            self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
-            return
+    init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
         }
-        let length = hexSanitized.count
-        if length == 6 {
-            red = Double((rgb & 0xFF0000) >> 16) / 255.0
-            green = Double((rgb & 0x00FF00) >> 8) / 255.0
-            blue = Double(rgb & 0x0000FF) / 255.0
-        } else if length == 8 {
-            red = Double((rgb & 0xFF000000) >> 24) / 255.0
-            green = Double((rgb & 0x00FF0000) >> 16) / 255.0
-            blue = Double((rgb & 0x0000FF00) >> 8) / 255.0
-            opacity = Double(rgb & 0x000000FF) / 255.0
-        }
-        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
+
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
     }
 }
 
@@ -95,17 +122,14 @@ extension Color: RawRepresentable {
 }
 
 #Preview {
-
     struct Preview: View {
-
         @State private var font = ""
-
         var body: some View {
             VStack {
-                Color(hexStr: "0xabcdef")
-                Color(hexStr: "#abcdef", alpha: 0)
-                Color(hexStr: "#abcdef", alpha: 0.5)
-                Color(hexStr: "#abcdef", alpha: 1)
+                Color(hex: "0xabcdef")
+                Color(hex: "#abcdef", alpha: 0)
+                Color(hex: "#abcdef", alpha: 0.5)
+                Color(hex: "#abcdef", alpha: 1)
                 Color(hex: 0x000000).frame(height: 10)
                 Color(hex: 0xffffff).frame(height: 10)
                 Color(hex: 0xabcdef)

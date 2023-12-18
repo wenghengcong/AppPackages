@@ -34,8 +34,8 @@ public struct SystemDark: ColorSet {
     public var name: HCColorSetName = .systemDark
     public var scheme: HCColorScheme = .dark
     public var tintColor: Color = .brand
-    public var primaryBackgroundColor: Color = .init(red: 16 / 255, green: 21 / 255, blue: 35 / 255)
-    public var secondaryBackgroundColor: Color = .init(red: 30 / 255, green: 35 / 255, blue: 62 / 255)
+    public var primaryBackgroundColor: Color = Color(hex: "101010")
+    public var secondaryBackgroundColor: Color = Color(hex: "1C1C1E")
     public var labelColor: Color = .white
     
     public init() {}
@@ -45,8 +45,8 @@ public struct SystemLight: ColorSet {
     public var name: HCColorSetName = .systemLight
     public var scheme: HCColorScheme = .light
     public var tintColor: Color = .brand
-    public var primaryBackgroundColor: Color = .white
-    public var secondaryBackgroundColor: Color = .init(hex: 0xF0F1F2)
+    public var primaryBackgroundColor: Color = Color(hex: "#F6F6F6")
+    public var secondaryBackgroundColor: Color = Color.white
     public var labelColor: Color = .black
     
     public init() {}
