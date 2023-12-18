@@ -21,19 +21,6 @@ import SwiftUI
 // macOS      | https://developer.apple.com/documentation/appkit/nscolor/standard_colors
 @available(iOS 13.0, macOS 10.15, *)
 public extension Color {
-    
-    static var brand: Color {
-        Color(red: 187 / 255, green: 59 / 255, blue: 226 / 255)
-    }
-    
-    static var primaryBackground: Color {
-        Color(red: 16 / 255, green: 21 / 255, blue: 35 / 255)
-    }
-    
-    static var secondaryBackground: Color {
-        Color(red: 30 / 255, green: 35 / 255, blue: 62 / 255)
-    }
-    
     /// A blue color that automatically adapts to the current trait environment.
     static var systemBlue: Color { Color(HCUniversalColor.systemBlue) }
     /// A brown color that automatically adapts to the current trait environment.

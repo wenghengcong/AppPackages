@@ -126,7 +126,7 @@ public class Theme: ObservableObject {
     @AppStorage(ThemeKey.label.rawValue) public var labelColor: Color = .black
     @AppStorage(ThemeKey.avatarPosition.rawValue) var rawAvatarPosition: String = AvatarPosition.top.rawValue
     @AppStorage(ThemeKey.avatarShape.rawValue) var rawAvatarShape: String = AvatarShape.rounded.rawValue
-    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: ColorSetName = .iceCubeDark
+    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCColorSetName = .systemDark
     @AppStorage(ThemeKey.statusActionsDisplay.rawValue) public var statusActionsDisplay: StatusActionsDisplay = .full
     @AppStorage(ThemeKey.statusDisplayStyle.rawValue) public var statusDisplayStyle: StatusDisplayStyle = .large
     @AppStorage(ThemeKey.followSystemColorSchme.rawValue) public var followSystemColorScheme: Bool = true
@@ -137,7 +137,7 @@ public class Theme: ObservableObject {
     
     @Published public var avatarPosition: AvatarPosition = .top
     @Published public var avatarShape: AvatarShape = .rounded
-    @Published public var selectedSet: ColorSetName = .iceCubeDark
+    @Published public var selectedSet: HCColorSetName = .systemDark
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -176,28 +176,24 @@ public class Theme: ObservableObject {
     
     public static var allColorSet: [ColorSet] {
         [
-            IceCubeDark(),
-            IceCubeLight(),
-            IceCubeNeonDark(),
-            IceCubeNeonLight(),
-            DesertDark(),
-            DesertLight(),
-            NemesisDark(),
-            NemesisLight(),
-            MediumLight(),
-            MediumDark(),
-            ConstellationLight(),
-            ConstellationDark(),
+            SystemDark(),
+            SystemLight(),
         ]
     }
     
-    public func setColor(withName name: ColorSetName) {
-        let colorSet = Theme.allColorSet.filter { $0.name == name }.first ?? IceCubeDark()
+    public func setColor(withName name: HCColorSetName) {
+        let colorSet = Theme.allColorSet.filter { $0.name == name }.first ?? SystemDark()
         selectedScheme = colorSet.scheme
         tintColor = colorSet.tintColor
         primaryBackgroundColor = colorSet.primaryBackgroundColor
         secondaryBackgroundColor = colorSet.secondaryBackgroundColor
         labelColor = colorSet.labelColor
         storedSet = name
+    }
+    
+    
+    public static var isDarkMode: Bool {
+        let isDark = (Theme.shared.selectedScheme == .dark)
+        return isDark
     }
 }
