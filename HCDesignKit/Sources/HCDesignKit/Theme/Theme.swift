@@ -3,15 +3,18 @@ import SwiftUI
 import HCUtilKit
 
 public class Theme: ObservableObject {
+    /// 主题的Key
     enum ThemeKey: String {
-        case colorScheme, tint, label, primaryBackground, secondaryBackground
+        /// scheme，对应是dark还是light
+        case colorScheme
+        case tint, primaryBackground, secondaryBackground
+        case label, secondLabel,separator,placeholder
+        
         case avatarPosition, avatarShape, statusActionsDisplay, statusDisplayStyle
         case selectedSet, selectedScheme
         case followSystemColorSchme
         case displayFullUsernameTimeline
         case lineSpacing
-        
-        
     }
     
     public enum FontState: Int, CaseIterable {
@@ -119,11 +122,17 @@ public class Theme: ObservableObject {
     }
     
     @AppStorage("is_previously_set") public var isThemePreviouslySet: Bool = false
+    
     @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: HCColorScheme = .dark
     @AppStorage(ThemeKey.tint.rawValue) public var tintColor: Color = .black
     @AppStorage(ThemeKey.primaryBackground.rawValue) public var primaryBackgroundColor: Color = .white
     @AppStorage(ThemeKey.secondaryBackground.rawValue) public var secondaryBackgroundColor: Color = .gray
     @AppStorage(ThemeKey.label.rawValue) public var labelColor: Color = .black
+    @AppStorage(ThemeKey.secondLabel.rawValue) public var secondLabelColor: Color = .black
+    @AppStorage(ThemeKey.separator.rawValue) public var separatorColor: Color = .lightGray
+    @AppStorage(ThemeKey.placeholder.rawValue) public var placeholderColor: Color = .lightGray
+
+    
     @AppStorage(ThemeKey.avatarPosition.rawValue) var rawAvatarPosition: String = AvatarPosition.top.rawValue
     @AppStorage(ThemeKey.avatarShape.rawValue) var rawAvatarShape: String = AvatarShape.rounded.rawValue
     @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCColorSetName = .systemDark
@@ -168,26 +177,29 @@ public class Theme: ObservableObject {
         // Workaround, since @AppStorage can't be directly observed
         $selectedSet
             .dropFirst()
-            .sink { [weak self] colorSetName in
-                self?.setColor(withName: colorSetName)
+            .sink { [weak self] HCColorSetName in
+                self?.setColor(withName: HCColorSetName)
             }
             .store(in: &cancellables)
     }
     
-    public static var allColorSet: [ColorSet] {
+    public static var allHCColorSet: [HCColorSet] {
         [
             SystemDark(),
-            SystemLight(),
+            SystemLight()
         ]
     }
     
     public func setColor(withName name: HCColorSetName) {
-        let colorSet = Theme.allColorSet.filter { $0.name == name }.first ?? SystemDark()
-        selectedScheme = colorSet.scheme
-        tintColor = colorSet.tintColor
-        primaryBackgroundColor = colorSet.primaryBackgroundColor
-        secondaryBackgroundColor = colorSet.secondaryBackgroundColor
-        labelColor = colorSet.labelColor
+        let HCColorSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? SystemDark()
+        selectedScheme = HCColorSet.scheme
+        tintColor = HCColorSet.tintColor
+        primaryBackgroundColor = HCColorSet.primaryBackgroundColor
+        secondaryBackgroundColor = HCColorSet.secondaryBackgroundColor
+        labelColor = HCColorSet.labelColor
+        secondLabelColor = HCColorSet.sedondLabelColor
+        separatorColor = HCColorSet.separatorColor
+        placeholderColor = HCColorSet.placeholderColor
         storedSet = name
     }
     

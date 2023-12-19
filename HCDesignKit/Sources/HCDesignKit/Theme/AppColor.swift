@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: Main
 public extension Color {
     
+    
     /// 品牌主题色
     // TODO: 需要针对App更改
     static var brand: Color {
@@ -38,12 +39,12 @@ public extension Color {
 public extension Color {
     
     struct Gray {
-        public static var level1 = Color(rgb: (53, 60, 70))
-        public static var level2 = Color(rgb: (53, 60, 70))
-        public static var level3 = Color(rgb: (53, 60, 70))
-        public static var level4 = Color(rgb: (53, 60, 70))
-        public static var level5 = Color(rgb: (53, 60, 70))
-        public static var level6 = Color(rgb: (53, 60, 70))
+        public static var level1 = Color.systemGray
+        public static var level2 = Color.systemGray2
+        public static var level3 = Color.systemGray3
+        public static var level4 = Color.systemGray4
+        public static var level5 = Color.systemGray5
+        public static var level6 = Color.systemGray6
         public static var level7 = Color(rgb: (53, 60, 70))
         public static var level8 = Color(rgb: (53, 60, 70))
         public static var level9 = Color(rgb: (53, 60, 70))

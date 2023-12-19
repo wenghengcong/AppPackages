@@ -29,7 +29,7 @@ struct ThemeBoxView: View {
   private let gutterSpace = 8.0
   @State private var isSelected = false
 
-  var color: ColorSet
+  var color: HCColorSet
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
