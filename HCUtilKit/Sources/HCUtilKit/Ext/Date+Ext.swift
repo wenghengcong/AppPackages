@@ -24,7 +24,7 @@ public extension DateFormatter {
 }
 
 public extension Date {
-    var day: String {
+    var dayStr: String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "dd"
