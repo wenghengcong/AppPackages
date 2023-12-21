@@ -18,7 +18,6 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "HCUtilKit", path: "../HCUtilKit"),
-        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +26,6 @@ let package = Package(
             name: "HCModels",
             dependencies: [
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
-                "SwiftSoup",
             ],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),

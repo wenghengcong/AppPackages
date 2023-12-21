@@ -14,12 +14,25 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "HCUtilKit",
-            targets: ["HCUtilKit"]),
+            targets: ["HCUtilKit"]
+        ),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/onevcat/Kingfisher", branch: "master"),
+        .package(url: "https://github.com/evgenyneu/keychain-swift", branch: "master"),
+        .package(url: "https://github.com/malcommac/SwiftDate", branch: "master"),
+        .package(url: "https://github.com/scinfu/SwiftSoup", branch: "master"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "HCUtilKit")
+        .target(name: "HCUtilKit",
+                dependencies: [
+                    .product(name: "Kingfisher", package: "Kingfisher"),
+                    .product(name: "KeychainSwift", package: "keychain-swift"),
+                    .product(name: "SwiftDate", package: "SwiftDate"),
+                    .product(name: "SwiftSoup", package: "SwiftSoup")
+                ]
+               )
     ]
 )

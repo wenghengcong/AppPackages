@@ -21,7 +21,6 @@ let package = Package(
         .package(name: "HCModels", path: "../HCModels"),
         .package(name: "HCNetworkKit", path: "../HCNetworkKit"),
         .package(name: "HCDesignKit", path: "../HCDesignKit"),
-        .package(url: "https://github.com/evgenyneu/keychain-swift", branch: "master"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -33,7 +32,6 @@ let package = Package(
                 .product(name: "HCModels", package: "HCModels"),
                 .product(name: "HCNetworkKit", package: "HCNetworkKit"),
                 .product(name: "HCDesignKit", package: "HCDesignKit"),
-                .product(name: "KeychainSwift", package: "keychain-swift"),
             ],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
