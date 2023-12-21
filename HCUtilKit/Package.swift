@@ -22,6 +22,7 @@ let package = Package(
         .package(url: "https://github.com/evgenyneu/keychain-swift", branch: "master"),
         .package(url: "https://github.com/malcommac/SwiftDate", branch: "master"),
         .package(url: "https://github.com/scinfu/SwiftSoup", branch: "master"),
+        .package(url: "https://github.com/SwiftyBeaver/SwiftyBeaver", branch: "master"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -31,7 +32,8 @@ let package = Package(
                     .product(name: "Kingfisher", package: "Kingfisher"),
                     .product(name: "KeychainSwift", package: "keychain-swift"),
                     .product(name: "SwiftDate", package: "SwiftDate"),
-                    .product(name: "SwiftSoup", package: "SwiftSoup")
+                    .product(name: "SwiftSoup", package: "SwiftSoup"),
+                    .product(name: "SwiftyBeaver", package: "SwiftyBeaver")
                 ]
                )
     ]

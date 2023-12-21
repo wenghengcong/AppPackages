@@ -18,7 +18,7 @@ public extension Color {
         switch value {
         case let hexString as String:
             self.init(hexString: hexString, alpha:  alpha)
-        case let hexInt as Int:
+        case let hexInt as UInt32:
             self.init(hexInt: hexInt, alpha: alpha)
         default:
             fatalError("Invalid color value. Please provide a valid hex string or hex integer.")
@@ -46,11 +46,11 @@ public extension Color {
        - hex: The hex value to apply.
        - alpha: The alpha value to apply, from 0 to 1.
      */
-    init(hexInt: Int, alpha: Double = 1.0) {
+    init(hexInt: UInt32, alpha: Double = 1.0) {
         self.init(hexInt: hexInt, opacity: alpha)
     }
 
-    init(hexInt: Int, opacity: Double) {
+    init(hexInt: UInt32, opacity: Double) {
         let red = Double((hexInt & 0xff0000) >> 16) / 255.0
         let green = Double((hexInt & 0xff00) >> 8) / 255.0
         let blue = Double((hexInt & 0xff) >> 0) / 255.0

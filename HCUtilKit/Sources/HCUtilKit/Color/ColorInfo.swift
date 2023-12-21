@@ -37,6 +37,9 @@ public struct ColorInfo {
     /// Alpha 通道（透明度）： 表示颜色的透明度，0 表示完全透明，1 表示完全不透明。
     var alpha: Double
     
+    // Value is stored in RGBA format.
+    private let hexValue: UInt32
+    
     init(colorSpace: ColorSpace,
          red: Double, green: Double, blue: Double,
          hue: Double, saturation: Double, brightness: Double,
@@ -53,6 +56,11 @@ public struct ColorInfo {
         self.yellow = yellow
         self.black = black
         self.alpha = alpha
+        
+        self.hexValue = (min(UInt32(red * 255.0), 0xFF) << 24) |
+                   (min(UInt32(green * 255.0), 0xFF) << 16) |
+                   (min(UInt32(blue * 255.0), 0xFF) << 8) |
+                   (min(UInt32(alpha * 255.0), 0xFF))
     }
     
     init(from string: String) {
@@ -80,6 +88,52 @@ public struct ColorInfo {
         self.yellow = (colorInfoDict["yellow"] as? Double) ?? 0
         self.black = (colorInfoDict["black"] as? Double) ?? 0
         self.alpha = (colorInfoDict["alpha"] as? Double) ?? 1
+        
+        self.hexValue = (min(UInt32(red * 255.0), 0xFF) << 24) |
+                   (min(UInt32(green * 255.0), 0xFF) << 16) |
+                   (min(UInt32(blue * 255.0), 0xFF) << 8) |
+                   (min(UInt32(alpha * 255.0), 0xFF))
+    }
+    
+    public init(hex: UInt32) {
+        self.hexValue = hex << 8 | 0xFF
+        self.red = Double((hex & 0xFF0000) >> 16) / 0xFF
+        self.green = Double((hex & 0x00FF00) >> 8) / 0xFF
+        self.blue = Double(hex & 0x0000FF) / 0xFF
+        
+        self.colorSpace = .sRGB
+        self.hue = 0
+        self.saturation = 0
+        self.brightness = 0
+        self.cyan = 0
+        self.magenta = 0
+        self.yellow = 0
+        self.black = 0
+        self.alpha = 1.0
+    }
+    
+    public init(red: CGFloat,
+                green: CGFloat,
+                blue: CGFloat,
+                alpha: CGFloat) {
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
+        
+        self.colorSpace = .sRGB
+        self.hue = 0
+        self.saturation = 0
+        self.brightness = 0
+        self.cyan = 0
+        self.magenta = 0
+        self.yellow = 0
+        self.black = 0
+        
+        self.hexValue = (min(UInt32(red * 255.0), 0xFF) << 24) |
+                   (min(UInt32(green * 255.0), 0xFF) << 16) |
+                   (min(UInt32(blue * 255.0), 0xFF) << 8) |
+                   (min(UInt32(alpha * 255.0), 0xFF))
     }
     
     /// 转换成字符串

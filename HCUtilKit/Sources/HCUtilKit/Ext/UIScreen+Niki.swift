@@ -48,5 +48,7 @@ public extension UIScreen {
     
     static let mainMinLength  = min(mainWidth, mainHeight)
 
-
+    static let screenWidth = main.bounds.size.width
+    static let screenHeight = main.bounds.size.height
+    static let screenSize = main.bounds.size
 }
