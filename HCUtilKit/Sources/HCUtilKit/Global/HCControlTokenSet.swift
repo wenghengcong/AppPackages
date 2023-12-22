@@ -10,15 +10,15 @@ import Combine
 import SwiftUI
 
 /// Base class for all Fluent control tokenization.
-public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
+public class HCControlTokenSet<T: HCTokenSetKey>: ObservableObject {
     /// Allows us to index into this token set using square brackets.
     ///
-    /// We can use square brackets to both read and write into this `TokenSet`. For example:
+    /// We can use square brackets to both read and write into this `HCTokenSet`. For example:
     /// ```
     /// let value = tokenSet[.primary]   // exercises the `get`
     /// tokenSet[.secondary] = newValue  // exercises the `set`
     /// ```
-    public subscript(token: T) -> ControlTokenValue {
+    public subscript(token: T) -> HCControlTokenValue {
         get {
             if let value = overrideValue(forToken: token) {
                 return value
@@ -46,7 +46,7 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// removed from this control. If overrideTokens is `nil`, then all current overrides will be removed.
     ///
     /// - Parameter overrideTokens: The set of tokens to set as custom, or `nil` to remove all overrides.
-    public func replaceAllOverrides(with overrideTokens: [T: ControlTokenValue]?) {
+    public func replaceAllOverrides(with overrideTokens: [T: HCControlTokenValue]?) {
         T.allCases.forEach { token in
             if let value = overrideTokens?[token] {
                 self[token] = value
@@ -73,7 +73,7 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
     }
 
     /// Initialize the `HCControlTokenSet` with an escaping callback for fetching default values.
-    init(_ defaults: @escaping (_ token: T, _ theme: Theme) -> ControlTokenValue) {
+    init(_ defaults: @escaping (_ token: T, _ theme: Theme) -> HCControlTokenValue) {
         self.defaults = defaults
     }
 
@@ -113,7 +113,7 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// - Parameter token: The token key to fetch any existing override for.
     ///
     /// - Returns: the active override value for a given token, or nil if none exists.
-    func overrideValue(forToken token: T) -> ControlTokenValue? {
+    func overrideValue(forToken token: T) -> HCControlTokenValue? {
         if let value = valueOverrides?[token] {
             return value
         } else if let value = fluentTheme.tokens(for: type(of: self))?[token] {
@@ -126,7 +126,7 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
     ///
     /// - Parameter value: The value to set as an override.
     /// - Parameter token: The token key whose value should be set.
-    func setOverrideValue(_ value: ControlTokenValue?, forToken token: T) {
+    func setOverrideValue(_ value: HCControlTokenValue?, forToken token: T) {
         if valueOverrides == nil {
             valueOverrides = [:]
         }
@@ -164,19 +164,15 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
         notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
                                                                       object: nil,
                                                                       queue: nil) { [weak self, weak control] notification in
-            guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
-                  let control,
-                  control.isDescendant(of: themeView)
-            else {
+            guard let strongSelf = self else {
                 return
             }
-            strongSelf.update(themeView.fluentTheme)
+            strongSelf.update(Theme.shared)
         }
     }
 
     /// The current `FluentTheme` associated with this `HCControlTokenSet`.
-    var fluentTheme: FluentTheme = FluentTheme.shared {
+    var fluentTheme: Theme = Theme.shared {
         didSet {
             guard let onUpdate else {
                 return
@@ -186,10 +182,10 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
     }
 
     /// Access to raw overrides for the `HCControlTokenSet`.
-    @Published private var valueOverrides: [T: ControlTokenValue]?
+    @Published private var valueOverrides: [T: HCControlTokenValue]?
 
     /// Reference to the default value lookup function for this control.
-    private var defaults: ((_ token: T, _ theme: FluentTheme) -> ControlTokenValue)?
+    private var defaults: ((_ token: T, _ theme: Theme) -> HCControlTokenValue)?
 
     /// Holds the sink for any changes to the control token set.
     private var changeSink: AnyCancellable?
@@ -205,10 +201,10 @@ public class HCControlTokenSet<T: TokenSetKey>: ObservableObject {
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `HCControlTokenSet`.
-public enum ControlTokenValue {
+public enum HCControlTokenValue {
     case float(() -> CGFloat)
-    case uiColor(() -> UIColor)
-    case uiFont(() -> UIFont)
+    case color(() -> Color)
+    case font(() -> Font)
     case shadowInfo(() -> HCShadowInfo)
 
     public var float: CGFloat {
@@ -220,21 +216,21 @@ public enum ControlTokenValue {
         }
     }
 
-    public var uiColor: UIColor {
-        if case .uiColor(let uiColor) = self {
-            return uiColor()
+    public var color: Color {
+        if case .color(let color) = self {
+            return color()
         } else {
             assertionFailure("Cannot convert token to UIColor: \(self)")
             return fallbackColor
         }
     }
 
-    public var uiFont: UIFont {
-        if case .uiFont(let uiFont) = self {
-            return uiFont()
+    public var font: Font {
+        if case .font(let font) = self {
+            return font()
         } else {
             assertionFailure("Cannot convert token to FontInfo: \(self)")
-            return UIFont()
+            return Font.init(UIFont())
         }
     }
 
@@ -254,11 +250,11 @@ public enum ControlTokenValue {
         }
     }
 
-    /// Creates a `ControlTokenValue` from any supported object type.
+    /// Creates a `HCControlTokenValue` from any supported object type.
     ///
-    /// Mapping for types of `value` and the resulting `ControlTokenValue`:
+    /// Mapping for types of `value` and the resulting `HCControlTokenValue`:
     ///
-    /// | `value` instance type | `ControlTokenValue` |
+    /// | `value` instance type | `HCControlTokenValue` |
     /// |---|---|
     /// | `NSNumber`¹  | `.float` |
     /// | `UIColor` | `.uiColor` |
@@ -268,15 +264,15 @@ public enum ControlTokenValue {
     ///
     /// ¹ Note that, because `value` must be an object type, floats must be passed as a wrapped `NSNumber`.
     ///
-    /// - Parameter value: An object of one of the supported types for `ControlTokenValue`.
+    /// - Parameter value: An object of one of the supported types for `HCControlTokenValue`.
     init?(_ value: AnyObject) {
         switch value {
         case let number as NSNumber:
             self = .float { CGFloat(number.doubleValue) }
-        case let color as UIColor:
-            self = .uiColor { color }
-        case let font as UIFont:
-            self = .uiFont { font }
+        case let color as Color:
+            self = .color { color }
+        case let font as Font:
+            self = .font { font }
         case let shadowInfo as HCShadowInfo:
             self = .shadowInfo { shadowInfo }
         default:
@@ -289,26 +285,26 @@ public enum ControlTokenValue {
     private var fallbackColor: Color {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
-        return GlobalTokens.sharedColor(.hotPink, .primary)
+        return HCGlobalTokens.sharedColor(.hotPink, .primary)
 #else
-        return GlobalTokens.neutralColor(.black)
+        return HCGlobalTokens.neutralColor(.black)
 #endif
     }
 }
 
 #if DEBUG
-extension ControlTokenValue: CustomStringConvertible {
+extension HCControlTokenValue: CustomStringConvertible {
     /// Handy debug-only description for logging these values.
     public var description: String {
         switch self {
         case .float(let float):
-            return "ControlTokenValue.float (\(float())"
-        case .uiColor(let uiColor):
-            return "ControlTokenValue.uiColor (\(uiColor())"
-        case .uiFont(let uiFont):
-            return "ControlTokenValue.uiFont (\(uiFont())"
+            return "HCControlTokenValue.float (\(float())"
+        case .color(let color):
+            return "HCControlTokenValue.uiColor (\(color())"
+        case .font(let font):
+            return "HCControlTokenValue.uiFont (\(font())"
         case .shadowInfo(let shadowInfo):
-            return "ControlTokenValue.shadowInfo (\(shadowInfo())"
+            return "HCControlTokenValue.shadowInfo (\(shadowInfo())"
         }
     }
 }

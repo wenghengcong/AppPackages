@@ -6,7 +6,7 @@
 //
 
 import CoreGraphics
-import UIKit
+import SwiftUI
 import Foundation
 
 /// Represents a two-part shadow as used by FluentUI.
@@ -22,11 +22,11 @@ public class HCShadowInfo: NSObject {
     ///   - ambientBlur: The blur of the ambient shadow.
     ///   - xAmbient: The horizontal offset of the ambient shadow.
     ///   - yAmbient: The vertical offset of the ambient shadow.
-    public init(keyColor: UIColor,
+    public init(keyColor: Color,
                 keyBlur: CGFloat,
                 xKey: CGFloat,
                 yKey: CGFloat,
-                ambientColor: UIColor,
+                ambientColor: Color,
                 ambientBlur: CGFloat,
                 xAmbient: CGFloat,
                 yAmbient: CGFloat) {
@@ -41,28 +41,28 @@ public class HCShadowInfo: NSObject {
     }
 
     /// The color of the key shadow.
-    @objc public let keyColor: UIColor
+    public let keyColor: Color
 
     /// The blur of the key shadow.
-    @objc public let keyBlur: CGFloat
+    public let keyBlur: CGFloat
 
     /// The horizontal offset of the key shadow.
-    @objc public let xKey: CGFloat
+    public let xKey: CGFloat
 
     /// The vertical offset of the key shadow.
-    @objc public let yKey: CGFloat
+    public let yKey: CGFloat
 
     /// The color of the ambient shadow.
-    @objc public let ambientColor: UIColor
+    public let ambientColor: Color
 
     /// The blur of the ambient shadow.
-    @objc public let ambientBlur: CGFloat
+    public let ambientBlur: CGFloat
 
     /// The horizontal offset of the ambient shadow.
-    @objc public let xAmbient: CGFloat
+    public let xAmbient: CGFloat
 
     /// The vertical offset of the ambient shadow.
-    @objc public let yAmbient: CGFloat
+    public let yAmbient: CGFloat
 
     /// The number that the figma blur needs to be adjusted by to properly display shadows. See https://github.com/microsoft/apple-ux-guide/blob/gh-pages/Shadows.md
     private let shadowBlurAdjustment: CGFloat = 0.5

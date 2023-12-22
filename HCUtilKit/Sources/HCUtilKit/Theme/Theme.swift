@@ -1,8 +1,7 @@
 import Combine
 import SwiftUI
-import HCUtilKit
 
-public class Theme: ObservableObject {
+public class Theme: ObservableObject, Equatable {
     /// 主题的Key
     enum ThemeKey: String {
         /// scheme，对应是dark还是light
@@ -10,7 +9,6 @@ public class Theme: ObservableObject {
         case tint, primaryBackground, secondaryBackground
         case label, secondLabel,separator,placeholder
         
-        case avatarPosition, avatarShape, statusActionsDisplay, statusDisplayStyle
         case selectedSet, selectedScheme
         case followSystemColorSchme
         case displayFullUsernameTimeline
@@ -37,62 +35,6 @@ public class Theme: ObservableObject {
                 "SF Rounded"
             case .custom:
                 "settings.display.font.custom"
-            }
-        }
-    }
-    
-    public enum AvatarPosition: String, CaseIterable {
-        case leading, top
-        
-        public var description: LocalizedStringKey {
-            switch self {
-            case .leading:
-                "enum.avatar-position.leading"
-            case .top:
-                "enum.avatar-position.top"
-            }
-        }
-    }
-    
-    public enum AvatarShape: String, CaseIterable {
-        case circle, rounded
-        
-        public var description: LocalizedStringKey {
-            switch self {
-            case .circle:
-                "enum.avatar-shape.circle"
-            case .rounded:
-                "enum.avatar-shape.rounded"
-            }
-        }
-    }
-    
-    public enum StatusActionsDisplay: String, CaseIterable {
-        case full, discret, none
-        
-        public var description: LocalizedStringKey {
-            switch self {
-            case .full:
-                "enum.status-actions-display.all"
-            case .discret:
-                "enum.status-actions-display.only-buttons"
-            case .none:
-                "enum.status-actions-display.no-buttons"
-            }
-        }
-    }
-    
-    public enum StatusDisplayStyle: String, CaseIterable {
-        case large, medium, compact
-        
-        public var description: LocalizedStringKey {
-            switch self {
-            case .large:
-                "enum.status-display-style.large"
-            case .medium:
-                "enum.status-display-style.medium"
-            case .compact:
-                "enum.status-display-style.compact"
             }
         }
     }
@@ -132,48 +74,38 @@ public class Theme: ObservableObject {
     @AppStorage(ThemeKey.separator.rawValue) public var separatorColor: Color = .lightGray
     @AppStorage(ThemeKey.placeholder.rawValue) public var placeholderColor: Color = .lightGray
 
-    
-    @AppStorage(ThemeKey.avatarPosition.rawValue) var rawAvatarPosition: String = AvatarPosition.top.rawValue
-    @AppStorage(ThemeKey.avatarShape.rawValue) var rawAvatarShape: String = AvatarShape.rounded.rawValue
     @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCColorSetName = .systemDark
-    @AppStorage(ThemeKey.statusActionsDisplay.rawValue) public var statusActionsDisplay: StatusActionsDisplay = .full
-    @AppStorage(ThemeKey.statusDisplayStyle.rawValue) public var statusDisplayStyle: StatusDisplayStyle = .large
     @AppStorage(ThemeKey.followSystemColorSchme.rawValue) public var followSystemColorScheme: Bool = true
     @AppStorage(ThemeKey.displayFullUsernameTimeline.rawValue) public var displayFullUsername: Bool = true
     @AppStorage(ThemeKey.lineSpacing.rawValue) public var lineSpacing: Double = 0.8
     @AppStorage("font_size_scale") public var fontSizeScale: Double = 1
     @AppStorage("chosen_font") public private(set) var chosenFontData: Data?
     
-    @Published public var avatarPosition: AvatarPosition = .top
-    @Published public var avatarShape: AvatarShape = .rounded
     @Published public var selectedSet: HCColorSetName = .systemDark
     
     private var cancellables = Set<AnyCancellable>()
     
     public static let shared = Theme()
     
-    private init() {
+    private init(colorOverrides: [HCColorToken: Color]? = nil,
+                 shadowOverrides: [ShadowToken: HCShadowInfo]? = nil,
+                 typographyOverrides: [HCTypographyToken: HCFontInfo]? = nil,
+                 gradientOverrides: [HCGradientToken: [Color]]? = nil) {
+        
+        let colorTokenSet = HCTokenSet<HCColorToken, Color>(Theme.defaultColors(_:), colorOverrides)
+        let shadowTokenSet = HCTokenSet<ShadowToken, HCShadowInfo>(Theme.defaultShadows(_:), shadowOverrides)
+        let typographyTokenSet = HCTokenSet<HCTypographyToken, HCFontInfo>(Theme.defaultTypography(_:), typographyOverrides)
+        let gradientTokenSet = HCTokenSet<HCGradientToken, [Color]>({ [colorTokenSet] token in
+            // Reference the colorTokenSet as part of the gradient lookup
+            return Theme.defaultGradientColors(token, colorTokenSet: colorTokenSet)
+        })
+
+        self.colorTokenSet = colorTokenSet
+        self.shadowTokenSet = shadowTokenSet
+        self.typographyTokenSet = typographyTokenSet
+        self.gradientTokenSet = gradientTokenSet
+        
         selectedSet = storedSet
-        
-        avatarPosition = AvatarPosition(rawValue: rawAvatarPosition) ?? .top
-        avatarShape = AvatarShape(rawValue: rawAvatarShape) ?? .rounded
-        
-        $avatarPosition
-            .dropFirst()
-            .map(\.rawValue)
-            .sink { [weak self] position in
-                self?.rawAvatarPosition = position
-            }
-            .store(in: &cancellables)
-        
-        $avatarShape
-            .dropFirst()
-            .map(\.rawValue)
-            .sink { [weak self] shape in
-                self?.rawAvatarShape = shape
-            }
-            .store(in: &cancellables)
-        
         // Workaround, since @AppStorage can't be directly observed
         $selectedSet
             .dropFirst()
@@ -185,13 +117,13 @@ public class Theme: ObservableObject {
     
     public static var allHCColorSet: [HCColorSet] {
         [
+            SystemLight(),
             SystemDark(),
-            SystemLight()
         ]
     }
     
     public func setColor(withName name: HCColorSetName) {
-        let HCColorSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? SystemDark()
+        let HCColorSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? SystemLight()
         selectedScheme = HCColorSet.scheme
         tintColor = HCColorSet.tintColor
         primaryBackgroundColor = HCColorSet.primaryBackgroundColor
@@ -207,5 +139,40 @@ public class Theme: ObservableObject {
     public static var isDarkMode: Bool {
         let isDark = (Theme.shared.selectedScheme == .dark)
         return isDark
+    }
+    
+    public static func ==(lhs: Theme, rhs: Theme) -> Bool {
+        return lhs.selectedScheme == rhs.selectedScheme && lhs.tintColor == rhs.tintColor
+    }
+    
+    
+    // Token storage
+    let colorTokenSet: HCTokenSet<HCColorToken, Color>
+    let shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
+    let typographyTokenSet: HCTokenSet<HCTypographyToken, HCFontInfo>
+    let gradientTokenSet: HCTokenSet<HCGradientToken, [Color]>
+    
+    private func tokenKey<T: HCTokenSetKey>(_ tokenSetType: HCControlTokenSet<T>.Type) -> String {
+        return "\(tokenSetType)"
+    }
+    
+    /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
+    ///
+    /// - Parameters:
+    ///   - tokenSetType: The token set type to register custom tokens for.
+    ///   - tokens: A custom set of tokens to register.
+    public func register<T: HCTokenSetKey>(tokenSetType: HCControlTokenSet<T>.Type, tokenSet: [T: HCControlTokenValue]?) {
+        controlTokenSets[tokenKey(tokenSetType)] = tokenSet
+    }
+
+    private var controlTokenSets: [String: Any] = [:]
+    
+    /// Returns the `ControlTokenValue` array for a given `TokenizedControl`, if any overrides have been registered.
+    ///
+    /// - Parameter tokenSetType: The token set type to fetch the token overrides for.
+    ///
+    /// - Returns: An array of `ControlTokenValue` instances for the given control, or `nil` if no custom tokens have been registered.
+    public func tokens<T: HCTokenSetKey>(for tokenSetType: HCControlTokenSet<T>.Type) -> [T: HCControlTokenValue]? {
+        return controlTokenSets[tokenKey(tokenSetType)] as? [T: HCControlTokenValue]
     }
 }

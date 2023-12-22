@@ -207,20 +207,28 @@ public extension Font {
     ///   - fontInfo: 字体信息
     ///   - shouldScale: 是否缩放
     /// - Returns: 字体
-    static func info(_ fontInfo: HCFontInfo, shouldScale: Bool = true) -> Font {
+    static func info(_ fontInfo: HCFontInfo, 
+                     shouldScale: Bool = true) -> Font {
         // SwiftUI Font is missing some of the ease of construction available in UIFont.
         // So just leverage the logic there to create the equivalent SwiftUI font.
         let uiFont = UIFont.info(fontInfo, shouldScale: shouldScale)
-        return Font(uiFont)
+        return uiFont
+    }
+    
+    static func info(_ fontInfo: HCFontInfo,
+                            shouldScale: Bool = true,
+                            contentSizeCategory: UIContentSizeCategory?) -> Font {
+        let uiFont = UIFont.info(fontInfo, shouldScale: shouldScale, contentSizeCategory: contentSizeCategory)
+        return uiFont
     }
 }
 
 extension UIFont {
-    static func info(_ fontInfo: HCFontInfo, shouldScale: Bool = true) -> UIFont {
+    static func info(_ fontInfo: HCFontInfo, shouldScale: Bool = true) -> Font {
         return info(fontInfo, shouldScale: shouldScale, contentSizeCategory: nil)
     }
 
-    public static func info(_ fontInfo: HCFontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
+    static func info(_ fontInfo: HCFontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> Font {
         let traitCollection: UITraitCollection?
         if let contentSizeCategory = contentSizeCategory {
             traitCollection = .init(preferredContentSizeCategory: contentSizeCategory)
@@ -236,25 +244,29 @@ extension UIFont {
             let unscaledFont = font.withWeight(weight)
             if shouldScale {
                 let fontMetrics = UIFontMetrics(forTextStyle: uiTextStyle(fontInfo.textStyle))
-                return fontMetrics.scaledFont(for: unscaledFont, compatibleWith: traitCollection)
+                let font =  Font( fontMetrics.scaledFont(for: unscaledFont, compatibleWith: traitCollection))
+                return font
             } else {
-                return unscaledFont
+                return Font(unscaledFont)
             }
         } else {
             // System font
             if !shouldScale {
-                return .systemFont(ofSize: fontInfo.size, weight: weight)
+                let sysFont = Font(UIFont.systemFont(ofSize: fontInfo.size, weight: weight))
+                return sysFont
             }
 
             let textStyle = uiTextStyle(fontInfo.textStyle)
             if HCFontInfo.sizeTuples.contains(where: { $0.size == fontInfo.size }) {
                 // System-recognized font size, let the OS scale it for us
-                return UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection).withWeight(weight)
+                let uiFont = UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection).withWeight(weight)
+                return Font(uiFont)
             }
 
             // Custom font size, we need to scale it ourselves
             let fontMetrics = UIFontMetrics(forTextStyle: textStyle)
-            return fontMetrics.scaledFont(for: .systemFont(ofSize: fontInfo.size, weight: weight), compatibleWith: traitCollection)
+            let uiFont = fontMetrics.scaledFont(for: .systemFont(ofSize: fontInfo.size, weight: weight), compatibleWith: traitCollection)
+            return Font(uiFont)
         }
     }
 

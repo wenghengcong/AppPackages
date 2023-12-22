@@ -8,14 +8,14 @@
 import Foundation
 
 /// Defines the key used for token value indexing.
-public typealias TokenSetKey = Hashable & CaseIterable
+public typealias HCTokenSetKey = Hashable & CaseIterable
 
 /// Template for all token sets, both global and alias. This ensures a unified return type for any given token set.
-public final class TokenSet<T: TokenSetKey, V> {
+public final class HCTokenSet<T: HCTokenSetKey, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///
-    /// We can use square brackets to read from this `TokenSet`. For example:
+    /// We can use square brackets to read from this `HCTokenSet`. For example:
     /// ```
     /// let value = tokenSet[.primary]
     /// ```
