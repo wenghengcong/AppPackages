@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import HCModels
+import HCUtilKit
 import HCNetworkKit
 import SwiftUI
 
@@ -13,7 +13,7 @@ public enum RouterDestination: Hashable {
     case remoteStatusDetail(url: URL)
     case conversationDetail(conversation: Conversation)
     case hashTag(tag: String, account: String?)
-    case list(list: HCModels.List)
+    case list(list: HCUtilKit.List)
     case followers(id: String)
     case following(id: String)
     case favoritedBy(id: String)
@@ -24,12 +24,12 @@ public enum RouterDestination: Hashable {
 }
 
 public enum SheetDestination: Identifiable {
-    case newStatusEditor(visibility: HCModels.Visibility)
+    case newStatusEditor(visibility: HCUtilKit.Visibility)
     case editStatusEditor(status: Status)
     case replyToStatusEditor(status: Status)
     case quoteStatusEditor(status: Status)
-    case mentionStatusEditor(account: Account, visibility: HCModels.Visibility)
-    case listEdit(list: HCModels.List)
+    case mentionStatusEditor(account: Account, visibility: HCUtilKit.Visibility)
+    case listEdit(list: HCUtilKit.List)
     case listAddAccount(account: Account)
     case addAccount
     case addRemoteLocalTimeline

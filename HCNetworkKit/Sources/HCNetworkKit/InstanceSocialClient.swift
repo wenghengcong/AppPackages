@@ -1,5 +1,5 @@
 import Foundation
-import HCModels
+import HCUtilKit
 
 public struct InstanceSocialClient {
   private let authorization = "Bearer 8a4xx3D7Hzu1aFnf18qlkH8oU0oZ5ulabXxoS2FtQtwOy8G0DGQhr5PjTIjBnYAmFrSBuE2CcASjFocxJBonY8XGbLySB7MXd9ssrwlRHUXTQh3Z578lE1OfUtafvhML"

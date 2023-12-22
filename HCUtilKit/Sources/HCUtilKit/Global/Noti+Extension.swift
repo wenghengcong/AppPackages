@@ -8,7 +8,6 @@
 import Foundation
 
 public extension Notification.Name {
-    
     struct NKBiness {
         public static let WillLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).willlogin")
         public static let DidLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).didlogin")

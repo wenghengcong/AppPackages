@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 import CryptoKit
 import KeychainSwift
-import HCModels
+import HCUtilKit
 import HCNetworkKit
 import SwiftUI
 

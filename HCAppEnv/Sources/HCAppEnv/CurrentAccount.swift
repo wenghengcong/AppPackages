@@ -1,7 +1,7 @@
 import Combine
 import Foundation
-import HCModels
 import HCNetworkKit
+import HCUtilKit
 
 @MainActor
 public class CurrentAccount: ObservableObject {
@@ -90,12 +90,12 @@ public class CurrentAccount: ObservableObject {
   public func createList(title: String) async {
     guard let client else { return }
     do {
-      let list: HCModels.List = try await client.post(endpoint: Lists.createList(title: title))
+      let list: HCUtilKit.List = try await client.post(endpoint: Lists.createList(title: title))
       lists.append(list)
     } catch {}
   }
 
-  public func deleteList(list: HCModels.List) async {
+  public func deleteList(list: HCUtilKit.List) async {
     guard let client else { return }
     lists.removeAll(where: { $0.id == list.id })
     let response = try? await client.delete(endpoint: Lists.list(id: list.id))

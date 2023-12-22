@@ -17,8 +17,7 @@ let package = Package(
             targets: ["HCNetworkKit"]),
     ],
     dependencies: [
-        .package(name: "HCUtilKit", path: "../HCUtilKit"),
-        .package(name: "HCModels", path: "../HCModels")
+        .package(name: "HCUtilKit", path: "../HCUtilKit")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,8 +25,7 @@ let package = Package(
         .target(
             name: "HCNetworkKit",
             dependencies: [
-                .product(name: "HCUtilKit", package: "HCUtilKit"),
-                .product(name: "HCModels", package: "HCModels")
+                .product(name: "HCUtilKit", package: "HCUtilKit")
             ],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),

@@ -1,9 +1,8 @@
 import Combine
 import HCDesignKit
-import HCModels
+import HCUtilKit
 import HCNetworkKit
 import SwiftUI
-import HCUtilKit
 
 @MainActor
 public class AppAccountViewModel: ObservableObject {

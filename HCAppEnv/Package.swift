@@ -18,7 +18,6 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "HCUtilKit", path: "../HCUtilKit"),
-        .package(name: "HCModels", path: "../HCModels"),
         .package(name: "HCNetworkKit", path: "../HCNetworkKit")
     ],
     targets: [
@@ -28,7 +27,6 @@ let package = Package(
             name: "HCAppEnv",
             dependencies: [
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
-                .product(name: "HCModels", package: "HCModels"),
                 .product(name: "HCNetworkKit", package: "HCNetworkKit")
             ],
             swiftSettings: [

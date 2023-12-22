@@ -1,5 +1,5 @@
 import Foundation
-import HCModels
+import HCUtilKit
 
 public enum Accounts: Endpoint {
   case accounts(id: String)

@@ -1,5 +1,5 @@
 import Foundation
-import HCModels
+import HCUtilKit
 import HCNetworkKit
 import SwiftUI
 

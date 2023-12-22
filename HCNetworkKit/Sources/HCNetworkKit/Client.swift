@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import HCModels
+import HCUtilKit
 import os
 import SwiftUI
 
