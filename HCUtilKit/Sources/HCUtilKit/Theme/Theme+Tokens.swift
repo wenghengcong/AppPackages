@@ -440,41 +440,29 @@ extension Theme {
     static func defaultTypography(_ token: HCTypographyToken) -> HCFontInfo {
         switch token {
         case .display:
-            return .init(size: HCGlobalTokens.fontSize(.size900),
-                         weight: HCGlobalTokens.fontWeight(.bold))
+            return .init(size: .size900, weight: .bold)
         case .largeTitle:
-            return .init(size: HCGlobalTokens.fontSize(.size800),
-                         weight: HCGlobalTokens.fontWeight(.bold))
+            return .init(size: .size800, weight: .bold)
         case .title1:
-            return .init(size: HCGlobalTokens.fontSize(.size700),
-                         weight: HCGlobalTokens.fontWeight(.bold))
+            return .init(size: .size700, weight: .bold)
         case .title2:
-            return .init(size: HCGlobalTokens.fontSize(.size600),
-                         weight: HCGlobalTokens.fontWeight(.semibold))
+            return .init(size: .size600, weight: .semibold)
         case .title3:
-            return .init(size: HCGlobalTokens.fontSize(.size500),
-                         weight: HCGlobalTokens.fontWeight(.semibold))
+            return .init(size: .size500, weight: .semibold)
         case .body1Strong:
-            return .init(size: HCGlobalTokens.fontSize(.size400),
-                         weight: HCGlobalTokens.fontWeight(.semibold))
+            return .init(size: .size400, weight: .semibold)
         case .body1:
-            return .init(size: HCGlobalTokens.fontSize(.size400),
-                         weight: HCGlobalTokens.fontWeight(.regular))
+            return .init(size: .size400, weight: .regular)
         case .body2Strong:
-            return .init(size: HCGlobalTokens.fontSize(.size300),
-                         weight: HCGlobalTokens.fontWeight(.semibold))
+            return .init(size: .size300, weight: .semibold)
         case .body2:
-            return .init(size: HCGlobalTokens.fontSize(.size300),
-                         weight: HCGlobalTokens.fontWeight(.regular))
+            return .init(size: .size300, weight: .regular)
         case .caption1Strong:
-            return .init(size: HCGlobalTokens.fontSize(.size200),
-                         weight: HCGlobalTokens.fontWeight(.semibold))
+            return .init(size: .size200, weight: .semibold)
         case .caption1:
-            return .init(size: HCGlobalTokens.fontSize(.size200),
-                         weight: HCGlobalTokens.fontWeight(.regular))
+            return .init(size: .size200, weight: .regular)
         case .caption2:
-            return .init(size: HCGlobalTokens.fontSize(.size100),
-                         weight: HCGlobalTokens.fontWeight(.regular))
+            return .init(size: .size100, weight: .regular)
         }
     }
 

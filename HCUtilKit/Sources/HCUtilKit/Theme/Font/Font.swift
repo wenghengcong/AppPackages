@@ -11,6 +11,7 @@ public extension Font {
     private static let subheadline = onMac ? 16.0 : 15.0
     private static let footnote = onMac ? 15.0 : 13.0
     private static let caption = onMac ? 14.0 : 12.0
+    private static let caption2 = onMac ? 13.0 : 11.0
     private static let onMac = ProcessInfo.processInfo.isiOSAppOnMac
     
     private static func customFont(size: CGFloat, relativeTo textStyle: TextStyle) -> Font {
@@ -25,6 +26,72 @@ public extension Font {
         return .system(size: size, design: .default)
     }
     
+    // MARK: - Font Init
+
+    /// 返回一个字体：没有自动缩放
+    /// - Parameter fontInfo: 字体信息
+    /// - Returns: 字体
+    static func info(_ fontInfo: HCFontInfo, scale: Bool = true) -> Font {
+        var size = fontInfo.size.value;
+        if scale {
+            size = userScaledFontSize(baseSize: size)
+        }
+        var font: Font
+        if let name = fontInfo.name, !name.isEmpty {
+            if fontInfo.relativeTo {
+                font = .custom(name, size: fontInfo.size.value, relativeTo: fontInfo.textStyle)
+            } else {
+                font = .custom(name, fixedSize: fontInfo.size.value)
+            }
+        } else {
+            font = Font.system(size: fontInfo.size.value, weight: fontInfo.weight, design: fontInfo.design)
+        }
+        return font
+    }
+    
+    init(_ name: String, size: CGFloat, scale: Bool = true) {
+        var sizeValue = size;
+        if scale {
+            sizeValue = Font.userScaledFontSize(baseSize: size)
+        }
+        let font = UIFont(name: name, size: sizeValue) ?? UIFont.systemFont(ofSize: sizeValue)
+        self.init(font)
+    }
+    
+    // MARK: - Font
+    static var scaledBodyFocused: Font {
+        customFont(size: userScaledFontSize(baseSize: body + 2), relativeTo: .body)
+    }
+    
+    static var scaledBody: Font {
+        customFont(size: userScaledFontSize(baseSize: body), relativeTo: .body)
+    }
+    
+    static var scaledCallout: Font {
+        customFont(size: userScaledFontSize(baseSize: callout), relativeTo: .callout)
+    }
+    
+    static var scaledSubheadline: Font {
+        customFont(size: userScaledFontSize(baseSize: subheadline), relativeTo: .subheadline)
+    }
+    
+    static var scaledSubheadlineFont: HCUniversalFont {
+        customUIFont(size: userScaledFontSize(baseSize: subheadline))
+    }
+    
+    static var scaledFootnote: Font {
+        customFont(size: userScaledFontSize(baseSize: footnote), relativeTo: .footnote)
+    }
+    
+    static var scaledCaption: Font {
+        customFont(size: userScaledFontSize(baseSize: caption), relativeTo: .caption)
+    }
+    
+    static var scaledCaption2: Font {
+        customFont(size: userScaledFontSize(baseSize: caption2), relativeTo: .caption)
+    }
+    
+    // MARK: - UIFont
     private static func customUIFont(size: CGFloat) -> HCUniversalFont {
         if let chosenFont = Theme.shared.chosenFont {
             return chosenFont.withSize(size)
@@ -40,28 +107,12 @@ public extension Font {
 #endif
     }
     
-    static var scaledTitle: Font {
-        customFont(size: userScaledFontSize(baseSize: title), relativeTo: .title)
-    }
-    
-    static var scaledHeadline: Font {
-        customFont(size: userScaledFontSize(baseSize: headline), relativeTo: .headline).weight(.semibold)
-    }
-    
     static var scaledHeadlineFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: headline))
     }
     
-    static var scaledBodyFocused: Font {
-        customFont(size: userScaledFontSize(baseSize: body + 2), relativeTo: .body)
-    }
-    
     static var scaledBodyFocusedFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body + 2))
-    }
-    
-    static var scaledBody: Font {
-        customFont(size: userScaledFontSize(baseSize: body), relativeTo: .body)
     }
     
     static var scaledBodyFont: HCUniversalFont {
@@ -72,36 +123,28 @@ public extension Font {
         customUIFont(size: userScaledFontSize(baseSize: body))
     }
     
-    static var scaledCallout: Font {
-        customFont(size: userScaledFontSize(baseSize: callout), relativeTo: .callout)
-    }
-    
     static var scaledCalloutFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: body))
     }
     
-    static var scaledSubheadline: Font {
-        customFont(size: userScaledFontSize(baseSize: subheadline), relativeTo: .subheadline)
+    static var scaledTitle: Font {
+        customFont(size: userScaledFontSize(baseSize: title), relativeTo: .title)
     }
     
-    static var scaledSubheadlineFont: HCUniversalFont {
-        customUIFont(size: userScaledFontSize(baseSize: subheadline))
-    }
-    
-    static var scaledFootnote: Font {
-        customFont(size: userScaledFontSize(baseSize: footnote), relativeTo: .footnote)
+    static var scaledHeadline: Font {
+        customFont(size: userScaledFontSize(baseSize: headline), relativeTo: .headline).weight(.semibold)
     }
     
     static var scaledFootnoteFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: footnote))
     }
     
-    static var scaledCaption: Font {
-        customFont(size: userScaledFontSize(baseSize: caption), relativeTo: .caption)
-    }
-    
     static var scaledCaptionFont: HCUniversalFont {
         customUIFont(size: userScaledFontSize(baseSize: caption))
+    }
+    
+    static var scaledCaption2Font: HCUniversalFont {
+        customUIFont(size: userScaledFontSize(baseSize: caption2))
     }
 }
 

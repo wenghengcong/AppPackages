@@ -298,13 +298,13 @@ extension HCControlTokenValue: CustomStringConvertible {
     public var description: String {
         switch self {
         case .float(let float):
-            return "HCControlTokenValue.float (\(float())"
+            return "HCControlTokenValue.float: \(float())"
         case .color(let color):
-            return "HCControlTokenValue.uiColor (\(color())"
+            return "HCControlTokenValue.color: \(color())"
         case .font(let font):
-            return "HCControlTokenValue.uiFont (\(font())"
+            return "HCControlTokenValue.font: \(font())"
         case .shadowInfo(let shadowInfo):
-            return "HCControlTokenValue.shadowInfo (\(shadowInfo())"
+            return "HCControlTokenValue.shadowInfo: \(shadowInfo())"
         }
     }
 }
