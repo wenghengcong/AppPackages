@@ -10,7 +10,7 @@ public struct ThemePreviewView: View {
 
   public var body: some View {
     ScrollView {
-      ForEach(availableColorsSets) { couple in
+      ForEach(availableThemeSets) { couple in
         HStack(spacing: gutterSpace) {
           ThemeBoxView(color: couple.light)
           ThemeBoxView(color: couple.dark)
@@ -29,7 +29,7 @@ struct ThemeBoxView: View {
   private let gutterSpace = 8.0
   @State private var isSelected = false
 
-  var color: HCColorSet
+  var color: HCThemeSet
 
   var body: some View {
     ZStack(alignment: .topTrailing) {

@@ -26,7 +26,7 @@ struct ThemeApplier: ViewModifier {
         if theme.followSystemColorScheme {
             return nil
         }
-        return theme.selectedScheme == HCColorScheme.dark ? .dark : .light
+        return theme.selectedScheme == HCThemeScheme.dark ? .dark : .light
     }
     
     func body(content: Content) -> some View {
@@ -40,7 +40,7 @@ struct ThemeApplier: ViewModifier {
                     theme.selectedSet = colorScheme == .dark ? .systemDark : .systemLight
                     theme.isThemePreviouslySet = true
                 } else if theme.followSystemColorScheme, theme.isThemePreviouslySet,
-                          let sets = availableColorsSets
+                          let sets = availableThemeSets
                     .first(where: { $0.light.name == theme.selectedSet || $0.dark.name == theme.selectedSet })
                 {
                     theme.selectedSet = colorScheme == .dark ? sets.dark.name : sets.light.name
@@ -60,7 +60,7 @@ struct ThemeApplier: ViewModifier {
             }
             .onChange(of: colorScheme) { newColorScheme in
                 if theme.followSystemColorScheme,
-                   let sets = availableColorsSets
+                   let sets = availableThemeSets
                     .first(where: { $0.light.name == theme.selectedSet || $0.dark.name == theme.selectedSet })
                 {
                     theme.selectedSet = newColorScheme == .dark ? sets.dark.name : sets.light.name
@@ -71,7 +71,7 @@ struct ThemeApplier: ViewModifier {
     }
     
 #if canImport(UIKit)
-    private func setWindowUserInterfaceStyle(from colorScheme: HCColorScheme) {
+    private func setWindowUserInterfaceStyle(from colorScheme: HCThemeScheme) {
         guard !theme.followSystemColorScheme else {
             setWindowUserInterfaceStyle(.unspecified)
             return

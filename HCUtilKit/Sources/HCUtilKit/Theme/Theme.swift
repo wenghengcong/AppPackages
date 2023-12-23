@@ -15,30 +15,6 @@ public class Theme: ObservableObject, Equatable {
         case lineSpacing
     }
     
-    public enum FontState: Int, CaseIterable {
-        case system
-        case openDyslexic
-        case hyperLegible
-        case SFRounded
-        case custom
-        
-        @MainActor
-        public var title: LocalizedStringKey {
-            switch self {
-            case .system:
-                "settings.display.font.system"
-            case .openDyslexic:
-                "Open Dyslexic"
-            case .hyperLegible:
-                "Hyper Legible"
-            case .SFRounded:
-                "SF Rounded"
-            case .custom:
-                "settings.display.font.custom"
-            }
-        }
-    }
-    
     private var _cachedChoosenFont: HCUniversalFont?
     public var chosenFont: HCUniversalFont? {
         get {
@@ -65,7 +41,7 @@ public class Theme: ObservableObject, Equatable {
     
     @AppStorage("is_previously_set") public var isThemePreviouslySet: Bool = false
     
-    @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: HCColorScheme = .dark
+    @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: HCThemeScheme = .dark
     @AppStorage(ThemeKey.tint.rawValue) public var tintColor: Color = .black
     @AppStorage(ThemeKey.primaryBackground.rawValue) public var primaryBackgroundColor: Color = .white
     @AppStorage(ThemeKey.secondaryBackground.rawValue) public var secondaryBackgroundColor: Color = .gray
@@ -74,14 +50,14 @@ public class Theme: ObservableObject, Equatable {
     @AppStorage(ThemeKey.separator.rawValue) public var separatorColor: Color = .lightGray
     @AppStorage(ThemeKey.placeholder.rawValue) public var placeholderColor: Color = .lightGray
 
-    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCColorSetName = .systemDark
+    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCThemeName = .systemDark
     @AppStorage(ThemeKey.followSystemColorSchme.rawValue) public var followSystemColorScheme: Bool = true
     @AppStorage(ThemeKey.displayFullUsernameTimeline.rawValue) public var displayFullUsername: Bool = true
     @AppStorage(ThemeKey.lineSpacing.rawValue) public var lineSpacing: Double = 0.8
     @AppStorage("font_size_scale") public var fontSizeScale: Double = 1
     @AppStorage("chosen_font") public private(set) var chosenFontData: Data?
     
-    @Published public var selectedSet: HCColorSetName = .systemDark
+    @Published public var selectedSet: HCThemeName = .systemDark
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -109,33 +85,43 @@ public class Theme: ObservableObject, Equatable {
         // Workaround, since @AppStorage can't be directly observed
         $selectedSet
             .dropFirst()
-            .sink { [weak self] HCColorSetName in
-                self?.setColor(withName: HCColorSetName)
+            .sink { [weak self] HCThemeName in
+                self?.setColor(withName: HCThemeName)
             }
             .store(in: &cancellables)
     }
     
-    public static var allHCColorSet: [HCColorSet] {
+    public static var allHCColorSet: [HCThemeSet] {
         [
-            SystemLight(),
-            SystemDark(),
+            ThemeSystemLight(),
+            ThemeSystemDark(),
         ]
     }
-    
-    public func setColor(withName name: HCColorSetName) {
-        let HCColorSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? SystemLight()
-        selectedScheme = HCColorSet.scheme
-        tintColor = HCColorSet.tintColor
-        primaryBackgroundColor = HCColorSet.primaryBackgroundColor
-        secondaryBackgroundColor = HCColorSet.secondaryBackgroundColor
-        labelColor = HCColorSet.labelColor
-        secondLabelColor = HCColorSet.sedondLabelColor
-        separatorColor = HCColorSet.separatorColor
-        placeholderColor = HCColorSet.placeholderColor
+
+    public var cuurentThemeSet: HCThemeSet {
+        return Theme.allHCColorSet.filter { $0.name == self.selectedSet }.first ?? ThemeSystemLight()
+    }
+
+    public func setColor(withName name: HCThemeName) {
+        let HCThemeSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? ThemeSystemLight()
+        selectedScheme = HCThemeSet.scheme
+
+//        tintColor = HCThemeSet.tintColor
+//        primaryBackgroundColor = HCThemeSet.primaryBackgroundColor
+//        secondaryBackgroundColor = HCThemeSet.secondaryBackgroundColor
+//        labelColor = HCThemeSet.labelColor
+//        secondLabelColor = HCThemeSet.sedondLabelColor
+//        separatorColor = HCThemeSet.separatorColor
+//        placeholderColor = HCThemeSet.placeholderColor
+
+        self.colorTokenSet = HCThemeSet.colorTokenSet
+        self.shadowTokenSet = HCThemeSet.shadowTokenSet
+        self.typographyTokenSet = HCThemeSet.typographyTokenSet
+        self.gradientTokenSet = HCThemeSet.gradientTokenSet
+
         storedSet = name
     }
-    
-    
+
     public static var isDarkMode: Bool {
         let isDark = (Theme.shared.selectedScheme == .dark)
         return isDark
@@ -147,11 +133,11 @@ public class Theme: ObservableObject, Equatable {
     
     
     // Token storage
-    let colorTokenSet: HCTokenSet<HCColorToken, Color>
-    let shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
-    let typographyTokenSet: HCTokenSet<HCTypographyToken, HCFontInfo>
-    let gradientTokenSet: HCTokenSet<HCGradientToken, [Color]>
-    
+    var colorTokenSet: HCTokenSet<HCColorToken, Color> 
+    var shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
+    var typographyTokenSet: HCTokenSet<HCTypographyToken, HCFontInfo>
+    var gradientTokenSet: HCTokenSet<HCGradientToken, [Color]>
+
     private func tokenKey<T: HCTokenSetKey>(_ tokenSetType: HCControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
     }

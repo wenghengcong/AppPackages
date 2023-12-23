@@ -48,6 +48,10 @@ public final class HCTokenSet<T: HCTokenSetKey, V> {
         self.valueOverrides = overrideValues
     }
 
-    private let valueOverrides: [T: V]?
+    func update(_ overrideValues: [T: V]) {
+        self.valueOverrides = overrideValues
+    }
+
+    private var valueOverrides: [T: V]?
     private let defaultValues: ((_ token: T) -> V)
 }

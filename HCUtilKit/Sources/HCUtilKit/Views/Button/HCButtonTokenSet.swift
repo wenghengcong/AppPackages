@@ -285,9 +285,9 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .font {
                     switch size() {
                     case .large:
-                        return theme.typography(.body1Strong, adjustsForContentSizeCategory: !style().isFloating)
+                        return theme.typography(.body1Strong)
                     case .medium, .small:
-                        return style().isFloating ? theme.typography(.body2Strong, adjustsForContentSizeCategory: false) : theme.typography(.caption1Strong)
+                        return style().isFloating ? theme.typography(.body2Strong) : theme.typography(.caption1Strong)
                     }
                 }
             case .shadowRest:

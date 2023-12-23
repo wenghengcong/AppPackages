@@ -1,6 +1,5 @@
 import SwiftUI
 
-@MainActor
 public extension Font {
     // See https://gist.github.com/zacwest/916d31da5d03405809c4 for iOS values
     // Custom values for Mac

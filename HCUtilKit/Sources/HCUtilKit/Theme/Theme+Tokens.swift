@@ -163,25 +163,9 @@ public extension Theme {
     /// Returns the font value for the given token.
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
-    /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
-    /// - Returns: A `UIFont` for the given token.
-    func typography(_ token: HCTypographyToken, adjustsForContentSizeCategory: Bool = true) -> Font {
-        return Font.info(typographyTokenSet[token],
-                             shouldScale: adjustsForContentSizeCategory)
-    }
-
-    /// Returns the font value for the given token.
-    ///
-    /// - Parameter token: The `TypographyTokens` value to be retrieved.
-    /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
-    /// - Parameter contentSizeCategory: An overridden `UIContentSizeCategory` to conform to.
-    /// - Returns: A `UIFont` for the given token.
-    func typography(_ token: HCTypographyToken,
-                    adjustsForContentSizeCategory: Bool = true,
-                    contentSizeCategory: UIContentSizeCategory) -> Font {
-        return Font.info(typographyTokenSet[token],
-                             shouldScale: adjustsForContentSizeCategory,
-                             contentSizeCategory: contentSizeCategory)
+    /// - Returns: A `Font` for the given token.
+    func typography(_ token: HCTypographyToken) -> Font {
+        return Font.info(typographyTokenSet[token])
     }
 
     /// Returns an array of colors for the given token.
