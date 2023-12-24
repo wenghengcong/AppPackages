@@ -19,7 +19,7 @@ public struct ThemePreviewView: View {
     }
     .padding(4)
     .frame(maxHeight: .infinity)
-    .background(theme.primaryBackgroundColor)
+    .background(theme.background)
     .navigationTitle("design.theme.navigation-title")
   }
 }
@@ -29,7 +29,7 @@ struct ThemeBoxView: View {
   private let gutterSpace = 8.0
   @State private var isSelected = false
 
-  var color: HCThemeSet
+  var color: ThemeSet
 
   var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -42,18 +42,18 @@ struct ThemeBoxView: View {
 
       VStack(spacing: gutterSpace) {
         Text(color.name.rawValue)
-          .foregroundColor(color.tintColor)
+          .foregroundColor(theme.tintColor)
           .font(.system(size: 20))
           .fontWeight(.bold)
 
         Text("design.theme.toots-preview")
-          .foregroundColor(color.labelColor)
+          .foregroundColor(theme.labelColor)
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .padding()
-          .background(color.primaryBackgroundColor)
+          .background(theme.background)
 
         Text("#icecube, #techhub")
-          .foregroundColor(color.tintColor)
+          .foregroundColor(theme.tintColor)
         if isSelected {
           HStack {
             Spacer()
@@ -66,15 +66,15 @@ struct ThemeBoxView: View {
           HStack {
             Spacer()
             Circle()
-              .strokeBorder(color.tintColor, lineWidth: 1)
-              .background(Circle().fill(color.primaryBackgroundColor))
+              .strokeBorder(theme.tintColor, lineWidth: 1)
+              .background(Circle().fill(theme.background))
               .frame(width: 20, height: 20)
           }
         }
       }
       .frame(maxWidth: .infinity)
       .padding()
-      .background(color.secondaryBackgroundColor)
+      .background(theme.foreground)
       .font(.system(size: 15))
       .cornerRadius(4)
     }

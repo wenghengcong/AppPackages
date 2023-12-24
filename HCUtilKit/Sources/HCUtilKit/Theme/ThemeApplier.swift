@@ -26,7 +26,7 @@ struct ThemeApplier: ViewModifier {
         if theme.followSystemColorScheme {
             return nil
         }
-        return theme.selectedScheme == HCThemeScheme.dark ? .dark : .light
+        return theme.selectedScheme == Theme.ThemeScheme.dark ? .dark : .light
     }
     
     func body(content: Content) -> some View {
@@ -47,12 +47,12 @@ struct ThemeApplier: ViewModifier {
                 }
                 setWindowTint(theme.tintColor)
                 setWindowUserInterfaceStyle(from: theme.selectedScheme)
-                setBarsColor(theme.primaryBackgroundColor)
+                setBarsColor(theme.background)
             }
             .onChange(of: theme.tintColor) { newValue in
                 setWindowTint(newValue)
             }
-            .onChange(of: theme.primaryBackgroundColor) { newValue in
+            .onChange(of: theme.background) { newValue in
                 setBarsColor(newValue)
             }
             .onChange(of: theme.selectedScheme) { newValue in
@@ -71,7 +71,7 @@ struct ThemeApplier: ViewModifier {
     }
     
 #if canImport(UIKit)
-    private func setWindowUserInterfaceStyle(from colorScheme: HCThemeScheme) {
+    private func setWindowUserInterfaceStyle(from colorScheme: Theme.ThemeScheme) {
         guard !theme.followSystemColorScheme else {
             setWindowUserInterfaceStyle(.unspecified)
             return

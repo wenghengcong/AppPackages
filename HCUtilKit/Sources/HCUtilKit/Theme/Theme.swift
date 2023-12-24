@@ -39,86 +39,86 @@ public class Theme: ObservableObject, Equatable {
         }
     }
     
+
     @AppStorage("is_previously_set") public var isThemePreviouslySet: Bool = false
     
-    @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: HCThemeScheme = .dark
+    @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: ThemeScheme = .light
     @AppStorage(ThemeKey.tint.rawValue) public var tintColor: Color = .black
-    @AppStorage(ThemeKey.primaryBackground.rawValue) public var primaryBackgroundColor: Color = .white
-    @AppStorage(ThemeKey.secondaryBackground.rawValue) public var secondaryBackgroundColor: Color = .gray
+    @AppStorage(Theme.ColorToken.background.rawValue) public var background: Color = .white
+    @AppStorage(Theme.ColorToken.foreground.rawValue) public var foreground: Color = .gray
     @AppStorage(ThemeKey.label.rawValue) public var labelColor: Color = .black
     @AppStorage(ThemeKey.secondLabel.rawValue) public var secondLabelColor: Color = .black
     @AppStorage(ThemeKey.separator.rawValue) public var separatorColor: Color = .lightGray
     @AppStorage(ThemeKey.placeholder.rawValue) public var placeholderColor: Color = .lightGray
 
-    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: HCThemeName = .systemDark
+    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: ThemeName = .systemDark
     @AppStorage(ThemeKey.followSystemColorSchme.rawValue) public var followSystemColorScheme: Bool = true
     @AppStorage(ThemeKey.displayFullUsernameTimeline.rawValue) public var displayFullUsername: Bool = true
     @AppStorage(ThemeKey.lineSpacing.rawValue) public var lineSpacing: Double = 0.8
     @AppStorage("font_size_scale") public var fontSizeScale: Double = 1
     @AppStorage("chosen_font") public private(set) var chosenFontData: Data?
     
-    @Published public var selectedSet: HCThemeName = .systemDark
-    
+    @Published public var selectedSet: ThemeName = .systemDark
+    // Token storage
+    var colorTokenSet: HCTokenSet<ColorToken, Color>
+    var shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
+    var typographyTokenSet: HCTokenSet<TypographyToken, HCFontInfo>
+    var gradientTokenSet: HCTokenSet<GradientToken, [Color]>
+
+    private var controlTokenSets: [String: Any] = [:]
+
     private var cancellables = Set<AnyCancellable>()
     
     public static let shared = Theme()
     
-    private init(colorOverrides: [HCColorToken: Color]? = nil,
-                 shadowOverrides: [ShadowToken: HCShadowInfo]? = nil,
-                 typographyOverrides: [HCTypographyToken: HCFontInfo]? = nil,
-                 gradientOverrides: [HCGradientToken: [Color]]? = nil) {
-        
-        let colorTokenSet = HCTokenSet<HCColorToken, Color>(Theme.defaultColors(_:), colorOverrides)
-        let shadowTokenSet = HCTokenSet<ShadowToken, HCShadowInfo>(Theme.defaultShadows(_:), shadowOverrides)
-        let typographyTokenSet = HCTokenSet<HCTypographyToken, HCFontInfo>(Theme.defaultTypography(_:), typographyOverrides)
-        let gradientTokenSet = HCTokenSet<HCGradientToken, [Color]>({ [colorTokenSet] token in
-            // Reference the colorTokenSet as part of the gradient lookup
-            return Theme.defaultGradientColors(token, colorTokenSet: colorTokenSet)
-        })
+    /// 单例对象
+    public static var systemDark = SystemDark()
+    public static var systemLight = SystemLight()
 
-        self.colorTokenSet = colorTokenSet
-        self.shadowTokenSet = shadowTokenSet
-        self.typographyTokenSet = typographyTokenSet
-        self.gradientTokenSet = gradientTokenSet
-        
+    public var current: ThemeSet {
+        return Theme.allThemeSet.filter { $0.name == self.selectedSet }.first ?? SystemLight()
+    }
+
+    private init() {
+        selectedScheme = .light
+
+        self.colorTokenSet = Theme.systemLight.colorTokenSet
+        self.shadowTokenSet = Theme.systemLight.shadowTokenSet
+        self.typographyTokenSet = Theme.systemLight.typographyTokenSet
+        self.gradientTokenSet = Theme.systemLight.gradientTokenSet
+
         selectedSet = storedSet
+
         // Workaround, since @AppStorage can't be directly observed
         $selectedSet
             .dropFirst()
-            .sink { [weak self] HCThemeName in
-                self?.setColor(withName: HCThemeName)
+            .sink { [weak self] name in
+                self?.refreshTheme(withName: name)
             }
             .store(in: &cancellables)
     }
     
-    public static var allHCColorSet: [HCThemeSet] {
-        [
-            ThemeSystemLight(),
-            ThemeSystemDark(),
+    public static var allThemeSet: [ThemeSet] {
+        return [
+            systemLight,
+            systemDark,
         ]
     }
 
-    public var cuurentThemeSet: HCThemeSet {
-        return Theme.allHCColorSet.filter { $0.name == self.selectedSet }.first ?? ThemeSystemLight()
+    public func refreshColorSet(_ colors: [ColorToken: Color]) {
+        self.colorTokenSet.update(colors)
     }
 
-    public func setColor(withName name: HCThemeName) {
-        let HCThemeSet = Theme.allHCColorSet.filter { $0.name == name }.first ?? ThemeSystemLight()
-        selectedScheme = HCThemeSet.scheme
+    public func refreshTheme(withName name: ThemeName) {
+        let ThemeSet = Theme.allThemeSet.filter { $0.name == name }.first ?? SystemLight()
+        selectedScheme = ThemeSet.scheme
+        self.colorTokenSet = ThemeSet.colorTokenSet
+        self.shadowTokenSet = ThemeSet.shadowTokenSet
+        self.typographyTokenSet = ThemeSet.typographyTokenSet
+        self.gradientTokenSet = ThemeSet.gradientTokenSet
 
-//        tintColor = HCThemeSet.tintColor
-//        primaryBackgroundColor = HCThemeSet.primaryBackgroundColor
-//        secondaryBackgroundColor = HCThemeSet.secondaryBackgroundColor
-//        labelColor = HCThemeSet.labelColor
-//        secondLabelColor = HCThemeSet.sedondLabelColor
-//        separatorColor = HCThemeSet.separatorColor
-//        placeholderColor = HCThemeSet.placeholderColor
-
-        self.colorTokenSet = HCThemeSet.colorTokenSet
-        self.shadowTokenSet = HCThemeSet.shadowTokenSet
-        self.typographyTokenSet = HCThemeSet.typographyTokenSet
-        self.gradientTokenSet = HCThemeSet.gradientTokenSet
-
+        background = self.color(.background)
+        foreground = self.color(.foreground)
         storedSet = name
     }
 
@@ -130,35 +130,62 @@ public class Theme: ObservableObject, Equatable {
     public static func ==(lhs: Theme, rhs: Theme) -> Bool {
         return lhs.selectedScheme == rhs.selectedScheme && lhs.tintColor == rhs.tintColor
     }
-    
-    
-    // Token storage
-    var colorTokenSet: HCTokenSet<HCColorToken, Color> 
-    var shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
-    var typographyTokenSet: HCTokenSet<HCTypographyToken, HCFontInfo>
-    var gradientTokenSet: HCTokenSet<HCGradientToken, [Color]>
+}
+
+// MARK: - Token
+public extension Theme {
 
     private func tokenKey<T: HCTokenSetKey>(_ tokenSetType: HCControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
     }
-    
+
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
     ///
     /// - Parameters:
     ///   - tokenSetType: The token set type to register custom tokens for.
     ///   - tokens: A custom set of tokens to register.
-    public func register<T: HCTokenSetKey>(tokenSetType: HCControlTokenSet<T>.Type, tokenSet: [T: HCControlTokenValue]?) {
+    func register<T: HCTokenSetKey>(tokenSetType: HCControlTokenSet<T>.Type, tokenSet: [T: HCControlTokenValue]?) {
         controlTokenSets[tokenKey(tokenSetType)] = tokenSet
     }
 
-    private var controlTokenSets: [String: Any] = [:]
-    
     /// Returns the `ControlTokenValue` array for a given `TokenizedControl`, if any overrides have been registered.
     ///
     /// - Parameter tokenSetType: The token set type to fetch the token overrides for.
     ///
     /// - Returns: An array of `ControlTokenValue` instances for the given control, or `nil` if no custom tokens have been registered.
-    public func tokens<T: HCTokenSetKey>(for tokenSetType: HCControlTokenSet<T>.Type) -> [T: HCControlTokenValue]? {
+    func tokens<T: HCTokenSetKey>(for tokenSetType: HCControlTokenSet<T>.Type) -> [T: HCControlTokenValue]? {
         return controlTokenSets[tokenKey(tokenSetType)] as? [T: HCControlTokenValue]
+    }
+
+    /// Returns the color value for the given token.
+    ///
+    /// - Parameter token: The `ColorsTokens` value to be retrieved.
+    /// - Returns: A `Color` for the given token.
+    func color(_ token: ColorToken) -> Color {
+        return colorTokenSet[token]
+    }
+
+    /// Returns the shadow value for the given token.
+    ///
+    /// - Parameter token: The `ShadowTokens` value to be retrieved.
+    /// - Returns: A `HCShadowInfo` for the given token.
+    func shadow(_ token: ShadowToken) -> HCShadowInfo {
+        return shadowTokenSet[token]
+    }
+
+    /// Returns the font value for the given token.
+    ///
+    /// - Parameter token: The `TypographyTokens` value to be retrieved.
+    /// - Returns: A `Font` for the given token.
+    func typography(_ token: TypographyToken) -> Font {
+        return Font.info(typographyTokenSet[token])
+    }
+
+    /// Returns an array of colors for the given token.
+    ///
+    /// - Parameter token: The `HCGradientTokens` value to be retrieved.
+    /// - Returns: An array of `Color` values for the given token.
+    func gradient(_ token: GradientToken) -> [Color] {
+        return gradientTokenSet[token]
     }
 }

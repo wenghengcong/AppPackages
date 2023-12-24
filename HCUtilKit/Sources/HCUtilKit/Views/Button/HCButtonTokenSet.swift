@@ -139,33 +139,33 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
-                        return theme.color(.brandBackground1)
+                        return theme.color(.brandBackground)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
-                        return theme.color(.dangerBackground2)
+                        return theme.color(.dangerBackground)
                     case .floatingSubtle:
-                        return theme.color(.background1)
+                        return theme.color(.background)
                     }
                 }
             case .backgroundFocusedColor:
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
-                        return theme.color(.brandBackground1Selected)
+                        return theme.color(.brandBackgroundSelected)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
-                        return theme.color(.dangerBackground2)
+                        return theme.color(.dangerBackground)
                     case .floatingSubtle:
-                        return theme.color(.background1)
+                        return theme.color(.background)
                     }
                 }
             case .backgroundDisabledColor:
                 return .color {
                     switch style() {
                     case .accent, .danger, .floatingAccent, .floatingSubtle:
-                        return theme.color(.background5)
+                        return theme.color(.background)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     }
@@ -174,13 +174,13 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
-                        return theme.color(.brandBackground1Pressed)
+                        return theme.color(.brandBackgroundPressed)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
-                        return theme.color(.dangerBackground2)
+                        return theme.color(.dangerBackground)
                     case .floatingSubtle:
-                        return theme.color(.background1Pressed)
+                        return theme.color(.backgroundPressed)
                     }
                 }
             case .borderColor:
@@ -189,11 +189,11 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outlineAccent:
-                        return theme.color(.brandStroke1)
+                        return theme.color(.brandStroke)
                     case .outlineNeutral:
-                        return theme.color(.stroke1)
+                        return theme.color(.stroke)
                     case .dangerOutline:
-                        return theme.color(.dangerForeground2)
+                        return theme.color(.dangerForeground)
                     }
                 }
             case .borderFocusedColor:
@@ -202,7 +202,7 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outlineAccent, .outlineNeutral, .dangerOutline:
-                        return theme.color(.strokeFocus2)
+                        return theme.color(.strokeFocus)
                     }
                 }
             case .borderDisabledColor:
@@ -220,11 +220,11 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outlineAccent:
-                        return theme.color(.brandStroke1Pressed)
+                        return theme.color(.brandStrokePressed)
                     case .outlineNeutral:
-                        return theme.color(.stroke1Pressed)
+                        return theme.color(.strokePressed)
                     case .dangerOutline:
-                        return theme.color(.dangerForeground2)
+                        return theme.color(.dangerForeground)
                     }
                 }
             case .borderWidth:
@@ -251,34 +251,34 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     case .accent, .floatingAccent:
                         return theme.color(.foregroundOnColor)
                     case  .outlineAccent, .subtle:
-                        return theme.color(.brandForeground1)
+                        return theme.color(.brandForeground)
                     case .outlineNeutral:
-                        return theme.color(.foreground1)
+                        return theme.color(.foreground)
                     case .danger:
-                        return theme.color(.foregroundLightStatic)
+                        return theme.color(.foreground)
                     case .dangerOutline, .dangerSubtle:
-                        return theme.color(.dangerForeground2)
+                        return theme.color(.dangerForeground)
                     case .floatingSubtle:
-                        return theme.color(.foreground2)
+                        return theme.color(.foreground)
                     }
                 }
             case .foregroundDisabledColor:
-                return .color { theme.color(.foregroundDisabled1) }
+                return .color { theme.color(.foregroundDisabled) }
             case .foregroundPressedColor:
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.foregroundOnColor)
                     case .outlineAccent, .subtle:
-                        return theme.color(.brandForeground1Pressed)
+                        return theme.color(.brandForegroundPressed)
                     case .outlineNeutral:
-                        return theme.color(.foreground1)
+                        return theme.color(.foreground)
                     case .danger:
-                        return theme.color(.foregroundLightStatic)
+                        return theme.color(.foreground)
                     case .dangerOutline, .dangerSubtle:
-                        return theme.color(.dangerForeground2)
+                        return theme.color(.dangerForeground)
                     case .floatingSubtle:
-                        return theme.color(.foreground2)
+                        return theme.color(.foreground)
                     }
                 }
             case .titleFont:

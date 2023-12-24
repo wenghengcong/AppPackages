@@ -9,8 +9,6 @@ import SwiftUI
 
 // MARK: Main
 public extension Color {
-    
-    
     /// 品牌主题色
     // TODO: 需要针对App更改
     static var brand: Color {
@@ -24,14 +22,6 @@ public extension Color {
      */
     static var vipColor: Color {
         Color(hex: "#dbb57d")
-    }
-
-    static var primaryBackground: Color {
-        return Theme.shared.primaryBackgroundColor
-    }
-    
-    static var secondaryBackground: Color {
-        return Theme.shared.secondaryBackgroundColor
     }
 }
 

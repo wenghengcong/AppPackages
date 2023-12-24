@@ -15,78 +15,20 @@ public class HCGlobalTokens {
     // MARK: - BrandColor
     public enum BrandColorToken: Int, HCTokenSetKey {
         // Communication blue colors
-        case comm10
-        case comm20
-        case comm30
-        case comm40
-        case comm50
-        case comm60
-        case comm70
-        case comm80
-        case comm90
-        case comm100
-        case comm110
-        case comm120
-        case comm130
-        case comm140
-        case comm150
-        case comm160
-
+        case tint
         // Gradient colors
         case gradientPrimaryLight
         case gradientPrimaryDark
-        case gradientSecondaryLight
-        case gradientSecondaryDark
-        case gradientTertiaryLight
-        case gradientTertiaryDark
     }
 
     public static func brandColor(_ token: BrandColorToken) -> Color {
         switch token {
-        case .comm10:
-            return Color(hex: 0x061724)
-        case .comm20:
-            return Color(hex: 0x082338)
-        case .comm30:
-            return Color(hex: 0x0A2E4A)
-        case .comm40:
-            return Color(hex: 0x0C3B5E)
-        case .comm50:
-            return Color(hex: 0x0E4775)
-        case .comm60:
-            return Color(hex: 0x0F548C)
-        case .comm70:
-            return Color(hex: 0x115EA3)
-        case .comm80:
-            return Color(hex: 0x0F6CBD)
-        case .comm90:
-            return Color(hex: 0x2886DE)
-        case .comm100:
-            return Color(hex: 0x479EF5)
-        case .comm110:
-            return Color(hex: 0x62ABF5)
-        case .comm120:
-            return Color(hex: 0x77B7F7)
-        case .comm130:
-            return Color(hex: 0x96C6FA)
-        case .comm140:
-            return Color(hex: 0xB4D6FA)
-        case .comm150:
-            return Color(hex: 0xCFE4FA)
-        case .comm160:
-            return Color(hex: 0xEBF3FC)
+        case .tint:
+            return Color(hex: 0xFF4500)
         case .gradientPrimaryLight:
             return Color(hex: 0x464FEB)
         case .gradientPrimaryDark:
             return Color(hex: 0x7385FF)
-        case .gradientSecondaryLight:
-            return Color(hex: 0x47CFFA)
-        case .gradientSecondaryDark:
-            return Color(hex: 0x7ADFFF)
-        case .gradientTertiaryLight:
-            return Color(hex: 0xB47CF8)
-        case .gradientTertiaryDark:
-            return Color(hex: 0xBF80FF)
         }
     }
 
@@ -96,8 +38,10 @@ public class HCGlobalTokens {
         case grey2
         case grey4
         case grey6
+        case grey7
         case grey8
         case grey10
+        case gray11
         case grey12
         case grey14
         case grey16
@@ -155,10 +99,14 @@ public class HCGlobalTokens {
             return Color(hex: 0x0A0A0A)
         case .grey6:
             return Color(hex: 0x0F0F0F)
+        case .grey7:
+            return Color(hex: 0x101010)
         case .grey8:
             return Color(hex: 0x141414)
         case .grey10:
             return Color(hex: 0x1A1A1A)
+        case .gray11:
+            return Color(hex: 0x1C1C1E)
         case .grey12:
             return Color(hex: 0x1F1F1F)
         case .grey14:
