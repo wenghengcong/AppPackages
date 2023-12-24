@@ -22,10 +22,10 @@ public struct ErrorView: View {
           .aspectRatio(contentMode: .fit)
           .frame(maxHeight: 50)
         Text(title)
-          .font(.scaledTitle)
+              .font(.title)
           .padding(.top, 16)
         Text(message)
-          .font(.scaledSubheadline)
+          .font(.headline)
           .multilineTextAlignment(.center)
           .foregroundColor(.gray)
         Button {

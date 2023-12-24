@@ -2,7 +2,6 @@ import Combine
 import SwiftUI
 
 public class Theme: ObservableObject, Equatable {
-
     private var _cachedChoosenFont: HCUniversalFont?
     public var chosenFont: HCUniversalFont? {
         get {
@@ -108,6 +107,46 @@ public class Theme: ObservableObject, Equatable {
     }
 }
 
+/// 通用元素获取方法
+public extension Theme {
+    /// Returns the color value for the given token.
+    ///
+    /// ```
+    /// .background(theme.color(.background))
+    /// ```
+    /// - Parameter token: The `ColorsTokens` value to be retrieved.
+    /// - Returns: A `Color` for the given token.
+    func color(_ token: ColorToken) -> Color {
+        return colorTokenSet[token]
+    }
+
+    /// Returns the shadow value for the given token.
+    ///
+    /// - Parameter token: The `ShadowTokens` value to be retrieved.
+    /// - Returns: A `HCShadowInfo` for the given token.
+    func shadow(_ token: ShadowToken) -> HCShadowInfo {
+        return shadowTokenSet[token]
+    }
+
+    /// Returns the font value for the given token.
+    /// ```
+    /// .font(theme.typography(.headline))
+    /// ```
+    /// - Parameter token: The `TypographyTokens` value to be retrieved.
+    /// - Returns: A `Font` for the given token.
+    func typography(_ token: TypographyToken) -> Font {
+        return Font.info(typographyTokenSet[token])
+    }
+
+    /// Returns an array of colors for the given token.
+    ///
+    /// - Parameter token: The `HCGradientTokens` value to be retrieved.
+    /// - Returns: An array of `Color` values for the given token.
+    func gradient(_ token: GradientToken) -> [Color] {
+        return gradientTokenSet[token]
+    }
+}
+
 // MARK: - Token
 public extension Theme {
 
@@ -131,37 +170,5 @@ public extension Theme {
     /// - Returns: An array of `ControlTokenValue` instances for the given control, or `nil` if no custom tokens have been registered.
     func tokens<T: HCTokenSetKey>(for tokenSetType: HCControlTokenSet<T>.Type) -> [T: HCControlTokenValue]? {
         return controlTokenSets[tokenKey(tokenSetType)] as? [T: HCControlTokenValue]
-    }
-
-    /// Returns the color value for the given token.
-    ///
-    /// - Parameter token: The `ColorsTokens` value to be retrieved.
-    /// - Returns: A `Color` for the given token.
-    func color(_ token: ColorToken) -> Color {
-        return colorTokenSet[token]
-    }
-
-    /// Returns the shadow value for the given token.
-    ///
-    /// - Parameter token: The `ShadowTokens` value to be retrieved.
-    /// - Returns: A `HCShadowInfo` for the given token.
-    func shadow(_ token: ShadowToken) -> HCShadowInfo {
-        return shadowTokenSet[token]
-    }
-
-    /// Returns the font value for the given token.
-    ///
-    /// - Parameter token: The `TypographyTokens` value to be retrieved.
-    /// - Returns: A `Font` for the given token.
-    func typography(_ token: TypographyToken) -> Font {
-        return Font.info(typographyTokenSet[token])
-    }
-
-    /// Returns an array of colors for the given token.
-    ///
-    /// - Parameter token: The `HCGradientTokens` value to be retrieved.
-    /// - Returns: An array of `Color` values for the given token.
-    func gradient(_ token: GradientToken) -> [Color] {
-        return gradientTokenSet[token]
     }
 }

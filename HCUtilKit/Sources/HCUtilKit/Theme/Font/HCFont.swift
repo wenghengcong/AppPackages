@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 /// 自定义字体需要实现的协议
 public protocol HCFontRepresentable: RawRepresentable {}
 
@@ -90,7 +89,6 @@ public struct HCFont {
                 return .black
             }
         }
-        
     }
     
     
@@ -108,7 +106,6 @@ public struct HCFont {
         #if os(iOS)
             /// Available from iOS 13
             case appleSymbols = "AppleSymbols"
-
             /// Available from iOS 13
             case charterBlackItalic = "Charter-BlackItalic"
             /// Available from iOS 13
@@ -670,7 +667,4 @@ public struct HCFont {
 
         case zapfino = "Zapfino"
     }
-    
-    
 }
-

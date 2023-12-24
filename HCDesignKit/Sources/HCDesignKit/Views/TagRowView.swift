@@ -15,9 +15,9 @@ public struct TagRowView: View {
     HStack {
       VStack(alignment: .leading) {
         Text("#\(tag.name)")
-          .font(.scaledHeadline)
+          .font(.subheadline)
         Text("design.tag.n-posts-from-n-participants \(tag.totalUses) \(tag.totalAccounts)")
-          .font(.scaledFootnote)
+          .font(.footnote)
           .foregroundColor(.gray)
       }
       Spacer()

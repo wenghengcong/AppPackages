@@ -169,32 +169,30 @@ public extension Theme {
         }
     }
 
-    static func systemLightTypography(_ token: TypographyToken) -> HCFontInfo {
+    static func systemLightTypography(_ token: TypographyToken) -> HCFontInfo {        // 可以根据omMac判断是否需要的大小
         switch token {
-        case .display:
-            return .init(size: .size900, weight: .bold)
         case .largeTitle:
-            return .init(size: .size800, weight: .bold)
-        case .title1:
-            return .init(size: .size700, weight: .bold)
+            return .init(sizeToken: (HCFontSizeToken.onMac ? .size34 : .size34), weight: .regular)
+        case .title:
+            return .init(sizeToken: .size28, weight: .regular)
         case .title2:
-            return .init(size: .size600, weight: .semibold)
+            return .init(sizeToken: .size22, weight: .regular)
         case .title3:
-            return .init(size: .size500, weight: .semibold)
-        case .body1Strong:
-            return .init(size: .size400, weight: .semibold)
-        case .body1:
-            return .init(size: .size400, weight: .regular)
-        case .body2Strong:
-            return .init(size: .size300, weight: .semibold)
-        case .body2:
-            return .init(size: .size300, weight: .regular)
-        case .caption1Strong:
-            return .init(size: .size200, weight: .semibold)
-        case .caption1:
-            return .init(size: .size200, weight: .regular)
+            return .init(sizeToken: .size20, weight: .regular)
+        case .headline:
+            return .init(sizeToken: .size17, weight: .semibold)
+        case .subheadline:
+            return .init(sizeToken: .size15, weight: .regular)
+        case .body:
+            return .init(sizeToken: .size17, weight: .regular)
+        case .callout:
+            return .init(sizeToken: .size16, weight: .regular)
+        case .footnote:
+            return .init(sizeToken: .size13, weight: .regular)
+        case .caption:
+            return .init(sizeToken: .size12, weight: .regular)
         case .caption2:
-            return .init(size: .size100, weight: .regular)
+            return .init(sizeToken: .size11, weight: .regular)
         }
     }
 

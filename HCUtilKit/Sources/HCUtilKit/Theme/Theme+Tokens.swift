@@ -10,7 +10,7 @@ import SwiftUI
 
 public extension Theme {
     
-    /// 主题
+    // MARK: - 主题
     enum ThemeToken: String {
         /// dark 还是 light
         case scheme
@@ -20,11 +20,13 @@ public extension Theme {
         case name
     }
 
+    // MARK: - 渐变
     enum GradientToken: String, HCTokenSetKey {
         case flair
         case tint
     }
 
+    // MARK: - 颜色
     enum ColorToken: String, HCTokenSetKey {
         // Neutral colors - Background
         case background
@@ -84,6 +86,7 @@ public extension Theme {
         case severeStroke
     }
 
+    // MARK: - 阴影
     enum ShadowToken: String, HCTokenSetKey {
         case clear
         case shadow02
@@ -94,18 +97,21 @@ public extension Theme {
         case shadow64
     }
 
+    // MARK: - 字体
     enum TypographyToken: String, HCTokenSetKey {
-        case display
+        // MARK: 字体-对用系统
         case largeTitle
-        case title1
+        case title
         case title2
         case title3
-        case body1Strong
-        case body1
-        case body2Strong
-        case body2
-        case caption1Strong
-        case caption1
+        case headline
+        case subheadline
+        case body
+        case callout
+        case footnote
+        case caption
         case caption2
+        // MARK: 字体-自定义
+        
     }
 }
