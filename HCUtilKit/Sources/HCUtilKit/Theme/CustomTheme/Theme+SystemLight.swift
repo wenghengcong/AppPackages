@@ -1,5 +1,5 @@
 //
-//  Theme+SystemDark.swift
+//  Theme+SystemLight.swift
 //  
 //
 //  Created by Nemo on 2023/12/23.
@@ -7,101 +7,101 @@
 
 import SwiftUI
 
-/// 系统暗黑模式
+/// 系统普通模式
 public extension Theme {
-    static func systemDarkColors(_ token: Theme.ColorToken) -> Color {
+    static func systemLightColors(_ token: Theme.ColorToken) -> Color {
 
         switch token {
         case .background:
-            return HCGlobalTokens.neutralColor(.grey7)
+            return GlobalTokens.neutralColor(.grey96)
         case .backgroundPressed:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .backgroundSelected:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .backgroundDisabled:
-            return HCGlobalTokens.neutralColor(.white)
-        
+            return GlobalTokens.neutralColor(.white)
+
         case .foreground:
-            return HCGlobalTokens.neutralColor(.gray11)
+            return GlobalTokens.neutralColor(.white)
         case .foregroundDisabled:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .foregroundOnColor:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .stroke:
-            return HCGlobalTokens.neutralColor(.white)
-        
+            return GlobalTokens.neutralColor(.white)
+
         case .strokePressed:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .strokeFocus:
-            return HCGlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.white)
         case .strokeDisabled:
-            return HCGlobalTokens.neutralColor(.grey88)
+            return GlobalTokens.neutralColor(.grey88)
         case .tint:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
 
         case .brandBackground:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandBackgroundPressed:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandBackgroundSelected:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandBackgroundTint:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandBackgroundDisabled:
-            return HCGlobalTokens.neutralColor(.grey88)
-        
+            return GlobalTokens.neutralColor(.grey88)
+
         case .brandForeground:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandForegroundPressed:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandForegroundSelected:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandForegroundTint:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
 
         case .brandForegroundDisabled:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
 
         case .brandGradient:
-            return HCGlobalTokens.brandColor(.gradientPrimaryLight)
+            return GlobalTokens.brandColor(.gradientPrimaryLight)
         case .brandStroke:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandStrokePressed:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
         case .brandStrokeSelected:
-            return HCGlobalTokens.brandColor(.tint)
+            return GlobalTokens.brandColor(.tint)
 
         case .dangerBackground:
-            return HCGlobalTokens.sharedColor(.red, .tint60)
+            return GlobalTokens.sharedColor(.red, .tint60)
         case .dangerForeground:
-            return HCGlobalTokens.sharedColor(.red, .shade10)
+            return GlobalTokens.sharedColor(.red, .shade10)
         case .dangerStroke:
-            return HCGlobalTokens.sharedColor(.red, .tint20)
-       
+            return GlobalTokens.sharedColor(.red, .tint20)
+
         case .successBackground:
-            return HCGlobalTokens.sharedColor(.green, .tint60)
+            return GlobalTokens.sharedColor(.green, .tint60)
         case .successForeground:
-            return HCGlobalTokens.sharedColor(.green, .shade10)
+            return GlobalTokens.sharedColor(.green, .shade10)
         case .successStroke:
-            return HCGlobalTokens.sharedColor(.green, .tint20)
-        
+            return GlobalTokens.sharedColor(.green, .tint20)
+
         case .warningBackground:
-            return HCGlobalTokens.sharedColor(.yellow, .tint60)
+            return GlobalTokens.sharedColor(.yellow, .tint60)
         case .warningForeground:
-            return HCGlobalTokens.sharedColor(.yellow, .shade30)
+            return GlobalTokens.sharedColor(.yellow, .shade30)
         case .warningStroke:
-            return HCGlobalTokens.sharedColor(.yellow, .shade30)
-        
+            return GlobalTokens.sharedColor(.yellow, .shade30)
+
         case .severeBackground:
-            return HCGlobalTokens.sharedColor(.darkOrange, .tint60)
+            return GlobalTokens.sharedColor(.darkOrange, .tint60)
         case .severeForeground:
-            return HCGlobalTokens.sharedColor(.darkOrange, .shade10)
+            return GlobalTokens.sharedColor(.darkOrange, .shade10)
         case .severeStroke:
-            return HCGlobalTokens.sharedColor(.darkOrange, .tint10)
+            return GlobalTokens.sharedColor(.darkOrange, .tint10)
         }
     }
 
-    static func systemDarkShadows(_ token: ShadowToken) -> HCShadowInfo {
+    static func systemLightShadows(_ token: ShadowToken) -> HCShadowInfo {
         switch token {
         case .clear:
             return HCShadowInfo(keyColor: .clear,
@@ -169,7 +169,7 @@ public extension Theme {
         }
     }
 
-    static func systemDarkTypography(_ token: TypographyToken) -> HCFontInfo {
+    static func systemLightTypography(_ token: TypographyToken) -> HCFontInfo {
         switch token {
         case .display:
             return .init(size: .size900, weight: .bold)
@@ -199,15 +199,12 @@ public extension Theme {
     }
 
     /// Derives its default values from the theme's `HCColorTokenSet` values
-    static func systemDarkGradientColors(_ token: GradientToken, colorTokenSet: HCTokenSet<ColorToken, Color>) -> [Color] {
+    static func systemLightGradientColors(_ token: GradientToken, colorTokenSet: HCTokenSet<ColorToken, Color>) -> [Color] {
         switch token {
         case .flair:
-            return [colorTokenSet[.brandGradient],
-
-            ]
+            return [colorTokenSet[.brandGradient]]
         case .tint:
-            return [colorTokenSet[.brandGradient],
-            ]
+            return [colorTokenSet[.brandGradient]]
         }
     }
 

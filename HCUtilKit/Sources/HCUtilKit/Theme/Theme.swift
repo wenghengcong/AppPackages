@@ -27,9 +27,7 @@ public class Theme: ObservableObject, Equatable {
         }
     }
     
-
     @AppStorage("is_previously_set") public var isThemePreviouslySet: Bool = false
-    
 
     @AppStorage(Theme.ThemeToken.followSystemScheme.rawValue) public var followSystemColorScheme: Bool = true
     @AppStorage(Theme.ThemeToken.scheme.rawValue) public var selectedScheme: ThemeScheme = .light

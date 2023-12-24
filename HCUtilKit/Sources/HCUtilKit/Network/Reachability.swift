@@ -264,7 +264,7 @@ fileprivate extension Reachability {
         let notify = { [weak self] in
             guard let self = self else { return }
             self.connection != .unavailable ? self.whenReachable?(self) : self.whenUnreachable?(self)
-            self.notificationCenter.post(name: .NKNetwork.ReachabilityChanged, object: self)
+            self.notificationCenter.post(name: .hcNetwork.reachabilityChanged, object: self)
         }
         
         // notify on the configured `notificationQueue`, or the caller's (i.e. `reachabilitySerialQueue`)

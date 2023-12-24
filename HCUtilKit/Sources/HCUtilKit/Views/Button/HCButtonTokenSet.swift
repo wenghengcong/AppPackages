@@ -231,18 +231,18 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .float {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
-                        return HCGlobalTokens.stroke(.widthNone)
+                        return GlobalTokens.stroke(.widthNone)
                     case .outlineAccent, .outlineNeutral, .dangerOutline:
-                        return HCGlobalTokens.stroke(.width10)
+                        return GlobalTokens.stroke(.width10)
                     }
                 }
             case .cornerRadius:
                 return .float {
                     switch size() {
                     case .large:
-                        return HCGlobalTokens.corner(.radius120)
+                        return GlobalTokens.corner(.radius120)
                     case .medium, .small:
-                        return HCGlobalTokens.corner(.radius80)
+                        return GlobalTokens.corner(.radius80)
                     }
                 }
             case .foregroundColor:
@@ -309,18 +309,18 @@ extension HCButtonTokenSet {
         if style.isFloating {
             switch size {
             case .large:
-                return HCGlobalTokens.spacing(.size160)
+                return GlobalTokens.spacing(.size160)
             case .medium, .small:
-                return HCGlobalTokens.spacing(.size120)
+                return GlobalTokens.spacing(.size120)
             }
         } else {
             switch size {
             case .large:
-                return HCGlobalTokens.spacing(.size200)
+                return GlobalTokens.spacing(.size200)
             case .medium:
-                return HCGlobalTokens.spacing(.size120)
+                return GlobalTokens.spacing(.size120)
             case .small:
-                return HCGlobalTokens.spacing(.size80)
+                return GlobalTokens.spacing(.size80)
             }
         }
     }
@@ -329,9 +329,9 @@ extension HCButtonTokenSet {
     static func fabAlternativePadding(_ size: HCButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
-            return HCGlobalTokens.spacing(.size200)
+            return GlobalTokens.spacing(.size200)
         case .medium, .small:
-            return HCGlobalTokens.spacing(.size160)
+            return GlobalTokens.spacing(.size160)
         }
     }
 
@@ -359,13 +359,13 @@ extension HCButtonTokenSet {
     /// The value for the spacing between the title and image.
     static func titleImageSpacing(style: HCButtonStyle, size: HCButtonSizeCategory) -> CGFloat {
         if style.isFloating {
-            return HCGlobalTokens.spacing(.size80)
+            return GlobalTokens.spacing(.size80)
         } else {
             switch size {
             case .large, .medium:
-                return HCGlobalTokens.spacing(.size80)
+                return GlobalTokens.spacing(.size80)
             case .small:
-                return HCGlobalTokens.spacing(.size40)
+                return GlobalTokens.spacing(.size40)
             }
         }
     }

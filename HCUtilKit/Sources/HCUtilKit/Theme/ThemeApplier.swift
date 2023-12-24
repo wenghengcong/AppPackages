@@ -9,14 +9,6 @@ public extension View {
     }
 }
 
-public extension Notification.Name {
-    /// The notification that will fire when a new `FluentTheme` is set on a view.
-    ///
-    /// The `object` for the fired `Notification` will be the `UIView` whose `fluentTheme` has changed.
-    /// Listeners will likely only want to redraw if they are a descendent of this view.
-    static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
-}
-
 struct ThemeApplier: ViewModifier {
     @Environment(\EnvironmentValues.colorScheme) var colorScheme
     
@@ -64,7 +56,7 @@ struct ThemeApplier: ViewModifier {
                     .first(where: { $0.light.name == theme.selectedTheme || $0.dark.name == theme.selectedTheme })
                 {
                     theme.selectedTheme = newColorScheme == .dark ? sets.dark.name : sets.light.name
-                    NotificationCenter.default.post(name: .didChangeTheme, object: nil)
+                    NotificationCenter.default.post(name: .hcBusiness.didChangeTheme, object: nil)
                 }
             }
 #endif

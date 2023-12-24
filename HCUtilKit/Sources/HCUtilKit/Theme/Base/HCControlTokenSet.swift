@@ -86,7 +86,7 @@ public class HCControlTokenSet<T: HCTokenSetKey>: ObservableObject {
     func deregisterOnUpdate() {
         if let notificationObserver {
             NotificationCenter.default.removeObserver(notificationObserver,
-                                                      name: .didChangeTheme,
+                                                      name: .hcBusiness.didChangeTheme,
                                                       object: nil)
         }
         changeSink = nil
@@ -161,7 +161,7 @@ public class HCControlTokenSet<T: HCTokenSetKey>: ObservableObject {
         }
 
         // Register for notifications in order to call update() when the theme changes.
-        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+        notificationObserver = NotificationCenter.default.addObserver(forName: .hcBusiness.didChangeTheme,
                                                                       object: nil,
                                                                       queue: nil) { [weak self, weak control] notification in
             guard let strongSelf = self else {
@@ -285,9 +285,9 @@ public enum HCControlTokenValue {
     private var fallbackColor: Color {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
-        return HCGlobalTokens.sharedColor(.hotPink, .primary)
+        return GlobalTokens.sharedColor(.hotPink, .primary)
 #else
-        return HCGlobalTokens.neutralColor(.black)
+        return GlobalTokens.neutralColor(.black)
 #endif
     }
 }

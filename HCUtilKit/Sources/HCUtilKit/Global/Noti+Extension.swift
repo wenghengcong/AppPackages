@@ -8,47 +8,57 @@
 import Foundation
 
 public extension Notification.Name {
-    struct NKBiness {
-        public static let WillLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).willlogin")
-        public static let DidLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).didlogin")
-        
+    struct hcBusiness {
+        public static let willLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).willlogin")
+        public static let didLogin = Notification.Name(rawValue: "\(nk_nemo_prefix).didlogin")
+
         /// 获取到oauth token
-        public static let GetOAuthToken = Notification.Name(rawValue: "\(nk_nemo_prefix).gettoken")
+        public static let getOAuthToken = Notification.Name(rawValue: "\(nk_nemo_prefix).gettoken")
         /// 登录后，获取到用户信息
-        public static let GetUserInfo = Notification.Name(rawValue: "\(nk_nemo_prefix).getuserinfo")
-        
-        public static let WillLogout = Notification.Name(rawValue: "\(nk_nemo_prefix).willlogout")
-        public static let DidLogout = Notification.Name(rawValue: "\(nk_nemo_prefix).didlogout")
+        public static let getUserInfo = Notification.Name(rawValue: "\(nk_nemo_prefix).getuserinfo")
+
+        public static let willLogout = Notification.Name(rawValue: "\(nk_nemo_prefix).willlogout")
+        public static let didLogout = Notification.Name(rawValue: "\(nk_nemo_prefix).didlogout")
+
+        public static let didChangeTheme = Notification.Name(rawValue: "\(nk_nemo_prefix).didChangeTheme")
     }
     
-    struct NKNetwork {
+    struct hcNetwork {
         /// Network reachablity
-        public static let NotReachable = Notification.Name(rawValue: "\(nk_nemo_prefix).NotReachable")
-        public static let Unknown = Notification.Name(rawValue: "\(nk_nemo_prefix).Unknown")
-        public static let ReachableAfterUnreachable = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableAfterUnreachable")
-        public static let ReachableWiFi = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableWiFi")
-        public static let ReachableCellular = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableCellular")
-        public static let UnReachableAfterReachable = Notification.Name(rawValue: "\(nk_nemo_prefix).UnReachableAfterReachable")
-        
-        public static let ReachabilityChanged = Notification.Name("\(nk_nemo_prefix).ReachabilityChanged")
+        /// 网络不可用
+        public static let notReachable = Notification.Name(rawValue: "\(nk_nemo_prefix).NotReachable")
+        /// 未知网络
+        public static let unknown = Notification.Name(rawValue: "\(nk_nemo_prefix).Unknown")
 
+        /// 网络不可用->可用
+        public static let reachableAfterUnreachable = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableAfterUnreachable")
+        /// 网络可用->不可用
+        public static let unReachableAfterReachable = Notification.Name(rawValue: "\(nk_nemo_prefix).UnReachableAfterReachable")
+
+
+        /// Wifi
+        public static let reachableWiFi = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableWiFi")
+        /// 蜂窝网络
+        public static let reachableCellular = Notification.Name(rawValue: "\(nk_nemo_prefix).ReachableCellular")
+        /// 网络变化
+        public static let reachabilityChanged = Notification.Name("\(nk_nemo_prefix).ReachabilityChanged")
     }
 
-    struct App {
-        public static let EnterHome = Notification.Name(rawValue: "\(nk_nemo_prefix).App.EnterHome")
-        public static let EnterMine = Notification.Name(rawValue: "\(nk_nemo_prefix).App.EnterMine")
+    struct hcApp {
+        public static let enterHome = Notification.Name(rawValue: "\(nk_nemo_prefix).App.EnterHome")
+        public static let enterMine = Notification.Name(rawValue: "\(nk_nemo_prefix).App.EnterMine")
     }
     
-    struct Privacy {
-        public static let PrivacyDialog = Notification.Name(rawValue: "\(nk_nemo_prefix)Privacy.PrivacyDialog")
+    struct hcPrivacy {
+        public static let privacyDialog = Notification.Name(rawValue: "\(nk_nemo_prefix)Privacy.PrivacyDialog")
         public static let Push = Notification.Name(rawValue: "\(nk_nemo_prefix).Privacy.Push")
     }
     
-    struct Pay {
-        public static let ResultRefresh = Notification.Name(rawValue: "\(nk_nemo_prefix).Pay.ResultRefresh")
+    struct hcPay {
+        public static let resultRefresh = Notification.Name(rawValue: "\(nk_nemo_prefix).Pay.ResultRefresh")
     }
     
-    struct CoreData {
+    struct hcCoreData {
         public static let didFindRelevantTransactions = Notification.Name("\(nk_nemo_prefix).didFindRelevantTransactions")
     }
 }

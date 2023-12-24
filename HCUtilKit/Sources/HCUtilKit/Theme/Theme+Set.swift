@@ -25,6 +25,7 @@ public protocol ThemeSet {
 }
 
 public extension Theme {
+    /// Action: 新增一个主题，增加主题名
     enum ThemeName: String {
         case systemDark = "System Dark"
         case systemLight = "System Light"
@@ -47,6 +48,8 @@ public extension Theme {
 
 // MARK: - Themes
 public extension Theme {
+    /// Action: 新增一个主题，增加主题数据
+
     /// 参见Theme文件里的ThemeKey
     struct SystemDark: ThemeSet {
         public var name: ThemeName = .systemDark
