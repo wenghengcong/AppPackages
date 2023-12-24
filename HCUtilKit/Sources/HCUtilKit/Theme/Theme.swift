@@ -2,19 +2,7 @@ import Combine
 import SwiftUI
 
 public class Theme: ObservableObject, Equatable {
-    /// 主题的Key
-    enum ThemeKey: String {
-        /// scheme，对应是dark还是light
-        case colorScheme
-        case tint, primaryBackground, secondaryBackground
-        case label, secondLabel,separator,placeholder
-        
-        case selectedSet, selectedScheme
-        case followSystemColorSchme
-        case displayFullUsernameTimeline
-        case lineSpacing
-    }
-    
+
     private var _cachedChoosenFont: HCUniversalFont?
     public var chosenFont: HCUniversalFont? {
         get {
@@ -42,23 +30,16 @@ public class Theme: ObservableObject, Equatable {
 
     @AppStorage("is_previously_set") public var isThemePreviouslySet: Bool = false
     
-    @AppStorage(ThemeKey.selectedScheme.rawValue) public var selectedScheme: ThemeScheme = .light
-    @AppStorage(ThemeKey.tint.rawValue) public var tintColor: Color = .black
-    @AppStorage(Theme.ColorToken.background.rawValue) public var background: Color = .white
-    @AppStorage(Theme.ColorToken.foreground.rawValue) public var foreground: Color = .gray
-    @AppStorage(ThemeKey.label.rawValue) public var labelColor: Color = .black
-    @AppStorage(ThemeKey.secondLabel.rawValue) public var secondLabelColor: Color = .black
-    @AppStorage(ThemeKey.separator.rawValue) public var separatorColor: Color = .lightGray
-    @AppStorage(ThemeKey.placeholder.rawValue) public var placeholderColor: Color = .lightGray
 
-    @AppStorage(ThemeKey.selectedSet.rawValue) var storedSet: ThemeName = .systemDark
-    @AppStorage(ThemeKey.followSystemColorSchme.rawValue) public var followSystemColorScheme: Bool = true
-    @AppStorage(ThemeKey.displayFullUsernameTimeline.rawValue) public var displayFullUsername: Bool = true
-    @AppStorage(ThemeKey.lineSpacing.rawValue) public var lineSpacing: Double = 0.8
+    @AppStorage(Theme.ThemeToken.followSystemScheme.rawValue) public var followSystemColorScheme: Bool = true
+    @AppStorage(Theme.ThemeToken.scheme.rawValue) public var selectedScheme: ThemeScheme = .light
+
+    @Published public var selectedTheme: ThemeName = .systemDark
+    @AppStorage(Theme.ThemeToken.name.rawValue) var storedTheme: ThemeName = .systemDark
+
     @AppStorage("font_size_scale") public var fontSizeScale: Double = 1
     @AppStorage("chosen_font") public private(set) var chosenFontData: Data?
     
-    @Published public var selectedSet: ThemeName = .systemDark
     // Token storage
     var colorTokenSet: HCTokenSet<ColorToken, Color>
     var shadowTokenSet: HCTokenSet<ShadowToken, HCShadowInfo>
@@ -76,7 +57,7 @@ public class Theme: ObservableObject, Equatable {
     public static var systemLight = SystemLight()
 
     public var current: ThemeSet {
-        return Theme.allThemeSet.filter { $0.name == self.selectedSet }.first ?? SystemLight()
+        return Theme.allThemeSet.filter { $0.name == self.selectedTheme }.first ?? SystemLight()
     }
 
     private init() {
@@ -87,10 +68,10 @@ public class Theme: ObservableObject, Equatable {
         self.typographyTokenSet = Theme.systemLight.typographyTokenSet
         self.gradientTokenSet = Theme.systemLight.gradientTokenSet
 
-        selectedSet = storedSet
+        selectedTheme = storedTheme
 
         // Workaround, since @AppStorage can't be directly observed
-        $selectedSet
+        $selectedTheme
             .dropFirst()
             .sink { [weak self] name in
                 self?.refreshTheme(withName: name)
@@ -116,10 +97,7 @@ public class Theme: ObservableObject, Equatable {
         self.shadowTokenSet = ThemeSet.shadowTokenSet
         self.typographyTokenSet = ThemeSet.typographyTokenSet
         self.gradientTokenSet = ThemeSet.gradientTokenSet
-
-        background = self.color(.background)
-        foreground = self.color(.foreground)
-        storedSet = name
+        storedTheme = name
     }
 
     public static var isDarkMode: Bool {
@@ -128,7 +106,7 @@ public class Theme: ObservableObject, Equatable {
     }
     
     public static func ==(lhs: Theme, rhs: Theme) -> Bool {
-        return lhs.selectedScheme == rhs.selectedScheme && lhs.tintColor == rhs.tintColor
+        return lhs.selectedScheme == rhs.selectedScheme && lhs.followSystemColorScheme == rhs.followSystemColorScheme
     }
 }
 

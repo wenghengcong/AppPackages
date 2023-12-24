@@ -31,28 +31,28 @@ struct ThemeApplier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .tint(theme.tintColor)
+            .tint(theme.color(.tint))
             .preferredColorScheme(actualColorScheme)
 #if canImport(UIKit)
             .onAppear {
                 // If theme is never set before set the default store. This should only execute once after install.
                 if !theme.isThemePreviouslySet {
-                    theme.selectedSet = colorScheme == .dark ? .systemDark : .systemLight
+                    theme.selectedTheme = colorScheme == .dark ? .systemDark : .systemLight
                     theme.isThemePreviouslySet = true
                 } else if theme.followSystemColorScheme, theme.isThemePreviouslySet,
                           let sets = availableThemeSets
-                    .first(where: { $0.light.name == theme.selectedSet || $0.dark.name == theme.selectedSet })
+                    .first(where: { $0.light.name == theme.selectedTheme || $0.dark.name == theme.selectedTheme })
                 {
-                    theme.selectedSet = colorScheme == .dark ? sets.dark.name : sets.light.name
+                    theme.selectedTheme = colorScheme == .dark ? sets.dark.name : sets.light.name
                 }
-                setWindowTint(theme.tintColor)
+                setWindowTint(theme.color(.tint))
                 setWindowUserInterfaceStyle(from: theme.selectedScheme)
-                setBarsColor(theme.background)
+                setBarsColor(theme.color(.background))
             }
-            .onChange(of: theme.tintColor) { newValue in
+            .onChange(of: theme.color(.tint)) { newValue in
                 setWindowTint(newValue)
             }
-            .onChange(of: theme.background) { newValue in
+            .onChange(of: theme.color(.tint)) { newValue in
                 setBarsColor(newValue)
             }
             .onChange(of: theme.selectedScheme) { newValue in
@@ -61,9 +61,9 @@ struct ThemeApplier: ViewModifier {
             .onChange(of: colorScheme) { newColorScheme in
                 if theme.followSystemColorScheme,
                    let sets = availableThemeSets
-                    .first(where: { $0.light.name == theme.selectedSet || $0.dark.name == theme.selectedSet })
+                    .first(where: { $0.light.name == theme.selectedTheme || $0.dark.name == theme.selectedTheme })
                 {
-                    theme.selectedSet = newColorScheme == .dark ? sets.dark.name : sets.light.name
+                    theme.selectedTheme = newColorScheme == .dark ? sets.dark.name : sets.light.name
                     NotificationCenter.default.post(name: .didChangeTheme, object: nil)
                 }
             }

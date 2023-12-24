@@ -9,6 +9,17 @@ import Foundation
 import SwiftUI
 
 public extension Theme {
+    
+    /// 主题
+    enum ThemeToken: String {
+        /// dark 还是 light
+        case scheme
+        /// 是否根据系统设置dark/light
+        case followSystemScheme
+        /// 选中的主题名
+        case name
+    }
+
     enum GradientToken: String, HCTokenSetKey {
         case flair
         case tint

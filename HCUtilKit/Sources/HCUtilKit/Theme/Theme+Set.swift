@@ -12,25 +12,8 @@ public let availableThemeSets: [Theme.ThemeCouple] =
     .init(light: Theme.SystemLight(), dark: Theme.SystemDark())
 ]
 
-public protocol ThemeColorProperty {
-    /// 主题色
-    var tint: Color { get set }
-    /// 主背景颜色
-    var primaryBackground: Color { get set }
-    /// 次背景颜色
-    var secondaryBackground: Color { get set }
-    /// 文本颜色
-    var label: Color { get set }
-    /// 次要文本颜色
-    var sedondLabel: Color { get set }
-    /// 分割线颜色
-    var separator: Color { get set }
-    /// 占位符颜色
-    var placeholder: Color { get set }
-}
-
 /// 主题色彩集合
-public protocol ThemeSet: ThemeColorProperty {
+public protocol ThemeSet {
     /// 主题名称
     var name: Theme.ThemeName { get }
     /// 颜色模式
@@ -74,15 +57,6 @@ public extension Theme {
         public var typographyTokenSet: HCTokenSet<Theme.TypographyToken, HCFontInfo>
         public var gradientTokenSet: HCTokenSet<Theme.GradientToken, [Color]>
 
-        // MARK: - 常用颜色
-        public var tint: Color
-        public var primaryBackground: Color
-        public var secondaryBackground: Color
-        public var label: Color
-        public var sedondLabel: Color
-        public var separator: Color
-        public var placeholder: Color
-
         public init() {
             let colorTokenSet = HCTokenSet<Theme.ColorToken, Color>(Theme.systemDarkColors(_:))
             let shadowTokenSet = HCTokenSet<Theme.ShadowToken, HCShadowInfo>(Theme.systemDarkShadows(_:))
@@ -96,14 +70,6 @@ public extension Theme {
             self.shadowTokenSet = shadowTokenSet
             self.typographyTokenSet = typographyTokenSet
             self.gradientTokenSet = gradientTokenSet
-
-            self.tint = colorTokenSet[.tint]
-            self.primaryBackground = colorTokenSet[.tint]
-            self.secondaryBackground = colorTokenSet[.tint]
-            self.label = colorTokenSet[.tint]
-            self.sedondLabel = colorTokenSet[.tint]
-            self.separator = colorTokenSet[.tint]
-            self.placeholder = colorTokenSet[.tint]
         }
     }
 
@@ -115,15 +81,6 @@ public extension Theme {
         public var shadowTokenSet: HCTokenSet<Theme.ShadowToken, HCShadowInfo>
         public var typographyTokenSet: HCTokenSet<Theme.TypographyToken, HCFontInfo>
         public var gradientTokenSet: HCTokenSet<Theme.GradientToken, [Color]>
-
-        // MARK: - 常用颜色
-        public var tint: Color
-        public var primaryBackground: Color
-        public var secondaryBackground: Color
-        public var label: Color
-        public var sedondLabel: Color
-        public var separator: Color
-        public var placeholder: Color
 
         public init() {
             let colorTokenSet = HCTokenSet<Theme.ColorToken, Color>(Theme.systemLightColors(_:))
@@ -137,14 +94,6 @@ public extension Theme {
             self.shadowTokenSet = shadowTokenSet
             self.typographyTokenSet = typographyTokenSet
             self.gradientTokenSet = gradientTokenSet
-
-            self.tint = colorTokenSet[.tint]
-            self.primaryBackground = colorTokenSet[.tint]
-            self.secondaryBackground = colorTokenSet[.tint]
-            self.label = colorTokenSet[.tint]
-            self.sedondLabel = colorTokenSet[.tint]
-            self.separator = colorTokenSet[.tint]
-            self.placeholder = colorTokenSet[.tint]
         }
     }
 }
