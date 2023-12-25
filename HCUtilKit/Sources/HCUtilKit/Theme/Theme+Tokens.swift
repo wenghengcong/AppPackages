@@ -29,15 +29,16 @@ public extension Theme {
     // MARK: - 颜色
     enum ColorToken: String, HCTokenSetKey {
         // Neutral colors - Background
+        /// 全局普通背景
         case background
         case backgroundPressed
         case backgroundSelected
         case backgroundDisabled
 
         // Neutral colors - Foreground
+        /// 全局普通前景
         case foreground
         case foregroundDisabled
-        case foregroundOnColor
 
         // Neutral colors - Stroke
         case stroke
@@ -46,7 +47,9 @@ public extension Theme {
         case strokeDisabled
 
         // Brand colors - Brand background
+        /// 主题色，即品牌色
         case tint
+        /// 品牌背景色
         case brandBackground
         case brandBackgroundPressed
         case brandBackgroundSelected
@@ -54,6 +57,7 @@ public extension Theme {
         case brandBackgroundDisabled
 
         // Brand colors - Brand foreground
+        /// 品牌前景色，一般是白色
         case brandForeground
         case brandForegroundPressed
         case brandForegroundSelected

@@ -11,7 +11,7 @@ import SwiftUI
 ///
 /// Values are derived from the Fluent UI design token system at https://github.com/microsoft/fluentui-design-tokens.
 public class GlobalTokens {
-
+    
     // MARK: - BrandColor
     public enum BrandColorToken: Int, HCTokenSetKey {
         // Communication blue colors
@@ -21,16 +21,18 @@ public class GlobalTokens {
         case gradientPrimaryLight
         case gradientPrimaryDark
     }
-
+    
     public static func brandColor(_ token: BrandColorToken) -> Color {
         switch token {
+            
+            // TODO: 主题色
         case .tint:
             return Color(hex: 0xFF4500)
-        /*
-         优酷会员：dbb57d
-         知乎：e9be7b->b58540更深
-         陌陌：f4bd64
-         */
+            /*
+             优酷会员：dbb57d
+             知乎：e9be7b->b58540更深
+             陌陌：f4bd64
+             */
         case .vip:
             return Color(hex: 0xdbb57d)
         case .gradientPrimaryLight:
@@ -39,7 +41,7 @@ public class GlobalTokens {
             return Color(hex: 0x7385FF)
         }
     }
-
+    
     // MARK: - NeutralColor
     public enum NeutralColorToken: Int, HCTokenSetKey {
         case black
@@ -96,7 +98,7 @@ public class GlobalTokens {
         case grey98
         case white
     }
-
+    
     public static func neutralColor(_ token: NeutralColorToken) -> Color {
         switch token {
         case .black:
@@ -207,7 +209,7 @@ public class GlobalTokens {
             return Color(hex: 0xFFFFFF)
         }
     }
-
+    
     // MARK: - SharedColor
     public enum SharedColorSet: Int, HCTokenSetKey {
         case darkRed
@@ -260,7 +262,7 @@ public class GlobalTokens {
         case anchor
         case charcoal
     }
-
+    
     public enum SharedColorToken: Int, HCTokenSetKey {
         case shade50
         case shade40
@@ -275,7 +277,7 @@ public class GlobalTokens {
         case tint50
         case tint60
     }
-
+    
     public static func sharedColor(_ sharedColor: SharedColorSet, _ token: SharedColorToken) -> Color {
         switch sharedColor {
         case .anchor:
@@ -1603,12 +1605,12 @@ public class GlobalTokens {
             }
         }
     }
-
+    
     // MARK: - FontSize
     
-
+    
     // MARK: - IconSize
-
+    
     public enum IconSizeToken: HCTokenSetKey {
         case size100
         case size120
@@ -1642,67 +1644,67 @@ public class GlobalTokens {
             return 48
         }
     }
-
+    
     // MARK: - Spacing
-
+    
     public enum SpacingToken: HCTokenSetKey {
         case sizeNone
+        case size02
+        case size04
+        case size06
+        case size08
+        case size10
+        case size12
+        case size16
         case size20
+        case size24
+        case size28
+        case size32
+        case size36
         case size40
-        case size60
-        case size80
-        case size100
-        case size120
-        case size160
-        case size200
-        case size240
-        case size280
-        case size320
-        case size360
-        case size400
-        case size480
-        case size520
-        case size560
+        case size48
+        case size52
+        case size56
     }
     public static func spacing(_ token: SpacingToken) -> CGFloat {
         switch token {
         case .sizeNone:
             return 0
-        case .size20:
+        case .size02:
             return 2
-        case .size40:
+        case .size04:
             return 4
-        case .size60:
+        case .size06:
             return 6
-        case .size80:
+        case .size08:
             return 8
-        case .size100:
+        case .size10:
             return 10
-        case .size120:
+        case .size12:
             return 12
-        case .size160:
+        case .size16:
             return 16
-        case .size200:
+        case .size20:
             return 20
-        case .size240:
+        case .size24:
             return 24
-        case .size280:
+        case .size28:
             return 28
-        case .size320:
+        case .size32:
             return 32
-        case .size360:
+        case .size36:
             return 36
-        case .size400:
+        case .size40:
             return 40
-        case .size480:
+        case .size48:
             return 48
-        case .size520:
+        case .size52:
             return 52
-        case .size560:
+        case .size56:
             return 56
         }
     }
-
+    
     // MARK: - BorderRadius
     public enum CornerRadiusToken: HCTokenSetKey {
         case radiusNone
@@ -1713,7 +1715,7 @@ public class GlobalTokens {
         case radius120
         case radiusCircular
     }
-
+    
     public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
         case .radiusNone:
@@ -1732,7 +1734,7 @@ public class GlobalTokens {
             return 9999
         }
     }
-
+    
     // MARK: - BorderSize
     public enum StrokeWidthToken: HCTokenSetKey {
         case widthNone
@@ -1768,7 +1770,7 @@ public class GlobalTokens {
 
 // MARK: Other
 public extension Color {
-
+    
     struct Gray {
         public static var level1 = Color.systemGray
         public static var level2 = Color.systemGray2
@@ -1780,8 +1782,8 @@ public extension Color {
         public static var level8 = Color(rgb: (196, 200, 208))
         public static var level9 = Color(rgb: (216, 220, 228))
     }
-
-
+    
+    
     struct DarkGray {
         public static var level1 = Color(rgb: (218, 220, 224))
         public static var level2 = Color(rgb: (198, 200, 204))
@@ -1800,67 +1802,67 @@ public extension Color {
     static var PrimaryBackground: Color {
         return Color("PrimaryBackground")
     }
-
+    
     static var SecondaryBackground: Color {
         return Color("SecondaryBackground")
     }
-
+    
     static var DarkBackground: Color {
         return Color("DarkBackground")
     }
-
+    
     static var PrimaryText: Color {
         return Color("PrimaryText")
     }
-
+    
     static var AlertRed: Color {
         return Color("AlertRed")
     }
-
+    
     static var IncomeGreen: Color {
         return Color("IncomeGreen")
     }
-
+    
     static var BudgetBackground: Color {
         return Color("BudgetBackground")
     }
-
+    
     static var SubtitleText: Color {
         return Color("SubtitleText")
     }
-
+    
     static var Outline: Color {
         return Color("Outline")
     }
-
+    
     static var LightIcon: Color {
         return Color("LightIcon")
     }
-
+    
     static var DarkIcon: Color {
         return Color("DarkIcon")
     }
-
+    
     static var GreyIcon: Color {
         return Color("GreyIcon")
     }
-
+    
     static var BudgetRed: Color {
         return Color("BudgetRed")
     }
-
+    
     static var Alert: Color {
         return Color("Alert")
     }
-
+    
     static var TertiaryBackground: Color {
         return Color("TertiaryBackground")
     }
-
+    
     static var SettingsBackground: Color {
         return Color("Settings")
     }
-
+    
     static var EvenLighterText: Color {
         return Color("EvenLighterText")
     }

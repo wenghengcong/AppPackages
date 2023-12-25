@@ -34,9 +34,11 @@ public enum HCButtonStyle: Int, CaseIterable {
                                                  floatingSubtle]
 
     /// A button with no border, neutral foreground, and brand background.
+    /// 无边框 / 主题背景色 / 中性前景色
     case accent
 
     /// A button with brand border, brand foreground, and no background.
+    /// 有边框 / 主题 前景色 / 无背景色
     case outlineAccent
 
     /// A button with neutral border, neutral foreground, and no brackground.
@@ -80,28 +82,19 @@ public enum HCButtonSizeCategory: Int, CaseIterable {
 public enum HCButtonToken: Int, HCTokenSetKey {
     /// Defines the background color of the button
     case backgroundColor
-
-    /// Defines the background color of the button when focused
-    case backgroundFocusedColor
-
+    
     /// Defines the background color of the button when disabled
     case backgroundDisabledColor
-
-    /// Defines the background color of the button when pressed
-    case backgroundPressedColor
 
     /// Defines the border color of the button
     case borderColor
 
-    /// Defines the border color of the button when focused
-    case borderFocusedColor
-
     /// Defines the border color of the button when disabled
     case borderDisabledColor
 
-    /// Defines the border color of the button when pressed
-    case borderPressedColor
-
+    /// 按钮的高度
+    case buttonHeight
+    
     /// Defines the width of the border around the button
     case borderWidth
 
@@ -113,9 +106,6 @@ public enum HCButtonToken: Int, HCTokenSetKey {
 
     /// Defines the colors of the text and icon of the button when disabled
     case foregroundDisabledColor
-
-    /// Defines the colors of the text and icon of the button when pressed
-    case foregroundPressedColor
 
     /// Defines the font of the title of the button
     case titleFont
@@ -148,19 +138,6 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                         return theme.color(.background)
                     }
                 }
-            case .backgroundFocusedColor:
-                return .color {
-                    switch style() {
-                    case .accent, .floatingAccent:
-                        return theme.color(.brandBackgroundSelected)
-                    case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
-                        return .clear
-                    case .danger:
-                        return theme.color(.dangerBackground)
-                    case .floatingSubtle:
-                        return theme.color(.background)
-                    }
-                }
             case .backgroundDisabledColor:
                 return .color {
                     switch style() {
@@ -168,19 +145,6 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                         return theme.color(.background)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
-                    }
-                }
-            case .backgroundPressedColor:
-                return .color {
-                    switch style() {
-                    case .accent, .floatingAccent:
-                        return theme.color(.brandBackgroundPressed)
-                    case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
-                        return .clear
-                    case .danger:
-                        return theme.color(.dangerBackground)
-                    case .floatingSubtle:
-                        return theme.color(.backgroundPressed)
                     }
                 }
             case .borderColor:
@@ -196,15 +160,6 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                         return theme.color(.dangerForeground)
                     }
                 }
-            case .borderFocusedColor:
-                return .color {
-                    switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
-                        return .clear
-                    case .outlineAccent, .outlineNeutral, .dangerOutline:
-                        return theme.color(.strokeFocus)
-                    }
-                }
             case .borderDisabledColor:
                 return .color {
                     switch style() {
@@ -214,17 +169,25 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                         return theme.color(.strokeDisabled)
                     }
                 }
-            case .borderPressedColor:
-                return .color {
-                    switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
-                        return .clear
-                    case .outlineAccent:
-                        return theme.color(.brandStrokePressed)
-                    case .outlineNeutral:
-                        return theme.color(.strokePressed)
-                    case .dangerOutline:
-                        return theme.color(.dangerForeground)
+                
+            case .buttonHeight:
+                return .float {
+                    if style().isFloating {
+                        switch size() {
+                        case .large:
+                            return 56
+                        case .medium, .small:
+                            return 48
+                        }
+                    } else {
+                        switch size() {
+                        case .large:
+                            return 52
+                        case .medium:
+                            return 40
+                        case .small:
+                            return 28
+                        }
                     }
                 }
             case .borderWidth:
@@ -249,7 +212,7 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
-                        return theme.color(.foregroundOnColor)
+                        return theme.color(.brandForeground)
                     case  .outlineAccent, .subtle:
                         return theme.color(.brandForeground)
                     case .outlineNeutral:
@@ -264,23 +227,6 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 }
             case .foregroundDisabledColor:
                 return .color { theme.color(.foregroundDisabled) }
-            case .foregroundPressedColor:
-                return .color {
-                    switch style() {
-                    case .accent, .floatingAccent:
-                        return theme.color(.foregroundOnColor)
-                    case .outlineAccent, .subtle:
-                        return theme.color(.brandForegroundPressed)
-                    case .outlineNeutral:
-                        return theme.color(.foreground)
-                    case .danger:
-                        return theme.color(.foreground)
-                    case .dangerOutline, .dangerSubtle:
-                        return theme.color(.dangerForeground)
-                    case .floatingSubtle:
-                        return theme.color(.foreground)
-                    }
-                }
             case .titleFont:
                 return .font {
                     switch size() {
@@ -309,18 +255,18 @@ extension HCButtonTokenSet {
         if style.isFloating {
             switch size {
             case .large:
-                return GlobalTokens.spacing(.size160)
+                return GlobalTokens.spacing(.size16)
             case .medium, .small:
-                return GlobalTokens.spacing(.size120)
+                return GlobalTokens.spacing(.size12)
             }
         } else {
             switch size {
             case .large:
-                return GlobalTokens.spacing(.size200)
+                return GlobalTokens.spacing(.size20)
             case .medium:
-                return GlobalTokens.spacing(.size120)
+                return GlobalTokens.spacing(.size12)
             case .small:
-                return GlobalTokens.spacing(.size80)
+                return GlobalTokens.spacing(.size08)
             }
         }
     }
@@ -329,9 +275,9 @@ extension HCButtonTokenSet {
     static func fabAlternativePadding(_ size: HCButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
-            return GlobalTokens.spacing(.size200)
+            return GlobalTokens.spacing(.size20)
         case .medium, .small:
-            return GlobalTokens.spacing(.size160)
+            return GlobalTokens.spacing(.size16)
         }
     }
 
@@ -359,13 +305,13 @@ extension HCButtonTokenSet {
     /// The value for the spacing between the title and image.
     static func titleImageSpacing(style: HCButtonStyle, size: HCButtonSizeCategory) -> CGFloat {
         if style.isFloating {
-            return GlobalTokens.spacing(.size80)
+            return GlobalTokens.spacing(.size08)
         } else {
             switch size {
             case .large, .medium:
-                return GlobalTokens.spacing(.size80)
+                return GlobalTokens.spacing(.size08)
             case .small:
-                return GlobalTokens.spacing(.size40)
+                return GlobalTokens.spacing(.size04)
             }
         }
     }

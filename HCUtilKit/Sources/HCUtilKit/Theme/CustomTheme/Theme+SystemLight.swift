@@ -25,8 +25,6 @@ public extension Theme {
             return GlobalTokens.neutralColor(.white)
         case .foregroundDisabled:
             return GlobalTokens.neutralColor(.white)
-        case .foregroundOnColor:
-            return GlobalTokens.neutralColor(.white)
         case .stroke:
             return GlobalTokens.neutralColor(.white)
 
@@ -51,7 +49,7 @@ public extension Theme {
             return GlobalTokens.neutralColor(.grey88)
 
         case .brandForeground:
-            return GlobalTokens.brandColor(.tint)
+            return GlobalTokens.neutralColor(.white)
         case .brandForegroundPressed:
             return GlobalTokens.brandColor(.tint)
         case .brandForegroundSelected:

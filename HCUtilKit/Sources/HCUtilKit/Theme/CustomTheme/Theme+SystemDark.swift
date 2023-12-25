@@ -13,8 +13,10 @@ public extension Theme {
     static func systemDarkColors(_ token: Theme.ColorToken) -> Color {
 
         switch token {
+            // 全局普通背景
         case .background:
             return GlobalTokens.neutralColor(.grey7)
+            
         case .backgroundPressed:
             return GlobalTokens.neutralColor(.white)
         case .backgroundSelected:
@@ -22,11 +24,11 @@ public extension Theme {
         case .backgroundDisabled:
             return GlobalTokens.neutralColor(.white)
         
+            // 全局普通前景
         case .foreground:
             return GlobalTokens.neutralColor(.gray11)
+            
         case .foregroundDisabled:
-            return GlobalTokens.neutralColor(.white)
-        case .foregroundOnColor:
             return GlobalTokens.neutralColor(.white)
         case .stroke:
             return GlobalTokens.neutralColor(.white)
