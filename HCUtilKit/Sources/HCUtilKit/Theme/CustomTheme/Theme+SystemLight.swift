@@ -46,7 +46,7 @@ public extension Theme {
         case .brandBackgroundTint:
             return GlobalTokens.brandColor(.tint)
         case .brandBackgroundDisabled:
-            return GlobalTokens.neutralColor(.grey88)
+            return GlobalTokens.brandColor(.tint).opacity(0.4)
 
         case .brandForeground:
             return GlobalTokens.neutralColor(.white)
@@ -58,7 +58,7 @@ public extension Theme {
             return GlobalTokens.brandColor(.tint)
 
         case .brandForegroundDisabled:
-            return GlobalTokens.brandColor(.tint)
+            return GlobalTokens.neutralColor(.grey12)
 
         case .brandGradient:
             return GlobalTokens.brandColor(.gradientPrimaryLight)
@@ -167,6 +167,21 @@ public extension Theme {
         }
     }
 
+    /// 返回字体信息
+    /// | token         |  size |
+    /// | largeTitle    |  34   |
+    /// | title         |  28   |
+    /// | title2        |  22   |
+    /// | title3        |  20   |
+    /// | headline      |  17   |
+    /// | subheadlin    |  15   |
+    /// | body          |  17   |
+    /// | callout       |  16   |
+    /// | footnote      |  13   |
+    /// | caption       |  12   |
+    /// | caption2      |  11   |
+    /// - Parameter token: token
+    /// - Returns: 字体信息
     static func systemLightTypography(_ token: TypographyToken) -> HCFontInfo {        // 可以根据omMac判断是否需要的大小
         switch token {
         case .largeTitle:

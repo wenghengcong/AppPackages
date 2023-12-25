@@ -94,7 +94,10 @@ public enum HCButtonToken: Int, HCTokenSetKey {
 
     /// 按钮的高度
     case buttonHeight
-    
+
+    /// 按钮左/右边距
+    case leading
+
     /// Defines the width of the border around the button
     case borderWidth
 
@@ -142,7 +145,7 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .danger, .floatingAccent, .floatingSubtle:
-                        return theme.color(.background)
+                        return theme.color(.brandBackgroundDisabled)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     }
@@ -190,6 +193,27 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                         }
                     }
                 }
+            case .leading :
+                return .float {
+                    if style().isFloating {
+                        switch size() {
+                        case .large:
+                            return 15
+                        case .medium, .small:
+                            return 15
+                        }
+                    } else {
+                        switch size() {
+                        case .large:
+                            return 15
+                        case .medium:
+                            return 15
+                        case .small:
+                            return 15
+                        }
+                    }
+
+                }
             case .borderWidth:
                 return .float {
                     switch style() {
@@ -226,12 +250,27 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     }
                 }
             case .foregroundDisabledColor:
-                return .color { theme.color(.foregroundDisabled) }
+                return .color {
+                    switch style() {
+                    case .accent, .floatingAccent:
+                        return theme.color(.brandForegroundDisabled)
+                    case  .outlineAccent, .subtle:
+                        return theme.color(.brandForeground)
+                    case .outlineNeutral:
+                        return theme.color(.foreground)
+                    case .danger:
+                        return theme.color(.foreground)
+                    case .dangerOutline, .dangerSubtle:
+                        return theme.color(.dangerForeground)
+                    case .floatingSubtle:
+                        return theme.color(.foreground)
+                    }
+                }
             case .titleFont:
                 return .font {
                     switch size() {
                     case .large:
-                        return theme.typography(.body)
+                        return theme.typography(.title3)
                     case .medium, .small:
                         return style().isFloating ? theme.typography(.body) : theme.typography(.caption)
                     }

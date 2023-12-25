@@ -137,38 +137,51 @@ public enum HCFontWeightToken: HCTokenSetKey {
     }
 }
 
+
+/// Font text style token
 public enum HCFontTextStyleToken: HCTokenSetKey {
-    /// The font style for large titles.
+    /// large titles 
+    /// ——> 34
     case largeTitle
 
     /// The font used for first level hierarchical headings.
+    /// ——> 28
     case title
 
     /// The font used for second level hierarchical headings.
+    /// ——> 22
     case title2
 
     /// The font used for third level hierarchical headings.
+    /// ——> 20
     case title3
 
     /// The font used for headings.
+    /// ——> 17
     case headline
 
     /// The font used for subheadings.
+    /// ——> 15
     case subheadline
 
     /// The font used for body text.
+    /// ——> 17
     case body
 
     /// The font used for callouts.
+    /// ——> 16
     case callout
 
     /// The font used in footnotes.
+    /// ——> 13
     case footnote
 
     /// The font used for standard captions.
+    /// ——> 12
     case caption
 
     /// The font used for alternate captions.
+    /// ——> 11
     case caption2
     
     var value: Font.TextStyle {
@@ -176,25 +189,25 @@ public enum HCFontTextStyleToken: HCTokenSetKey {
         case .largeTitle:
             return .largeTitle
         case .title:
-            return .largeTitle
+            return .title
         case .title2:
-            return .largeTitle
+            return .title2
         case .title3:
-            return .largeTitle
+            return .title3
         case .headline:
-            return .largeTitle
+            return .headline
         case .subheadline:
-            return .largeTitle
+            return .subheadline
         case .body:
-            return .largeTitle
+            return .body
         case .callout:
-            return .largeTitle
+            return .callout
         case .footnote:
-            return .largeTitle
+            return .footnote
         case .caption:
-            return .largeTitle
+            return .caption
         case .caption2:
-            return .largeTitle
+            return .caption2
         }
     }
 }

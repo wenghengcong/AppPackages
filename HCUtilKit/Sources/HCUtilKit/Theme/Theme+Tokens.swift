@@ -102,20 +102,44 @@ public extension Theme {
     }
 
     // MARK: - 字体
+    /// 字体token（包含字体size\weight\textstyle)
     enum TypographyToken: String, HCTokenSetKey {
-        // MARK: 字体-对用系统
+        // MARK: 字体-系统标准样式
+        /// large titles
+        /// ——> 34
         case largeTitle
+        /// The font used for first level hierarchical headings.
+        /// ——> 28
         case title
+        /// The font used for second level hierarchical headings.
+        /// ——> 22
         case title2
+        /// The font used for third level hierarchical headings.
+        /// ——> 20
         case title3
+        /// The font used for headings.
+        /// ——> 17
         case headline
+        /// The font used for subheadings.
+        /// ——> 15
         case subheadline
+        /// The font used for body text.
+        /// ——> 17
         case body
+        /// The font used for callouts.
+        /// ——> 16
         case callout
+        /// The font used in footnotes.
+        /// ——> 13
         case footnote
+        /// The font used for standard captions.
+        /// ——> 12
         case caption
+        /// The font used for alternate captions.
+        /// ——> 11
         case caption2
-        // MARK: 字体-自定义
+        // MARK: 字体-自定义样式
         
+
     }
 }
