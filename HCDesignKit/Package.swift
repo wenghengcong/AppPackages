@@ -27,6 +27,10 @@ let package = Package(
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCAppEnv", package: "HCAppEnv"),
             ],
+            // 如果是process，那么会将对应目录下的都拷贝到HCDesignKit_HCDesignKit.bundle根目录下
+            // 如果是变为其他路径: [.process("DesignResources")], 也是可以的
+            // 只是说Resource是Package默认的路径而已
+            // 如果是copy，如.copy("ABC")，那么会存在HCDesignKit_HCDesignKit.bundle的ABC目录下
             resources: [.process("Resources")],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
