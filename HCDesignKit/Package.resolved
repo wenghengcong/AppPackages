@@ -1,0 +1,59 @@
+{
+  "pins" : [
+    {
+      "identity" : "keychain-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/keychain-swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "82ee9fa359b984039148020d56d02395c7d55779"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher",
+      "state" : {
+        "branch" : "master",
+        "revision" : "ad51380c76379ad57c09bf64b3e91361d6daa76d"
+      }
+    },
+    {
+      "identity" : "swiftdate",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/malcommac/SwiftDate",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5d943224c3bb173e6ecf27295611615eba90c80e"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup",
+      "state" : {
+        "branch" : "master",
+        "revision" : "8b6cf29eead8841a1fa7822481cb3af4ddaadba6"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9e1cc02a65b22e09a8251261cccbccce02731fc5"
+      }
+    },
+    {
+      "identity" : "swiftybeaver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver",
+      "state" : {
+        "branch" : "master",
+        "revision" : "d60a21a3878c487db07ec1e2df697fa24839918b"
+      }
+    }
+  ],
+  "version" : 2
+}

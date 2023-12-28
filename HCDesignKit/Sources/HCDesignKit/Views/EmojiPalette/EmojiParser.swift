@@ -47,20 +47,20 @@ public final class EmojiParser {
     }
 
     private func loadEmojiGroup() -> [EmojiGroup] {
-     
         guard let path = Bundle.module.path(forResource: "14.0-emoji-test", ofType: "txt"),
                      let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
                      let text = String(data: data, encoding: .utf8) else {
             fatalError("Could not get data from 14.0-emoji-test.txt")
         }
-            // 以下方式也能读取，但是不够灵活，一定要放在本文件同目录下
+        /*
+         // 以下方式也能读取，但是不够灵活，一定要放在本文件同目录下
         let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
         let fileURL = packageURL.appendingPathComponent("14.0-emoji-test.txt")
         guard let data = try? Data(contentsOf: fileURL),
               let text = String(data: data, encoding: .utf8) else {
             fatalError("Could not get data from 14.0-emoji-test.txt")
         }
-             
+         */
         var groups = [EmojiGroup]()
         var subgroups = [EmojiSubGroup]()
         var emojis = [Emoji]()

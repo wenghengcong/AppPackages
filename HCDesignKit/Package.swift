@@ -12,9 +12,7 @@ let package = Package(
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "HCDesignKit",
-            targets: ["HCDesignKit"]),
+        .library(name: "HCDesignKit", targets: ["HCDesignKit"]),
     ],
     dependencies: [
         .package(name: "HCUtilKit", path: "../HCUtilKit"),
@@ -29,9 +27,10 @@ let package = Package(
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCAppEnv", package: "HCAppEnv"),
             ],
+            resources: [.process("DesignResources")],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
-        )
+        ),
     ]
 )
