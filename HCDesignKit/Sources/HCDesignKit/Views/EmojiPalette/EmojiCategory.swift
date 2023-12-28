@@ -22,8 +22,9 @@ public enum EmojiCategory: String, Identifiable, CaseIterable {
         return rawValue
     }
 
-    public var label: LocalizedStringKey {
-        return LocalizedStringKey(rawValue)
+    public var label: String {
+        let localizedString = NSLocalizedString(rawValue, tableName: "Localizable", bundle: .module, value: rawValue, comment: "Greeting")
+        return localizedString
     }
 
     public var imageName: String {

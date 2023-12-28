@@ -37,7 +37,7 @@ public struct EmojiPaletteView: View {
                             }
                         }
                     } header: {
-                        Text(emojiSet.category.label, bundle: .main)
+                        Text(emojiSet.category.label)
                     }
                     .textCase(.none)
                 }

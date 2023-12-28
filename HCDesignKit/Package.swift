@@ -27,7 +27,7 @@ let package = Package(
                 .product(name: "HCUtilKit", package: "HCUtilKit"),
                 .product(name: "HCAppEnv", package: "HCAppEnv"),
             ],
-            resources: [.process("DesignResources")],
+            resources: [.process("Resources")],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
             ]
