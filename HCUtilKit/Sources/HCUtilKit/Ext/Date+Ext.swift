@@ -99,9 +99,31 @@ public extension Date {
         return dateStr
     }
     
-    static func getDate(from dateString: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy MM dd"
+
+    
+    /// 从yyyyMMdd格式中生成日期
+    /// - Parameter dateString: 日期字符串，格式：yyyyMMdd
+    /// - Returns: 日期
+    static func getDate(yyyyMMdd dateString: String) -> Date? {
+        let formatter = DateFormatter.f_yyyyMMdd
         return formatter.date(from: dateString)
+    }
+    
+    /// 从yyyyMMdd格式中生成日期
+    /// - Parameter dateString: 日期字符串，格式：yyyyMMdd
+    init?(yyyyMMdd dateString: String) {
+        if let date = Date.getDate(yyyyMMdd: dateString) {
+            self = date
+        } else {
+            return nil
+        }
+    }
+    
+    /// 获取对应的字符串
+    /// - Parameter format: 对应的格式
+    /// - Returns: 字符串
+    func string(format: DateFormatter) -> String? {
+        let str = format.string(from: self)
+        return str
     }
 }

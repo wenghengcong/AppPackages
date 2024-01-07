@@ -10,9 +10,7 @@ import Foundation
 public extension ISO8601DateFormatter {
     /// iso8601 默认无毫秒，没有设置formatOptions
     static let iso8601: ISO8601DateFormatter = ISO8601DateFormatter()
-    
-    
-    
+
     /// UTC：不包含毫秒
     /// 格式：2023-12-27T05:50:56Z
     static var utcNoMill: ISO8601DateFormatter = iso8601(millsec: false, china: false)
@@ -73,20 +71,12 @@ public extension DateFormatter {
         self.dateFormat = dateFormat
         self.calendar = calendar
     }
+
     
-    /// ISO8601标准格式
-    /// - Parameter china: 是否是中国时区
-    /// - Returns: ISO8601DateFormatter
-    
-    static var month: DateFormatter {
+    /// f开头表示格式：_ 后表示格式，如果其中有空格也用_替代
+    static var f_yyyyMMdd: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter
-    }
-    
-    static var monthAndYear: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
+        formatter.dateFormat = "yyyyMMdd"
         return formatter
     }
 }
