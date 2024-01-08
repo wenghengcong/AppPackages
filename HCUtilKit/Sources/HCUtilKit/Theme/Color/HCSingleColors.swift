@@ -5,7 +5,6 @@
 //  Created by Nemo on 2023/10/25.
 //
 
-import HCUtilKit
 import Foundation
 #if canImport(SwiftUI) && canImport(Combine) && (arch(arm64) || arch(x86_64))
 // https://stackoverflow.com/a/61954608
@@ -104,7 +103,7 @@ public extension Color {
 public extension Color {
     // MARK: Label Colors
     /// The color for text labels that contain primary content.
-    static var label: Color { Color(HCUniversalColor.label) }
+    static var primaryLabel: Color { Color(HCUniversalColor.label) }
     /// The color for text labels that contain secondary content.
     static var secondaryLabel: Color { Color(HCUniversalColor.secondaryLabel) }
     /// The color for text labels that contain tertiary content.

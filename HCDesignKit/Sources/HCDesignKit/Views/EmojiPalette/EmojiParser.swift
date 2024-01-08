@@ -53,7 +53,7 @@ public final class EmojiParser {
             fatalError("Could not get data from 14.0-emoji-test.txt")
         }
         /*
-         // 以下方式也能读取，但是不够灵活，一定要放在本文件同目录下
+         // TODO: 以下方式也能读取，但是不够灵活，一定要放在本文件同目录下
         let packageURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
         let fileURL = packageURL.appendingPathComponent("14.0-emoji-test.txt")
         guard let data = try? Data(contentsOf: fileURL),

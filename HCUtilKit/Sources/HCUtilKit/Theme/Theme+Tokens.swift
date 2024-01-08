@@ -27,6 +27,7 @@ public extension Theme {
     }
 
     // MARK: - 颜色
+    /// 各种颜色token
     enum ColorToken: String, HCTokenSetKey {
         // Neutral colors - Background
         /// 全局普通背景
@@ -36,10 +37,19 @@ public extension Theme {
         case backgroundDisabled
 
         // Neutral colors - Foreground
-        /// 全局普通前景
+        /// 全局普通前景：区分与背景色
         case foreground
         case foregroundDisabled
-
+        
+        /// 第1级：Primary text content (e.g.titles)
+        case primaryText
+        /// 第2级：Secondary text content (subtitles, section headers)
+        case secondaryText
+        /// 第3级：Tertiary text content (footnotes, statuses)
+        case tertiaryText
+        /// 第4级：Non-interactive icons and symbols
+        case quaternaryLabel
+        
         // Neutral colors - Stroke
         case stroke
         case strokePressed

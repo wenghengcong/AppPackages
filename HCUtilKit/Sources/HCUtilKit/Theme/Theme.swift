@@ -113,6 +113,8 @@ public extension Theme {
     ///
     /// ```
     /// .background(theme.color(.background))
+    /// OR
+    /// .themeBackColor()
     /// ```
     /// - Parameter token: The `ColorsTokens` value to be retrieved.
     /// - Returns: A `Color` for the given token.

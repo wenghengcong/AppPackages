@@ -1798,7 +1798,7 @@ public extension Color {
 }
 
 // MARK: Asset Colors
-public extension Color {
+fileprivate extension Color {
     static var PrimaryBackground: Color {
         return Color("PrimaryBackground")
     }

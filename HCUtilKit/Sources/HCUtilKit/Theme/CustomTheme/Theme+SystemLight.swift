@@ -28,6 +28,15 @@ public extension Theme {
         case .stroke:
             return GlobalTokens.neutralColor(.white)
 
+        case .primaryText:
+            return Color(hexString: "#000000", alpha: 1.0)
+        case .secondaryText:
+            return Color(hexString: "#8A8A8E", alpha: 1.0)
+        case .tertiaryText:
+            return Color(hexString: "#C4C4C6", alpha: 1.0)
+        case .quaternaryLabel:
+            return Color(hexString: "#DCDCDD", alpha: 1.0)
+
         case .strokePressed:
             return GlobalTokens.neutralColor(.white)
         case .strokeFocus:
