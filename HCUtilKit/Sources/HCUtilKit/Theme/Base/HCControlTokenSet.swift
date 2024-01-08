@@ -167,12 +167,12 @@ public class HCControlTokenSet<T: HCTokenSetKey>: ObservableObject {
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.update(Theme.shared)
+            strongSelf.update(themeShared)
         }
     }
 
     /// The current `FluentTheme` associated with this `HCControlTokenSet`.
-    var fluentTheme: Theme = Theme.shared {
+    var fluentTheme: Theme = themeShared {
         didSet {
             guard let onUpdate else {
                 return

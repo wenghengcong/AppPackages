@@ -42,7 +42,7 @@ struct ThemeBoxView: View {
 
             VStack(spacing: gutterSpace) {
                 Text(color.name.rawValue)
-                    .foregroundColor(theme.color(.tint))
+                    .foregroundColor(.themeTint)
                     .font(.system(size: 20))
                     .fontWeight(.bold)
 
@@ -53,7 +53,7 @@ struct ThemeBoxView: View {
                     .themeBackColor()
 
                 Text("#icecube, #techhub")
-                    .foregroundColor(theme.color(.tint))
+                    .foregroundColor(.themeTint)
                 if isSelected {
                     HStack {
                         Spacer()
@@ -66,7 +66,7 @@ struct ThemeBoxView: View {
                     HStack {
                         Spacer()
                         Circle()
-                            .strokeBorder(theme.color(.tint), lineWidth: 1)
+                            .strokeBorder(Color.themeTint, lineWidth: 1)
                             .background(Circle().fill(theme.color(.background)))
                             .frame(width: 20, height: 20)
                     }

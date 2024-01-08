@@ -98,7 +98,7 @@ public class Theme: ObservableObject, Equatable {
     }
 
     public static var isDarkMode: Bool {
-        let isDark = (Theme.shared.selectedScheme == .dark)
+        let isDark = (themeShared.selectedScheme == .dark)
         return isDark
     }
     

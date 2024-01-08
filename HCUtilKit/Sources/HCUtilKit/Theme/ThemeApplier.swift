@@ -23,7 +23,7 @@ struct ThemeApplier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .tint(theme.color(.tint))
+            .tint(.themeTint)
             .preferredColorScheme(actualColorScheme)
 #if canImport(UIKit)
             .onAppear {
@@ -37,14 +37,14 @@ struct ThemeApplier: ViewModifier {
                 {
                     theme.selectedTheme = colorScheme == .dark ? sets.dark.name : sets.light.name
                 }
-                setWindowTint(theme.color(.tint))
+                setWindowTint(.themeTint)
                 setWindowUserInterfaceStyle(from: theme.selectedScheme)
                 setBarsColor(theme.color(.background))
             }
-            .onChange(of: theme.color(.tint)) { newValue in
+            .onChange(of: .themeTint) { newValue in
                 setWindowTint(newValue)
             }
-            .onChange(of: theme.color(.tint)) { newValue in
+            .onChange(of: .themeTint) { newValue in
                 setBarsColor(newValue)
             }
             .onChange(of: theme.selectedScheme) { newValue in

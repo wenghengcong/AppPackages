@@ -256,7 +256,7 @@ public class HCFontInfo {
         if let newName = name {
             self.name = newName
         } else {
-            if let chosenFontName = Theme.shared.chosenFont?.fontName {
+            if let chosenFontName = themeShared.chosenFont?.fontName {
                 self.name = chosenFontName
             } else {
                 self.name = name
@@ -285,7 +285,7 @@ public class HCFontInfo {
 #if os(macOS)
         return 1.0
 #else
-        UIFontMetrics.default.scaledValue(for: baseSize * Theme.shared.fontSizeScale)
+        UIFontMetrics.default.scaledValue(for: baseSize * themeShared.fontSizeScale)
 #endif
     }
     
@@ -347,7 +347,7 @@ public extension Font {
 
     // MARK: - Font
     private static func customFont(size: CGFloat, relativeTo textStyle: TextStyle) -> Font {
-        if let chosenFont = Theme.shared.chosenFont {
+        if let chosenFont = themeShared.chosenFont {
             if chosenFont.fontName == ".AppleSystemUIFontRounded-Regular" {
                 return .system(size: size, design: .rounded)
             } else {
