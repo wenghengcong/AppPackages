@@ -1,13 +1,18 @@
 
 # Souce
+https://github.com/vinhnx/Clendar   SwiftUI 实现，有很多功能可以参考
  https://github.com/AllanJuenemann/CalendarView UICalendar包装
  https://github.com/leekurg/SimpleCalendar swifui实现，简单的视图
- https://github.com/ucargiray/Custom-Calendar swifui实现
+ https://github.com/ucargiray/Custom-Calendar swifui实现，太过简单
  https://github.com/airbnb/HorizonCalendar uikit实现，支持swiftui
+ https://github.com/iletai/SwiftUICalendarView swifui实现
  
   https://github.com/Mijick/CalendarView  可能采用这个
  https://github.com/ThasianX/ElegantCalendar 也可能采用这个，效果比较好
+ https://github.com/Rminsh/JalaliCalendar 完整的jalali日历app
+ https://github.com/ZzzM/CalendarX  完整的mac app，可以借鉴的有很多
  
+ https://github.com/shohe/InfiniteCalendar swifui实现，day/3day/week 支持显示日程
  
 #CalendarView
 

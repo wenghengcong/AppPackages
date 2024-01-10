@@ -45,6 +45,7 @@ public extension ISO8601DateFormatter {
     }
 }
 
+// MARK: - Local
 public extension DateFormatter {
     
     /// iso8601 没有设置formatOptions
@@ -71,12 +72,21 @@ public extension DateFormatter {
         self.dateFormat = dateFormat
         self.calendar = calendar
     }
+}
 
-    
+// MARK: - Componnents
+public extension DateFormatter {
     /// f开头表示格式：_ 后表示格式，如果其中有空格也用_替代
     static var f_yyyyMMdd: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
+        return formatter
+    }
+    
+    /// f开头表示格式：_ 后表示格式，如果其中有空格也用_替代
+    static var f_dd: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
         return formatter
     }
 }
