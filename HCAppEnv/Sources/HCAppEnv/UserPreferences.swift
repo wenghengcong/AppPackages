@@ -12,7 +12,7 @@ public class UserPreferences: ObservableObject {
     
     @AppStorage("selectedCalendarIdentifier") public var selectedCalendarIdentifier: Int = CalendarIdentifier.gregorian.rawValue
 
-    @AppStorage("first-week-day") public var firstWeekDay: String = ""
+    @AppStorage("first-week-day") public var firstWeekDay: Int = 2
     
     @AppStorage("remote_local_timeline") public var remoteLocalTimelines: [String] = []
     @AppStorage("tag_groups") public var tagGroups: [TagGroup] = []
