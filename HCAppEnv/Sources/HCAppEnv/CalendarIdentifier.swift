@@ -71,7 +71,7 @@ public enum CalendarIdentifier: Int, CaseIterable {
     public var calendar: Calendar {
         var instance = Calendar(identifier: identifier)
         instance.locale = Locale.autoupdatingCurrent // IMPORTANT
-
+        
         let userSetFirstWeekDay = "\(UserPreferences.shared.firstWeekDay)"
         if let firstWeekDayIndex = instance.weekdaySymbols.firstIndex(of: userSetFirstWeekDay),
            firstWeekDayIndex != NSNotFound {

@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-public struct CalendarView: UIViewRepresentable {
+public struct CalendarViewOne: UIViewRepresentable {
 	private enum Selection {
 		case singleDate(Binding<DateComponents?>)
 		case multiDate(Binding<[DateComponents]>)
@@ -179,7 +179,7 @@ public struct CalendarView: UIViewRepresentable {
 
 // MARK: - Font Design
 
-public extension CalendarView {
+public extension CalendarViewOne {
 	func fontDesign(_ design: Font.Design) -> Self {
 		var view = self
 		
@@ -206,7 +206,7 @@ public extension CalendarView {
 
 // MARK: - Decorations
 
-public extension CalendarView {
+public extension CalendarViewOne {
 	func decorating(_ dateComponents: Set<DateComponents>, updatingOnChangeOf value: (any Equatable)? = nil, decoration: ((DateComponents) -> UICalendarView.Decoration)? = nil) -> Self {
 		var view = self
 		view.decoratedDateComponents = dateComponents
@@ -218,7 +218,7 @@ public extension CalendarView {
 
 // MARK: - Selections
 
-public extension CalendarView {
+public extension CalendarViewOne {
 	func selectable(updatingOnChangeOf value: (any Equatable)? = nil, canSelectDate: @escaping (DateComponents) -> Bool) -> Self {
 		var view = self
 		view.canSelectDate = canSelectDate
@@ -239,7 +239,7 @@ public extension CalendarView {
 
 // MARK: - UICalendarViewDelegate
 
-extension CalendarView.Coordinator: UICalendarViewDelegate {
+extension CalendarViewOne.Coordinator: UICalendarViewDelegate {
     @MainActor public func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
 		if #unavailable(iOS 16.2) {
 			// UICalendarView doesn't provide a way to get notified when property visibleDateComponents changes.
@@ -272,7 +272,7 @@ extension CalendarView.Coordinator: UICalendarViewDelegate {
 
 // MARK: - UICalendarSelectionSingleDateDelegate
 
-extension CalendarView.Coordinator: UICalendarSelectionSingleDateDelegate {
+extension CalendarViewOne.Coordinator: UICalendarSelectionSingleDateDelegate {
     @MainActor public func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
 		if let dateComponents {
 			return canSelectDate?(dateComponents) ?? true
@@ -293,7 +293,7 @@ extension CalendarView.Coordinator: UICalendarSelectionSingleDateDelegate {
 
 // MARK: - UICalendarSelectionMultiDateDelegate
 
-extension CalendarView.Coordinator: UICalendarSelectionMultiDateDelegate {
+extension CalendarViewOne.Coordinator: UICalendarSelectionMultiDateDelegate {
 	public func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canSelectDate dateComponents: DateComponents) -> Bool {
 		canSelectDate?(dateComponents) ?? true
 	}
@@ -335,6 +335,6 @@ private extension Binding {
 
 struct CalendarView_Previews: PreviewProvider {
 	static var previews: some View {
-		CalendarView()
+		CalendarViewOne()
 	}
 }
