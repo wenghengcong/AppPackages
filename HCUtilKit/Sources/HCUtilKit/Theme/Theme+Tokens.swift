@@ -30,15 +30,17 @@ public extension Theme {
     /// 各种颜色token
     enum ColorToken: String, HCTokenSetKey {
         // Neutral colors - Background
-        /// 全局普通背景
+        /// 全局普通背景：一般是灰色
         case background
+        
         case backgroundPressed
         case backgroundSelected
         case backgroundDisabled
 
         // Neutral colors - Foreground
-        /// 全局普通前景：区分与背景色
+        /// 全局普通前景：区分与背景色，一般是白色
         case foreground
+        
         case foregroundDisabled
         
         /// 第1级：Primary text content (e.g.titles)

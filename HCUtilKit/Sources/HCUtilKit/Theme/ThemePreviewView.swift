@@ -19,7 +19,7 @@ public struct ThemePreviewView: View {
         }
         .padding(4)
         .frame(maxHeight: .infinity)
-        .themeBackColor()
+        .background(Color.themeBackground)
         .navigationTitle("design.theme.navigation-title")
     }
 }
@@ -50,7 +50,7 @@ struct ThemeBoxView: View {
                     .foregroundColor(theme.color(.brandBackground))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
-                    .themeBackColor()
+                    .background(Color.themeBackground)
 
                 Text("#icecube, #techhub")
                     .foregroundColor(.themeTint)

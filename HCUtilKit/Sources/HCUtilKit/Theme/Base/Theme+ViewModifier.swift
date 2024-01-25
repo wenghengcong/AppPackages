@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct ThemeFontViewModifier: ViewModifier {
+private struct ThemeFontViewModifier: ViewModifier {
     @EnvironmentObject private var theme: Theme
     
     var token: Theme.TypographyToken
@@ -20,7 +20,7 @@ public struct ThemeFontViewModifier: ViewModifier {
 }
 
 /// 背景色
-public struct ThemeBackColorViewModifier: ViewModifier {
+private struct ThemeBackColorViewModifier: ViewModifier {
     @EnvironmentObject private var theme: Theme
     
     var token: Theme.ColorToken
@@ -32,7 +32,7 @@ public struct ThemeBackColorViewModifier: ViewModifier {
 }
 
 /// 前景色
-public struct ThemeForeColorViewModifier: ViewModifier {
+private struct ThemeForeColorViewModifier: ViewModifier {
     @EnvironmentObject private var theme: Theme
     
     var token: Theme.ColorToken
@@ -44,7 +44,7 @@ public struct ThemeForeColorViewModifier: ViewModifier {
 }
 
 /// 背景色+前景色
-public struct ThemeColorViewModifier: ViewModifier {
+private struct ThemeColorViewModifier: ViewModifier {
     @EnvironmentObject private var theme: Theme
     
     var backToken: Theme.ColorToken?
@@ -66,7 +66,8 @@ public struct ThemeColorViewModifier: ViewModifier {
     }
 }
 
-public extension View {
+/// 废弃，因为preview的时候会渲染崩溃
+private extension View {
     
     /// 字体
     /// - Parameter token: 字体token

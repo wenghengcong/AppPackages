@@ -12,6 +12,7 @@ public extension Theme {
     static func systemLightColors(_ token: Theme.ColorToken) -> Color {
 
         switch token {
+            /// 主要的背景色，一般灰色
         case .background:
             return GlobalTokens.neutralColor(.grey96)
         case .backgroundPressed:
@@ -21,6 +22,7 @@ public extension Theme {
         case .backgroundDisabled:
             return GlobalTokens.neutralColor(.white)
 
+            /// 主要的前景色
         case .foreground:
             return GlobalTokens.neutralColor(.white)
         case .foregroundDisabled:
