@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftDate
 
 /// 特殊日期
 public extension Date {
@@ -100,20 +101,26 @@ public extension Date {
     }
 
     
+    /// 从dd格式中生成日期
+    /// - Parameter dateString: 日期字符串，格式：dd
+    /// - Returns: 日期
     static func getDay(dd dateString: String) -> Date? {
         let formatter = DateFormatter.f_dd
         return formatter.date(from: dateString)
     }
-    
- 
-    
-
 }
 
 // MARK: - String
 public extension Date {
     
     // MARK: Components
+
+
+    var mediumString: String? {
+        return self.toString(.date(.medium))
+    }
+
+    /// 获取日期-天
     var ddDay: String {
         let formatter = DateFormatter.f_dd
         return formatter.string(from: self)
@@ -126,15 +133,20 @@ public extension Date {
         return DateFormatter.utcNoMill.string(from: self)
     }
     
+    /// utc时区 格式的字符串
+    /// 格式：2023-12-27T05:50:56.694Z
     var utc: String {
         return DateFormatter.utc.string(from: self)
     }
     
     /// 中国时区无毫秒
+    /// 格式：2023-12-27T05:50:56Z
     var chinaNoMill: String {
         return DateFormatter.chinaNoMill.string(from: self)
     }
     
+    /// 中国时区有毫秒
+    /// 格式：2023-12-27T05:50:56.694Z
     var china: String {
         return DateFormatter.china.string(from: self)
     }
