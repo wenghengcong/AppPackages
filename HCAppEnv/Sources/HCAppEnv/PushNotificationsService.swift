@@ -22,11 +22,6 @@ public struct PushAccount: Equatable {
     }
 }
 
-public struct HandledNotification: Equatable {
-    public let account: PushAccount
-    public let notification: HCUtilKit.HCNotification
-}
-
 @MainActor
 public class PushNotificationsService: NSObject, ObservableObject {
     enum Constants {
@@ -40,9 +35,7 @@ public class PushNotificationsService: NSObject, ObservableObject {
     public private(set) var subscriptions: [PushNotificationSubscriptionSettings] = []
     
     @Published public var pushToken: Data?
-    
-    @Published public var handledNotification: HandledNotification?
-    
+        
     override init() {
         super.init()
         
@@ -152,9 +145,10 @@ extension PushNotificationsService: UNUserNotificationCenterDelegate {
         }
         do {
             let client = Client(server: account.account.server, oauthToken: account.account.token)
-            let notification: HCUtilKit.HCNotification =
-            try await client.get(endpoint: Notifications.notification(id: String(mastodonPushNotification.notificationID)))
-            handledNotification = .init(account: account.account, notification: notification)
+            // TODO:
+//            let notification: HCUtilKit.HCNotification =
+//            try await client.get(endpoint: Notifications.notification(id: String(mastodonPushNotification.notificationID)))
+//            handledNotification = .init(account: account.account, notification: notification)
         } catch {}
     }
 }

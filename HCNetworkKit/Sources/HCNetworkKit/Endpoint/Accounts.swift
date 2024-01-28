@@ -157,11 +157,9 @@ public struct RelationshipNoteData: Encodable, Sendable {
 
 public struct UpdateCredentialsData: Encodable, Sendable {
   public struct SourceData: Encodable, Sendable {
-    public let privacy: Visibility
     public let sensitive: Bool
 
-    public init(privacy: Visibility, sensitive: Bool) {
-      self.privacy = privacy
+    public init(sensitive: Bool) {
       self.sensitive = sensitive
     }
   }

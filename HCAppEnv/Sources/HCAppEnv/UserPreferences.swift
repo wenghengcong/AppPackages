@@ -26,9 +26,7 @@ public class UserPreferences: ObservableObject {
     
     @AppStorage("use_instance_content_settings") public var useInstanceContentSettings: Bool = true
     @AppStorage("app_auto_expand_spoilers") public var appAutoExpandSpoilers = false
-    @AppStorage("app_auto_expand_media") public var appAutoExpandMedia: ServerPreferences.AutoExpandMedia = .hideSensitive
-    @AppStorage("app_default_post_visibility") public var appDefaultPostVisibility: HCUtilKit.Visibility = .pub
-    @AppStorage("app_default_reply_visibility") public var appDefaultReplyVisibility: HCUtilKit.Visibility = .pub
+    
     @AppStorage("app_default_posts_sensitive") public var appDefaultPostsSensitive = false
     @AppStorage("autoplay_video") public var autoPlayVideo = true
     @AppStorage("always_use_deepl") public var alwaysUseDeepl = false
@@ -84,57 +82,7 @@ public class UserPreferences: ObservableObject {
             [.iconWithText, .iconOnly]
         }
     }
-    
-    public var postVisibility: HCUtilKit.Visibility {
-        if useInstanceContentSettings {
-            serverPreferences?.postVisibility ?? .pub
-        } else {
-            appDefaultPostVisibility
-        }
-    }
-    
-    public func conformReplyVisibilityConstraints() {
-        appDefaultReplyVisibility = getReplyVisibility()
-    }
-    
-    private func getReplyVisibility() -> HCUtilKit.Visibility {
-        getMinVisibility(postVisibility, appDefaultReplyVisibility)
-    }
-    
-    public func getReplyVisibility(of status: Status) -> HCUtilKit.Visibility {
-        getMinVisibility(getReplyVisibility(), status.visibility)
-    }
-    
-    private func getMinVisibility(_ vis1: HCUtilKit.Visibility, _ vis2: HCUtilKit.Visibility) -> HCUtilKit.Visibility {
-        let no1 = Self.getIntOfVisibility(vis1)
-        let no2 = Self.getIntOfVisibility(vis2)
-        
-        return no1 < no2 ? vis1 : vis2
-    }
-    
-    public var postIsSensitive: Bool {
-        if useInstanceContentSettings {
-            serverPreferences?.postIsSensitive ?? false
-        } else {
-            appDefaultPostsSensitive
-        }
-    }
-    
-    public var autoExpandSpoilers: Bool {
-        if useInstanceContentSettings {
-            serverPreferences?.autoExpandSpoilers ?? true
-        } else {
-            appAutoExpandSpoilers
-        }
-    }
-    
-    public var autoExpandMedia: ServerPreferences.AutoExpandMedia {
-        if useInstanceContentSettings {
-            serverPreferences?.autoExpandMedia ?? .hideSensitive
-        } else {
-            appAutoExpandMedia
-        }
-    }
+
     
     public func setNotification(count: Int, token: OauthToken) {
         Self.sharedDefault?.set(count, forKey: "push_notifications_count_\(token.createdAt)")
@@ -152,21 +100,11 @@ public class UserPreferences: ObservableObject {
         }
         return count
     }
-    
-    @Published public var serverPreferences: ServerPreferences?
-    
+
     private init() {}
     
     public func setClient(client: Client) {
         self.client = client
-        Task {
-            await refreshServerPreferences()
-        }
-    }
-    
-    public func refreshServerPreferences() async {
-        guard let client, client.isAuth else { return }
-        serverPreferences = try? await client.get(endpoint: Accounts.preferences)
     }
     
     public func markLanguageAsSelected(isoCode: String) {
@@ -176,18 +114,5 @@ public class UserPreferences: ObservableObject {
         }
         copy.insert(isoCode, at: 0)
         recentlyUsedLanguages = Array(copy.prefix(3))
-    }
-    
-    public static func getIntOfVisibility(_ vis: HCUtilKit.Visibility) -> Int {
-        switch vis {
-        case .direct:
-            0
-        case .priv:
-            1
-        case .unlisted:
-            2
-        case .pub:
-            3
-        }
     }
 }
