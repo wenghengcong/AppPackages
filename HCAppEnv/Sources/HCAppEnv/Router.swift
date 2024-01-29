@@ -36,16 +36,16 @@ public enum SheetDestination: Identifiable {
             "statusEditHistory"
         case .editTagGroup:
             "editTagGroup"
-
+            
         case .addAccount:
             "editTagGroup"
-
+            
         case .settings:
             "editTagGroup"
-
+            
         case .accountPushNotficationsSettings:
             "editTagGroup"
-
+            
         }
     }
 }
@@ -63,7 +63,7 @@ public class RouterPath: ObservableObject {
     public func navigate(to: RouterDestination) {
         path.append(to)
     }
-
+    
     public func handle(url: URL) -> OpenURLAction.Result {
         if url.pathComponents.contains(where: { $0 == "tags" }),
            let tag = url.pathComponents.last
@@ -73,7 +73,7 @@ public class RouterPath: ObservableObject {
         } else if url.lastPathComponent.first == "@", let host = url.host {
             let acct = "\(url.lastPathComponent)@\(host)"
             Task {
-
+                
             }
             return .handled
         } else if let client,
