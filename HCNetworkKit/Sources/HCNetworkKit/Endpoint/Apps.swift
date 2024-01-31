@@ -2,24 +2,24 @@ import Foundation
 import HCUtilKit
 
 public enum Apps: Endpoint {
-  case registerApp
+    case registerApp
 
-  public func path() -> String {
-    switch self {
-    case .registerApp:
-      "apps"
+    public func path() -> String {
+        switch self {
+        case .registerApp:
+            "apps"
+        }
     }
-  }
 
-  public func queryItems() -> [URLQueryItem]? {
-    switch self {
-    case .registerApp:
-      return [
-        .init(name: "client_name", value: AppInfo.clientName),
-        .init(name: "redirect_uris", value: AppInfo.scheme),
-        .init(name: "scopes", value: AppInfo.scopes),
-        .init(name: "website", value: AppInfo.weblink),
-      ]
+    public func queryItems() -> [URLQueryItem]? {
+        switch self {
+        case .registerApp:
+            return [
+                .init(name: "client_name", value: AppConfig.clientName),
+                .init(name: "redirect_uris", value: AppConfig.scheme),
+                .init(name: "scopes", value: AppConfig.scopes),
+                .init(name: "website", value: AppConfig.weblink),
+            ]
+        }
     }
-  }
 }

@@ -11,7 +11,7 @@ https://itnext.io/sync-data-in-swiftui-using-nsubiquitouskeyvaluestore-83263b137
 
 
 2.Repo: 
-https://github.com/nonstrict-hq/CloudStorage
+https://github.com/nonstrict-hq/CloudStorage  只支持nsubiquitouskeyvaluestore
 https://github.com/ArtSabintsev/Zephyr
-https://github.com/JosephDuffy/Persist
+https://github.com/JosephDuffy/Persist    集中UserDefault\nsubiquitouskeyvaluestore\FileManager等一体
 

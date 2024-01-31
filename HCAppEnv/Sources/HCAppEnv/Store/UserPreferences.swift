@@ -46,11 +46,7 @@ public class UserPreferences: ObservableObject {
     @AppStorage("show_alt_text_for_media") public var showAltTextForMedia = true
     
     @AppStorage("show_second_column_ipad") public var showiPadSecondaryColumn = true
-    
-    @AppStorage("swipeactions-status-trailing-right") public var swipeActionsStatusTrailingRight = StatusAction.favorite
-    @AppStorage("swipeactions-status-trailing-left") public var swipeActionsStatusTrailingLeft = StatusAction.boost
-    @AppStorage("swipeactions-status-leading-left") public var swipeActionsStatusLeadingLeft = StatusAction.reply
-    @AppStorage("swipeactions-status-leading-right") public var swipeActionsStatusLeadingRight = StatusAction.none
+
     @AppStorage("swipeactions-use-theme-color") public var swipeActionsUseThemeColor = false
     @AppStorage("swipeactions-icon-style") public var swipeActionsIconStyle: SwipeActionsIconStyle = .iconWithText
     

@@ -1,10 +1,5 @@
-
-
-
 # Path
 https://github.com/mxcl/Path.swift
-
-
 https://github.com/kylef/PathKit
 
 
