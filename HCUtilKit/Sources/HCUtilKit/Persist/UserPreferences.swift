@@ -1,27 +1,19 @@
 import Combine
 import Foundation
-import HCUtilKit
-import HCNetworkKit
 import SwiftUI
 
 public class UserPreferences: ObservableObject {
     public static let sharedDefault = UserDefaults(suiteName: AppConfig.groupID)
     public static let shared = UserPreferences()
-    
-    private var client: Client?
-    
+
     @AppStorage("selectedCalendarIdentifier") public var selectedCalendarIdentifier: Int = CalendarIdentifier.gregorian.rawValue
 
     @AppStorage("first-week-day") public var firstWeekDay: Int = 2
     
-    @AppStorage("remote_local_timeline") public var remoteLocalTimelines: [String] = []
-    @AppStorage("tag_groups") public var tagGroups: [TagGroup] = []
-    @AppStorage("preferred_browser") public var preferredBrowser: PreferredBrowser = .inAppSafari
-    @AppStorage("draft_posts") public var draftsPosts: [String] = []
+
     @AppStorage("show_translate_button_inline") public var showTranslateButton: Bool = true
     @AppStorage("is_open_ai_enabled") public var isOpenAIEnabled: Bool = true
     
-    @AppStorage("recently_used_languages") public var recentlyUsedLanguages: [String] = []
     @AppStorage("social_keyboard_composer") public var isSocialKeyboardEnabled: Bool = true
     
     @AppStorage("use_instance_content_settings") public var useInstanceContentSettings: Bool = true
@@ -53,9 +45,7 @@ public class UserPreferences: ObservableObject {
     @AppStorage("requested_review") public var requestedReview = false
     
     @AppStorage("collapse-long-posts") public var collapseLongPosts = true
-    
-    @AppStorage("share-button-behavior") public var shareButtonBehavior: PreferredShareButtonBehavior = .linkAndText
-    
+
     public enum SwipeActionsIconStyle: String, CaseIterable {
         case iconWithText, iconOnly
         
@@ -98,17 +88,4 @@ public class UserPreferences: ObservableObject {
     }
 
     private init() {}
-    
-    public func setClient(client: Client) {
-        self.client = client
-    }
-    
-    public func markLanguageAsSelected(isoCode: String) {
-        var copy = recentlyUsedLanguages
-        if let index = copy.firstIndex(of: isoCode) {
-            copy.remove(at: index)
-        }
-        copy.insert(isoCode, at: 0)
-        recentlyUsedLanguages = Array(copy.prefix(3))
-    }
 }

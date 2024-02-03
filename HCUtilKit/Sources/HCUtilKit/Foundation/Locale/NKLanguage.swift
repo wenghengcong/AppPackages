@@ -17,21 +17,13 @@ let kAppUserLanguageKey = "kAppUserLanguageKey"
 /// 语言管理类，分为系统语言、APP语言、用户选择语言
 class NKLanguage: NSObject {
 
-    /// 获取系统的两位语言代码
-    class var languageCode: String {
-        return  Locale.current.languageCode!
-    }
 
-    /// 获取两位区域代码
-    class var regionCode: String {
-        return  Locale.current.regionCode!
-    }
 
     /// 获取系统的语言
     class var systemLanguage: String {
         //NSLocale.preferredLanguages.first获取到的仍然是app内设置的语言选择
 //            let system = NSLocale.preferredLanguages.first!
-        var system = languageCode
+        var system = UserLocale.shared.languageCode
         if system.contains("zh") {
             system = AppLanguage.cn.rawValue
         } else if system.contains("en") {

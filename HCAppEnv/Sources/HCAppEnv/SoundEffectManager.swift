@@ -1,6 +1,7 @@
 import AudioToolbox
 import AVKit
 import CoreHaptics
+import HCUtilKit
 
 @MainActor
 public class SoundEffectManager {
