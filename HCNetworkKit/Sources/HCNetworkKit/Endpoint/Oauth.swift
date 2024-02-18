@@ -27,9 +27,9 @@ public enum Oauth: Endpoint {
         public let grantType = "authorization_code"
         public let clientId: String
         public let clientSecret: String
-        public let redirectUri = AppConfig.scheme
+        public let redirectUri = AppConfig.current.scheme
         public let code: String
-        public let scope = AppConfig.scopes
+        public let scope = AppConfig.current.scopes
     }
 
     public func queryItems() -> [URLQueryItem]? {
@@ -38,8 +38,8 @@ public enum Oauth: Endpoint {
             return [
                 .init(name: "response_type", value: "code"),
                 .init(name: "client_id", value: clientId),
-                .init(name: "redirect_uri", value: AppConfig.scheme),
-                .init(name: "scope", value: AppConfig.scopes),
+                .init(name: "redirect_uri", value: AppConfig.current.scheme),
+                .init(name: "scope", value: AppConfig.current.scopes),
             ]
         default:
             return nil

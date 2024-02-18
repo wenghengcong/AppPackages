@@ -15,10 +15,10 @@ public enum Apps: Endpoint {
         switch self {
         case .registerApp:
             return [
-                .init(name: "client_name", value: AppConfig.clientName),
-                .init(name: "redirect_uris", value: AppConfig.scheme),
-                .init(name: "scopes", value: AppConfig.scopes),
-                .init(name: "website", value: AppConfig.weblink),
+                .init(name: "client_name", value: AppConfig.current.clientName),
+                .init(name: "redirect_uris", value: AppConfig.current.scheme),
+                .init(name: "scopes", value: AppConfig.current.scopes),
+                .init(name: "website", value: AppConfig.current.weblink),
             ]
         }
     }

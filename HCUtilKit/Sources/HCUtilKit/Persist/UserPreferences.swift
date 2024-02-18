@@ -3,7 +3,7 @@ import Foundation
 import SwiftUI
 
 public class UserPreferences: ObservableObject {
-    public static let sharedDefault = UserDefaults(suiteName: AppConfig.groupID)
+    public static let sharedDefault = UserDefaults(suiteName: AppConfig.current.groupID)
     public static let shared = UserPreferences()
 
     @AppStorage("selectedCalendarIdentifier") public var selectedCalendarIdentifier: Int = CalendarIdentifier.gregorian.rawValue
