@@ -91,6 +91,7 @@ public class CoreDataStack {
             }
 
             //MARK: - Cloud
+            //MARK: private
             // private
             let cloudPrivateURL = dbURL.appendingPathComponent("cloud.sqlite")
             let cloudPrivateDesc = NSPersistentStoreDescription(url: cloudPrivateURL)
@@ -105,6 +106,7 @@ public class CoreDataStack {
             cloudPrivateDesc.configuration = "Cloud"
             cloudPrivateDesc.cloudKitContainerOptions?.databaseScope = .private
 
+            //MARK: share
             // share
             guard let cloudShareDesc = cloudPrivateDesc.copy() as? NSPersistentStoreDescription else {
                 fatalError("Create shareDesc error")
@@ -121,6 +123,7 @@ public class CoreDataStack {
             }
             cloudShareDesc.cloudKitContainerOptions?.databaseScope = .shared
 
+            //MARK: public
             // public
             guard let cloudPublicDesc = cloudPrivateDesc.copy() as? NSPersistentStoreDescription else {
                 fatalError("Create publicDesc error")
