@@ -15,76 +15,33 @@ public extension Theme {
             /// 主要的背景色，一般灰色
         case .background:
             return GlobalTokens.neutralColor(.grey96)
-        case .backgroundPressed:
-            return GlobalTokens.neutralColor(.white)
-        case .backgroundSelected:
-            return GlobalTokens.neutralColor(.white)
-        case .backgroundDisabled:
-            return GlobalTokens.neutralColor(.white)
-
+            
             /// 主要的前景色
         case .foreground:
-            return GlobalTokens.neutralColor(.white)
-        case .foregroundDisabled:
             return GlobalTokens.neutralColor(.white)
         case .stroke:
             return GlobalTokens.neutralColor(.white)
 
         case .primaryText:
-            return Color(hexString: "#000000", alpha: 1.0)
+            return Color(assetName: "lightPrimaryText")
         case .secondaryText:
-            return Color(hexString: "#8A8A8E", alpha: 1.0)
+            return Color(assetName: "lightSecondaryText")
         case .tertiaryText:
-            return Color(hexString: "#C4C4C6", alpha: 1.0)
+            return Color(assetName: "lightTertiaryText")
         case .quaternaryLabel:
-            return Color(hexString: "#DCDCDD", alpha: 1.0)
+            return Color(assetName: "lightQuaternaryLabel")
 
-        case .strokePressed:
-            return GlobalTokens.neutralColor(.white)
-        case .strokeFocus:
-            return GlobalTokens.neutralColor(.white)
-        case .strokeDisabled:
-            return GlobalTokens.neutralColor(.grey88)
         case .tint:
             return GlobalTokens.brandColor(.tint)
 
-        case .brandBackground:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundPressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundSelected:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundTint:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundDisabled:
-            return GlobalTokens.brandColor(.tint).opacity(0.4)
-
-        case .brandForeground:
-            return GlobalTokens.neutralColor(.white)
-        case .brandForegroundPressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandForegroundSelected:
-            return GlobalTokens.brandColor(.tint)
-        case .brandForegroundTint:
-            return GlobalTokens.brandColor(.tint)
-
-        case .brandForegroundDisabled:
-            return GlobalTokens.neutralColor(.grey12)
-
         case .brandGradient:
             return GlobalTokens.brandColor(.gradientPrimaryLight)
-        case .brandStroke:
-            return GlobalTokens.brandColor(.tint)
-        case .brandStrokePressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandStrokeSelected:
-            return GlobalTokens.brandColor(.tint)
 
-        case .dangerBackground:
+        case .errorBackground:
             return GlobalTokens.sharedColor(.red, .tint60)
-        case .dangerForeground:
+        case .errorForeground:
             return GlobalTokens.sharedColor(.red, .shade10)
-        case .dangerStroke:
+        case .errorStroke:
             return GlobalTokens.sharedColor(.red, .tint20)
 
         case .successBackground:
@@ -101,12 +58,13 @@ public extension Theme {
         case .warningStroke:
             return GlobalTokens.sharedColor(.yellow, .shade30)
 
-        case .severeBackground:
-            return GlobalTokens.sharedColor(.darkOrange, .tint60)
-        case .severeForeground:
-            return GlobalTokens.sharedColor(.darkOrange, .shade10)
-        case .severeStroke:
-            return GlobalTokens.sharedColor(.darkOrange, .tint10)
+        case .greyIcon:
+            let iconColor = Color(assetName: "lightGreyIcon")
+            return iconColor
+        case .lightIcon:
+            return Color(assetName: "lightLightIcon")
+        case .darkIcon:
+            return Color(assetName: "lightDarkIcon")
         }
     }
 

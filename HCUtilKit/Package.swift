@@ -36,7 +36,8 @@ let package = Package(
                     .product(name: "SwiftSoup", package: "SwiftSoup"),
                     .product(name: "SwiftyBeaver", package: "SwiftyBeaver"),
                     .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
-                ]
+                ],
+                resources: [.copy("Resources")]
                )
     ]
 )

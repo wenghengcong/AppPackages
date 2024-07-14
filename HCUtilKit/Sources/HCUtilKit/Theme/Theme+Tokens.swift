@@ -29,20 +29,22 @@ public extension Theme {
     // MARK: - 颜色
     /// 各种颜色token
     enum ColorToken: String, HCTokenSetKey {
+        // Brand colors - Brand background
+        /// 主题色，即品牌色
+        case tint
+
         // Neutral colors - Background
         /// 全局普通背景：一般是灰色
         case background
-        
-        case backgroundPressed
-        case backgroundSelected
-        case backgroundDisabled
 
         // Neutral colors - Foreground
         /// 全局普通前景：区分与背景色，一般是白色
         case foreground
-        
-        case foregroundDisabled
-        
+
+        case greyIcon
+        case lightIcon
+        case darkIcon
+
         /// 第1级：Primary text content (e.g.titles)
         case primaryText
         /// 第2级：Secondary text content (subtitles, section headers)
@@ -54,40 +56,14 @@ public extension Theme {
         
         // Neutral colors - Stroke
         case stroke
-        case strokePressed
-        case strokeFocus
-        case strokeDisabled
-
-        // Brand colors - Brand background
-        /// 主题色，即品牌色
-        case tint
-        /// 品牌背景色
-        case brandBackground
-        case brandBackgroundPressed
-        case brandBackgroundSelected
-        case brandBackgroundTint
-        case brandBackgroundDisabled
-
-        // Brand colors - Brand foreground
-        /// 品牌前景色，一般是白色
-        case brandForeground
-        case brandForegroundPressed
-        case brandForegroundSelected
-        case brandForegroundTint
-        case brandForegroundDisabled
 
         // Brand colors - Brand gradient
         case brandGradient
 
-        // Brand colors - Brand stroke
-        case brandStroke
-        case brandStrokePressed
-        case brandStrokeSelected
-
         // Shared colors - Error & Status
-        case dangerBackground
-        case dangerForeground
-        case dangerStroke
+        case errorBackground
+        case errorForeground
+        case errorStroke
 
         case successBackground
         case successForeground
@@ -96,10 +72,6 @@ public extension Theme {
         case warningBackground
         case warningForeground
         case warningStroke
-
-        case severeBackground
-        case severeForeground
-        case severeStroke
     }
 
     // MARK: - 阴影
@@ -151,7 +123,5 @@ public extension Theme {
         /// ——> 11
         case caption2
         // MARK: 字体-自定义样式
-        
-
     }
 }

@@ -13,81 +13,37 @@ public extension Theme {
     static func systemDarkColors(_ token: Theme.ColorToken) -> Color {
 
         switch token {
+        case .tint:
+            return GlobalTokens.brandColor(.tint)
+
             // 全局普通背景
         case .background:
             return GlobalTokens.neutralColor(.grey7)
-            
-        case .backgroundPressed:
-            return GlobalTokens.neutralColor(.white)
-        case .backgroundSelected:
-            return GlobalTokens.neutralColor(.white)
-        case .backgroundDisabled:
-            return GlobalTokens.neutralColor(.white)
-        
+
             // 全局普通前景
         case .foreground:
             return GlobalTokens.neutralColor(.gray11)
-            
-        case .foregroundDisabled:
-            return GlobalTokens.neutralColor(.white)
+
         case .stroke:
             return GlobalTokens.neutralColor(.white)
         
         case .primaryText:
-            return Color(hexString: "#FFFFFF", alpha: 1.0)
+            return Color(assetName: "darkPrimaryText")
         case .secondaryText:
-            return Color(hexString: "#F3F3F8", alpha: 1.0)
+            return Color(assetName: "darkSecondaryText")
         case .tertiaryText:
-            return Color(hexString: "#F8F8FC", alpha: 1.0)
+            return Color(assetName: "darkTertiaryText")
         case .quaternaryLabel:
-            return Color(hexString: "#FBFBFD", alpha: 1.0)
-
-        case .strokePressed:
-            return GlobalTokens.neutralColor(.white)
-        case .strokeFocus:
-            return GlobalTokens.neutralColor(.white)
-        case .strokeDisabled:
-            return GlobalTokens.neutralColor(.grey88)
-        case .tint:
-            return GlobalTokens.brandColor(.tint)
-
-        case .brandBackground:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundPressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundSelected:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundTint:
-            return GlobalTokens.brandColor(.tint)
-        case .brandBackgroundDisabled:
-            return GlobalTokens.neutralColor(.grey88)
-        
-        case .brandForeground:
-            return GlobalTokens.brandColor(.tint)
-        case .brandForegroundPressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandForegroundSelected:
-            return GlobalTokens.brandColor(.tint)
-        case .brandForegroundTint:
-            return GlobalTokens.brandColor(.tint)
-
-        case .brandForegroundDisabled:
-            return GlobalTokens.brandColor(.tint)
+            return Color(assetName: "darkQuaternaryLabel")
 
         case .brandGradient:
             return GlobalTokens.brandColor(.gradientPrimaryLight)
-        case .brandStroke:
-            return GlobalTokens.brandColor(.tint)
-        case .brandStrokePressed:
-            return GlobalTokens.brandColor(.tint)
-        case .brandStrokeSelected:
-            return GlobalTokens.brandColor(.tint)
 
-        case .dangerBackground:
+        case .errorBackground:
             return GlobalTokens.sharedColor(.red, .tint60)
-        case .dangerForeground:
+        case .errorForeground:
             return GlobalTokens.sharedColor(.red, .shade10)
-        case .dangerStroke:
+        case .errorStroke:
             return GlobalTokens.sharedColor(.red, .tint20)
        
         case .successBackground:
@@ -103,13 +59,13 @@ public extension Theme {
             return GlobalTokens.sharedColor(.yellow, .shade30)
         case .warningStroke:
             return GlobalTokens.sharedColor(.yellow, .shade30)
-        
-        case .severeBackground:
-            return GlobalTokens.sharedColor(.darkOrange, .tint60)
-        case .severeForeground:
-            return GlobalTokens.sharedColor(.darkOrange, .shade10)
-        case .severeStroke:
-            return GlobalTokens.sharedColor(.darkOrange, .tint10)
+            
+        case .greyIcon:
+            return Color(assetName: "darkGreyIcon")
+        case .lightIcon:
+            return Color(assetName: "darkLightIcon")
+        case .darkIcon:
+            return Color(assetName: "darkDarkIcon")
         }
     }
 
@@ -209,6 +165,7 @@ public extension Theme {
         }
     }
 
+    // HCTODO: 渐变色逻辑
     /// Derives its default values from the theme's `HCColorTokenSet` values
     static func systemDarkGradientColors(_ token: GradientToken, colorTokenSet: HCTokenSet<ColorToken, Color>) -> [Color] {
         switch token {

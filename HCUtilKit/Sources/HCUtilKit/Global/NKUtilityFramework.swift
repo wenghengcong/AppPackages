@@ -1,5 +1,5 @@
 //
-//  NKUtilityFramework.swift
+//  HCUtilityFramework.swift
 //
 //
 //  Created by Nemo on 2023/12/20.
@@ -9,7 +9,7 @@ import Foundation
 
 public class NKBundleToken {}
 
-public class NKUtilityFramework: NSObject {
+public class HCUtilityFramework: NSObject {
     
     @objc public static var bundle: Bundle { return Bundle(for: self) }
     @objc public static let resourceBundle: Bundle = {

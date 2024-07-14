@@ -13,6 +13,12 @@ public extension Color {
     init(hex value: Any) {
         self.init(hex: value, alpha: 1.0)
     }
+    
+    /// 从Asset中读取颜色
+    /// - Parameter asset: 颜色名字
+    init(assetName: String) {
+        self.init(assetName, bundle: .module)
+    }
 
     init(hex value: Any, alpha: Double = 1.0) {
         switch value {

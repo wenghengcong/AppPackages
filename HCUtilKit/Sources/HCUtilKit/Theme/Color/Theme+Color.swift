@@ -13,8 +13,8 @@ public extension Color {
     static var themeTint: Color {
         return themeShared.color(.tint)
     }
-
     
+    // MARK: - Background
     /// 全局背景色：普通时：一般灰色
     static var themeBackground: Color {
         return themeShared.color(.background)
@@ -25,6 +25,7 @@ public extension Color {
         return themeShared.color(.foreground)
     }
     
+    // MARK: - 文本
     /// 第1文本色
     static var themePrimaryText: Color {
         return themeShared.color(.primaryText)
@@ -38,5 +39,18 @@ public extension Color {
     /// 第3文本色
     static var themeTertiaryText: Color {
         return themeShared.color(.tertiaryText)
+    }
+
+    // MARK: - ICON
+    static var themeGreyIcon: Color {
+        return themeShared.color(.greyIcon)
+    }
+
+    static var themeDarkIcon: Color {
+        return themeShared.color(.darkIcon)
+    }
+
+    static var themeLightIcon: Color {
+        return themeShared.color(.lightIcon)
     }
 }
