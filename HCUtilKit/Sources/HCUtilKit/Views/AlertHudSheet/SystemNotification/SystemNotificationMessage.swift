@@ -31,13 +31,13 @@ public struct SystemNotificationMessage<IconView: View>: View {
      */
     public init(
         icon: IconView,
-        title: String? = nil,
-        text: String,
+        title: LocalizedStringKey? = nil,
+        text: LocalizedStringKey,
         style: SystemNotificationMessageStyle = .standard
     ) {
         self.icon = icon
         self.title = Self.title(for: title)
-        self.text = LocalizedStringKey(text)
+        self.text = text
         self.style = style
     }
 
@@ -53,13 +53,13 @@ public struct SystemNotificationMessage<IconView: View>: View {
      */
     public init(
         icon: Image,
-        title: String? = nil,
-        text: String,
+        title: LocalizedStringKey? = nil,
+        text: LocalizedStringKey,
         style: SystemNotificationMessageStyle = .standard
     ) where IconView == Image {
         self.icon = icon
         self.title = Self.title(for: title)
-        self.text = LocalizedStringKey(text)
+        self.text = text
         self.style = style
     }
 
@@ -73,13 +73,13 @@ public struct SystemNotificationMessage<IconView: View>: View {
        - style: The style to use, by default `.standard`.
      */
     public init(
-        title: String? = nil,
-        text: String,
+        title: LocalizedStringKey? = nil,
+        text: LocalizedStringKey,
         style: SystemNotificationMessageStyle = .standard
     ) where IconView == EmptyView {
         self.icon = EmptyView()
         self.title = Self.title(for: title)
-        self.text = LocalizedStringKey(text)
+        self.text = text
         self.style = style
     }
     
@@ -101,9 +101,9 @@ public struct SystemNotificationMessage<IconView: View>: View {
 
 private extension SystemNotificationMessage {
 
-    static func title(for title: String?) -> LocalizedStringKey? {
+    static func title(for title: LocalizedStringKey?) -> LocalizedStringKey? {
         if let title = title {
-            return LocalizedStringKey(title)
+            return title
         } else {
             return nil
         }

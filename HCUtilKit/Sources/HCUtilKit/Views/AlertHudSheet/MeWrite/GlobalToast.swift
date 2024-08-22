@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 public func g_toastInfo(_ context: SystemNotificationContext,
-                        title: String? = nil,
-                        text:String) {
+                        title: LocalizedStringKey? = nil,
+                        text:LocalizedStringKey) {
     context.present {
         SystemNotificationMessage(
             icon: Image(systemName: "globe"),
@@ -20,8 +20,8 @@ public func g_toastInfo(_ context: SystemNotificationContext,
 }
 
 public func g_toastWarning(_ context: SystemNotificationContext,
-                           title: String? = nil,
-                           text:String) {
+                           title: LocalizedStringKey? = nil,
+                           text:LocalizedStringKey) {
     context.present {
         SystemNotificationMessage(
             icon: Image(systemName: "exclamationmark.triangle"),
@@ -31,8 +31,8 @@ public func g_toastWarning(_ context: SystemNotificationContext,
 }
 
 public func g_toastError(_ context: SystemNotificationContext,
-                         title: String? = nil,
-                         text:String) {
+                         title: LocalizedStringKey? = nil,
+                         text:LocalizedStringKey) {
     context.present {
         SystemNotificationMessage(
             icon: Image(systemName: "xmark.circle"),
@@ -42,8 +42,8 @@ public func g_toastError(_ context: SystemNotificationContext,
 }
 
 public func g_toastSuccessful(_ context: SystemNotificationContext,
-                              title: String? = nil,
-                              text:String) {
+                              title: LocalizedStringKey? = nil,
+                              text:LocalizedStringKey) {
     let view = SystemNotificationMessage(
         icon: Image(systemName: "checkmark.circle"),
         title: title,
