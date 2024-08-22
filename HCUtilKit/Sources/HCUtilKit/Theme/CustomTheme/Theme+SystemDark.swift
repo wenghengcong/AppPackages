@@ -18,11 +18,14 @@ public extension Theme {
 
             // 全局普通背景
         case .background:
-            return GlobalTokens.neutralColor(.grey7)
+            return GlobalTokens.neutralColor(.gray7)
 
             // 全局普通前景
         case .foreground:
             return GlobalTokens.neutralColor(.gray11)
+
+        case .tabbarBackground:
+            return GlobalTokens.neutralColor(.white)
 
         case .stroke:
             return GlobalTokens.neutralColor(.white)
@@ -60,8 +63,8 @@ public extension Theme {
         case .warningStroke:
             return GlobalTokens.sharedColor(.yellow, .shade30)
             
-        case .greyIcon:
-            return Color(assetName: "darkGreyIcon")
+        case .grayIcon:
+            return Color(assetName: "darkGrayIcon")
         case .lightIcon:
             return Color(assetName: "darkLightIcon")
         case .darkIcon:

@@ -14,11 +14,15 @@ public extension Theme {
         switch token {
             /// 主要的背景色，一般灰色
         case .background:
-            return GlobalTokens.neutralColor(.white)
+            return GlobalTokens.neutralColor(.gray92)
 
             /// 主要的前景色
         case .foreground:
             return GlobalTokens.neutralColor(.white)
+            
+        case .tabbarBackground:
+            return GlobalTokens.neutralColor(.white)
+
         case .stroke:
             return GlobalTokens.neutralColor(.white)
 
@@ -58,8 +62,8 @@ public extension Theme {
         case .warningStroke:
             return GlobalTokens.sharedColor(.yellow, .shade30)
 
-        case .greyIcon:
-            let iconColor = Color(assetName: "lightGreyIcon")
+        case .grayIcon:
+            let iconColor = Color(assetName: "lightGrayIcon")
             return iconColor
         case .lightIcon:
             return Color(assetName: "lightLightIcon")

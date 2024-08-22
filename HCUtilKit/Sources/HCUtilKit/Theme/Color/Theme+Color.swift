@@ -25,6 +25,12 @@ public extension Color {
         return themeShared.color(.foreground)
     }
     
+    /// tabbar背景色：普通时：一般是白色
+    static var themeTabbarBackground: Color {
+        return themeShared.color(.tabbarBackground)
+    }
+
+
     // MARK: - 文本
     /// 第1文本色
     static var themePrimaryText: Color {
@@ -42,8 +48,8 @@ public extension Color {
     }
 
     // MARK: - ICON
-    static var themeGreyIcon: Color {
-        return themeShared.color(.greyIcon)
+    static var themeGrayIcon: Color {
+        return themeShared.color(.grayIcon)
     }
 
     static var themeDarkIcon: Color {

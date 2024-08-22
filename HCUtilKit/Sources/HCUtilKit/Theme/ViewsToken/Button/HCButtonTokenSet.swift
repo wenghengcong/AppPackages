@@ -132,9 +132,9 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .floatingAccent:
-                        return theme.color(.background)
+                        return theme.color(.tint)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
-                        return .clear
+                        return theme.color(.tint)
                     case .danger:
                         return theme.color(.errorBackground)
                     case .floatingSubtle:
@@ -146,9 +146,9 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                 return .color {
                     switch style() {
                     case .accent, .danger, .floatingAccent, .floatingSubtle:
-                        return theme.color(.background)
+                        return theme.color(.tint)
                     case .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
-                        return .clear
+                        return theme.color(.tint)
                     }
                 }
                 // HCTODO: brandStroke
@@ -201,18 +201,18 @@ public class HCButtonTokenSet: HCControlTokenSet<HCButtonToken> {
                     if style().isFloating {
                         switch size() {
                         case .large:
-                            return 15
+                            return 16
                         case .medium, .small:
-                            return 15
+                            return 16
                         }
                     } else {
                         switch size() {
                         case .large:
-                            return 15
+                            return 16
                         case .medium:
-                            return 15
+                            return 16
                         case .small:
-                            return 15
+                            return 16
                         }
                     }
 

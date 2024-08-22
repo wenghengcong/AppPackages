@@ -41,7 +41,9 @@ public extension Theme {
         /// 全局普通前景：区分与背景色，一般是白色
         case foreground
 
-        case greyIcon
+        case tabbarBackground
+
+        case grayIcon
         case lightIcon
         case darkIcon
 

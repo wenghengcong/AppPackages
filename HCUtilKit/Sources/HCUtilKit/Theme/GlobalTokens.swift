@@ -47,57 +47,57 @@ public class GlobalTokens {
     // MARK: - NeutralColor
     public enum NeutralColorToken: String, HCTokenSetKey {
         case black
-        case grey2
-        case grey4
-        case grey6
-        case grey7
-        case grey8
-        case grey10
+        case gray2
+        case gray4
+        case gray6
+        case gray7
+        case gray8
+        case gray10
         case gray11
-        case grey12
-        case grey14
-        case grey16
-        case grey18
-        case grey20
-        case grey22
-        case grey24
-        case grey26
-        case grey28
-        case grey30
-        case grey32
-        case grey34
-        case grey36
-        case grey38
-        case grey40
-        case grey42
-        case grey44
-        case grey46
-        case grey48
-        case grey50
-        case grey52
-        case grey54
-        case grey56
-        case grey58
-        case grey60
-        case grey62
-        case grey64
-        case grey66
-        case grey68
-        case grey70
-        case grey72
-        case grey74
-        case grey76
-        case grey78
-        case grey80
-        case grey82
-        case grey84
-        case grey86
-        case grey88
-        case grey90
-        case grey92
-        case grey94
-        case grey96
-        case grey98
+        case gray12
+        case gray14
+        case gray16
+        case gray18
+        case gray20
+        case gray22
+        case gray24
+        case gray26
+        case gray28
+        case gray30
+        case gray32
+        case gray34
+        case gray36
+        case gray38
+        case gray40
+        case gray42
+        case gray44
+        case gray46
+        case gray48
+        case gray50
+        case gray52
+        case gray54
+        case gray56
+        case gray58
+        case gray60
+        case gray62
+        case gray64
+        case gray66
+        case gray68
+        case gray70
+        case gray72
+        case gray74
+        case gray76
+        case gray78
+        case gray80
+        case gray82
+        case gray84
+        case gray86
+        case gray88
+        case gray90
+        case gray92
+        case gray94
+        case gray96
+        case gray98
         case white
     }
     
@@ -417,8 +417,8 @@ fileprivate extension Color {
         return Color("DarkIcon")
     }
     
-    static var GreyIcon: Color {
-        return Color("GreyIcon")
+    static var GrayIcon: Color {
+        return Color("GrayIcon")
     }
     
     static var BudgetRed: Color {
