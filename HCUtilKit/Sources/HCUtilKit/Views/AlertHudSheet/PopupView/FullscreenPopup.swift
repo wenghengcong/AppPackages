@@ -17,7 +17,7 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
 
     var isBoolMode: Bool
 
-    var sheetPresented: Bool {
+    var popupPresented: Bool {
         item != nil || isPresented
     }
 
@@ -48,7 +48,7 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
 
     var view: (() -> PopupContent)!
     var itemView: ((Item) -> PopupContent)!
-    
+
     // MARK: - Presentation animation
 
     /// Trigger popup showing/hiding animations and...
@@ -65,9 +65,9 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
 
     /// opacity of background color
     @State private var opacity = 0.0
-    
-    /// A temporary variable to hold a copy of the `item` when the item is nil (to complete `itemView`'s dismiss animation)
-    @State private var tempItem: Item?
+
+    /// A temporary variable to hold a copy of the `itemView` when the item is nil (to complete `itemView`'s dismiss animation)
+    @State private var tempItemView: PopupContent?
 
     // MARK: - Autohide
 
@@ -82,6 +82,10 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
 
     /// Set dismiss source to pass to dismiss callback
     @State private var dismissSource: DismissSource?
+
+    /// Synchronize isPresented changes and animations
+    private let eventsQueue = DispatchQueue(label: "eventsQueue", qos: .utility)
+    @State private var eventsSemaphore = DispatchSemaphore(value: 1)
 
     init(isPresented: Binding<Bool> = .constant(false),
          item: Binding<Item?> = .constant(nil),
@@ -112,20 +116,20 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
         self.isPresentedRef = ClassReference(self.$isPresented)
         self.itemRef = ClassReference(self.$item)
     }
-    
+
     public func body(content: Content) -> some View {
         if isBoolMode {
             main(content: content)
                 .onChange(of: isPresented) { newValue in
-                    // minimum time to represent
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
+                    eventsQueue.async {
+                        eventsSemaphore.wait()
                         closingIsInProcess = !newValue
-                        appearAction(sheetPresented: newValue)
+                        appearAction(popupPresented: newValue)
                     }
                 }
                 .onAppear {
                     if isPresented {
-                        appearAction(sheetPresented: true)
+                        appearAction(popupPresented: true)
                     }
                 }
         } else {
@@ -134,16 +138,16 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.03) {
                         self.closingIsInProcess = newValue == nil
                         if let newValue {
-                            /// copying `item`
-                            self.tempItem = newValue
+                            /// copying `itemView`
+                            self.tempItemView = itemView(newValue)
                         }
-                        appearAction(sheetPresented: newValue != nil)
+                        appearAction(popupPresented: newValue != nil)
                     }
                 }
                 .onAppear {
-                    if item != nil {
-                        self.tempItem = item
-                        appearAction(sheetPresented: true)
+                    if let item {
+                        self.tempItemView = itemView(item)
+                        appearAction(popupPresented: true)
                     }
                 }
         }
@@ -199,10 +203,12 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
             }
         }
     }
-    
+
     var viewForItem: (() -> PopupContent)? {
-        if let item = item ?? tempItem {
+        if let item = item {
             return { itemView(item) }
+        } else if let tempItemView {
+            return { tempItemView }
         }
         return nil
     }
@@ -211,13 +217,16 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
         Popup(
             params: params,
             view: viewForItem != nil ? viewForItem! : view,
+            popupPresented: popupPresented,
             shouldShowContent: shouldShowContent,
             showContent: showContent,
             positionIsCalculatedCallback: {
                 // once the closing has been started, don't allow position recalculation to trigger popup shpwing again
                 if !closingIsInProcess {
-                    shouldShowContent = true // this will cause currentOffset change thus triggering the sliding showing animation
-                    opacity = 1 // this will cause cross disolving animation for background color
+                    DispatchQueue.main.async {
+                        shouldShowContent = true // this will cause currentOffset change thus triggering the sliding showing animation
+                        opacity = 1 // this will cause cross disolving animation for background color
+                    }
                     setupAutohide()
                 }
             },
@@ -230,8 +239,8 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
         )
     }
 
-    func appearAction(sheetPresented: Bool) {
-        if sheetPresented {
+    func appearAction(popupPresented: Bool) {
+        if popupPresented {
             dismissSource = nil
             showSheet = true // show transparent fullscreen sheet
             showContent = true // immediately load popup body
@@ -243,27 +252,30 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
             shouldShowContent = false // this will cause currentOffset change thus triggering the sliding hiding animation
             opacity = 0
             // do the rest once the animation is finished (see onAnimationCompleted())
+        }
 
-            if #unavailable(iOS 17.0, tvOS 17.0, macOS 14.0, watchOS 10.0) {
-                performWithDelay(0.3) { // imitate onAnimationCompleted for older os
-                    onAnimationCompleted()
-                }
+        if #unavailable(iOS 17.0, tvOS 17.0, macOS 14.0, watchOS 10.0) {
+            performWithDelay(0.3) { // imitate onAnimationCompleted for older os
+                onAnimationCompleted()
             }
         }
     }
 
     func onAnimationCompleted() -> () {
         if shouldShowContent { // return if this was called on showing animation, only proceed if called on hiding
+            eventsSemaphore.signal()
             return
         }
         showContent = false // unload popup body after hiding animation is done
-        tempItem = nil
+        tempItemView = nil
         performWithDelay(0.01) {
             showSheet = false
         }
         if !isOpaque { // for opaque this callback is called in fullScreenCover's onDisappear
             userDismissCallback(dismissSource ?? .binding)
         }
+
+        eventsSemaphore.signal()
     }
 
     func setupAutohide() {
@@ -280,7 +292,7 @@ public struct FullscreenPopup<Item: Equatable, PopupContent: View>: ViewModifier
                 itemRef?.value.wrappedValue = nil
                 dispatchWorkHolder.work = nil
             })
-            if sheetPresented, let work = dispatchWorkHolder.work {
+            if popupPresented, let work = dispatchWorkHolder.work {
                 DispatchQueue.main.asyncAfter(deadline: .now() + autohideIn, execute: work)
             }
         }

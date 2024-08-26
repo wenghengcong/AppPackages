@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+
 final class ClassReference<T> {
     var value: T
 
@@ -47,7 +48,7 @@ extension View {
         self
 #else
         if condition {
-            self.gesture(
+            self.simultaneousGesture(
                 TapGesture().onEnded {
                     onTap()
                 }
@@ -336,6 +337,8 @@ extension CGSize {
         return WKInterfaceDevice.current().screenBounds.size
 #elseif os(macOS)
         return NSScreen.main?.frame.size ?? .zero
+#elseif os(visionOS)
+        return .zero
 #endif
     }
 }

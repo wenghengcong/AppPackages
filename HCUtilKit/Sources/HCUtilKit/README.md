@@ -29,12 +29,11 @@
 参考
  JDStatusBarNotification https://github.com/calimarkus/JDStatusBarNotification  非SwiftUI编写
 采用
- ToastUI: https://github.com/quanshousio/ToastUI        loading以及success等
- PopupView: https://github.com/exyte/PopupView 比较丰富的弹框类型支持
+ ToastUI: https://github.com/quanshousio/ToastUI        loading以及success等，在ToastUI文件夹里
+ PopupView: https://github.com/exyte/PopupView 比较丰富的弹框类型支持，在PopupView文件夹中
  SystemNotification: https://github.com/danielsaidi/SystemNotification 顶部提示，不过在子视图里就不是在顶部了
 blog:
 https://ondrej-kvasnovsky.medium.com/how-to-build-a-simple-toast-message-view-in-swiftui-b2e982340bd
-
 
 
 # 来源
