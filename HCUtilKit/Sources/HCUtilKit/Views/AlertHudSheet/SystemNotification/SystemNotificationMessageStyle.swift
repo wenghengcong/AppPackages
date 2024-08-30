@@ -3,53 +3,53 @@
 //  SystemNotification
 //
 //  Created by Daniel Saidi on 2021-06-01.
-//  Copyright © 2021-2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2021-2024 Daniel Saidi. All rights reserved.
 //
 
 import SwiftUI
 
-/**
- This style can be used with ``SystemNotificationMessage``s.
- 
- You can easily create new styles like this:
- 
- ```swift
- extension SystemNotificationMessageStyle {
- 
-    static var custom = Self(iconColor: .yellow)
- }
- ```
-
- The ``standard`` style will be used by default if you don't
- provide a custom style.
- */
+/// This style can style a ``SystemNotificationMessage``.
+///
+/// You can either set an overall foreground color, which is
+/// then applied to all components, or use individual colors.
+///
+/// See <doc:Getting-Started> for more information on how to
+/// style and configure system notifications.
+///
+/// You can apply a custom value with the corresponding view
+/// modifier. The ``standard`` value is used by default when
+/// you don't apply a custom value.
 public struct SystemNotificationMessageStyle {
 
-    /**
-     Create a system notification message style.
-
-     - Parameters:
-       - iconColor: The color to apply to the icon.
-       - iconFont: The font to apply to the icon.
-       - iconTextSpacing: The spacing to apply between the icon and the text.
-       - padding: The padding to add to the content.
-       - textColor: The color to apply to the text.
-       - textFont: The font to apply to the text.
-       - titleColor: The color to apply to the title.
-       - titleFont: The font to apply to the title.
-       - titleTextSpacing: The spacing to apply between the title and the text.
-     */
+    /// Create a custom system notification message style.
+    ///
+    /// - Parameters:
+    ///   - backgroundColor: The overall background color.
+    ///   - foregroundColor: The overall foreground color.
+    ///   - iconColor: The color to apply to the icon.
+    ///   - iconFont: The font to apply to the icon.
+    ///   - iconTextSpacing: The spacing to apply between the icon and the text.
+    ///   - padding: The padding to add to the content.
+    ///   - textColor: The color to apply to the text.
+    ///   - textFont: The font to apply to the text.
+    ///   - titleColor: The color to apply to the title.
+    ///   - titleFont: The font to apply to the title.
+    ///   - titleTextSpacing: The spacing to apply between the title and the text.
     public init(
+        backgroundColor: Color? = nil,
+        foregroundColor: Color? = nil,
         iconColor: Color = .primary.opacity(0.6),
         iconFont: Font = Font.title3,
         iconTextSpacing: CGFloat = 20,
         padding: CGSize = .init(width: 15, height: 7),
-        textColor: Color = .primary.opacity(0.4),
+        textColor: Color = .secondary,
         textFont: Font = Font.footnote.bold(),
-        titleColor: Color = .primary.opacity(0.6),
+        titleColor: Color = .primary,
         titleFont: Font = Font.footnote.bold(),
         titleTextSpacing: CGFloat = 2
     ) {
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
         self.iconColor = iconColor
         self.iconFont = iconFont
         self.iconTextSpacing = iconTextSpacing
@@ -61,13 +61,11 @@ public struct SystemNotificationMessageStyle {
         self.titleTextSpacing = titleTextSpacing
     }
     
-    /**
-     This is a standard notification message configuration.
-
-     You can apply a custom value to this property to affect
-     all system notification within an app.     
-     */
-    public static var standard = SystemNotificationMessageStyle()
+    /// The overall background color.
+    public var backgroundColor: Color?
+    
+    /// The overall foreground color.
+    public var foregroundColor: Color?
     
     /// The color to apply to the icon.
     public var iconColor: Color
@@ -95,4 +93,36 @@ public struct SystemNotificationMessageStyle {
     
     /// The spacing to apply between the title and the text.
     public var titleTextSpacing: CGFloat
+}
+
+public extension SystemNotificationMessageStyle {
+
+    /// The standard system notification message style.
+    static var standard: Self { .init() }
+}
+
+public extension View {
+
+    /// Apply a ``SystemNotificationMessageStyle`` to the view.
+    func systemNotificationMessageStyle(
+        _ style: SystemNotificationMessageStyle
+    ) -> some View {
+        self.environment(\.systemNotificationMessageStyle, style)
+    }
+}
+
+private extension SystemNotificationMessageStyle {
+
+    struct Key: EnvironmentKey {
+
+        static var defaultValue: SystemNotificationMessageStyle { .standard }
+    }
+}
+
+public extension EnvironmentValues {
+
+    var systemNotificationMessageStyle: SystemNotificationMessageStyle {
+        get { self [SystemNotificationMessageStyle.Key.self] }
+        set { self [SystemNotificationMessageStyle.Key.self] = newValue }
+    }
 }

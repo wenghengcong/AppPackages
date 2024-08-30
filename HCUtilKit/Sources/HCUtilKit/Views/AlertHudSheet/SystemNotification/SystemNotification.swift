@@ -3,58 +3,42 @@
 //  SystemNotification
 //
 //  Created by Daniel Saidi on 2021-06-01.
-//  Copyright © 2021-2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2021-2024 Daniel Saidi. All rights reserved.
 //
 
 import SwiftUI
 
-/**
- This view mimics a native iOS system notification which for
- instance is shown when toggling silent mode on and off.
- 
- The view will render a notification shape that contains the
- content view that is provided by the `content` view builder.
- You can provide it with a custom `configuration` and `style`
- to control its behavior and design.
- 
- The provided `isActive` binding will be set to `false` when
- a user swipes to dismiss the notification.
- 
- You should not use this view directly, but rather apply the
- `systemNotification` modifier to any view in your app, then
- use your ``SystemNotificationContext`` to present any views
- you like, like a ``SystemNotificationMessage`` view that is
- used to mimic the iOS notification message.
- */
+/// This view mimics the native iOS system notification that
+/// for instance is shown when toggling silent mode.
+/// 
+/// This view renders a notification shape that contains the
+/// provided content view. You can use a custom view, or use
+/// a ``SystemNotificationMessage`` for convenience.
+///
+/// You can use a ``SwiftUI/View/systemNotificationStyle(_:)``
+/// and a ``SwiftUI/View/systemNotificationConfiguration(_:)``
+/// to style and configure a system notification.
 public struct SystemNotification<Content: View>: View {
-
-    /**
-     Create a system notification.
-
-     - Parameters:
-       - isActive: A binding that controls the active state of the notification.
-       - configuration: The notification configuration to use, by default ``SystemNotificationConfiguration/standard``.
-       - style: The notification style to use, by default ``SystemNotificationStyle/standard``.
-       - content: The view to present within the notification badge.
-     */
+    
+    /// Create a system notification view.
+    ///
+    /// - Parameters:
+    ///   - isActive: A binding that controls the active state of the notification.
+    ///   - content: The view to present within the notification badge.
     public init(
         isActive: Binding<Bool>,
-        configuration: SystemNotificationConfiguration = .standard,
-        style: SystemNotificationStyle = .standard,
         @ViewBuilder content: @escaping ContentBuilder
     ) {
         _isActive = isActive
-        self.style = style
-        self.configuration = configuration
+        self.initStyle = nil
+        self.initConfig = nil
         self.content = content
     }
     
     public typealias ContentBuilder = (_ isActive: Bool) -> Content
 
-    private let configuration: SystemNotificationConfiguration
-
-    private let style: SystemNotificationStyle
-    
+    private let initConfig: SystemNotificationConfiguration?
+    private let initStyle: SystemNotificationStyle?
     private let content: ContentBuilder
     
     @Binding
@@ -63,20 +47,76 @@ public struct SystemNotification<Content: View>: View {
     @Environment(\.colorScheme)
     private var colorScheme
     
+    @Environment(\.systemNotificationConfiguration)
+    private var envConfig
+    
+    @Environment(\.systemNotificationStyle)
+    private var envStyle
+    
+    @State
+    private var currentId = UUID()
+    
     public var body: some View {
-        content(isActive)
-            .background(background)
-            .cornerRadius(style.cornerRadius ?? 1_000)
-            .shadow(
-                color: style.shadowColor,
-                radius: style.shadowRadius,
-                y: style.shadowOffset)
-            .animation(.spring())
-            .offset(x: 0, y: verticalOffset)
-            #if os(iOS) || os(macOS) || os(watchOS)
-            .gesture(swipeGesture, if: configuration.isSwipeToDismissEnabled)
-            #endif
-            .padding(style.padding)
+        ZStack(alignment: edge.alignment) {
+            Color.clear
+            content(isActive)
+                .background(style.backgroundColor)
+                .background(style.backgroundMaterial)
+                .compositingGroup()
+                .cornerRadius(style.cornerRadius ?? 1_000)
+                .shadow(
+                    color: style.shadowColor,
+                    radius: style.shadowRadius,
+                    y: style.shadowOffset)
+                .animation(config.animation, value: isActive)
+                .offset(x: 0, y: verticalOffset)
+                #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
+                .gesture(swipeGesture, if: config.isSwipeToDismissEnabled)
+                #endif
+                .padding(style.padding)
+                .onChange(of: isActive, perform: handlePresentation)
+        }
+    }
+}
+
+private extension SystemNotification {
+    
+    var config: SystemNotificationConfiguration {
+        initConfig ?? envConfig
+    }
+
+    var edge: SystemNotificationEdge {
+        config.edge
+    }
+    
+    var verticalOffset: CGFloat {
+        if isActive { return 0 }
+        switch edge {
+        case .top: return -250
+        case .bottom: return 250
+        }
+    }
+    
+    func dismiss() {
+        isActive = false
+    }
+    
+    var style: SystemNotificationStyle {
+        initStyle ?? envStyle
+    }
+}
+
+@MainActor
+private extension SystemNotification {
+    
+    func handlePresentation(_ isPresented: Bool) {
+        guard isPresented else { return }
+        currentId = UUID()
+        let id = currentId
+        DispatchQueue.main.asyncAfter(deadline: .now() + config.duration) {
+            guard id == currentId else { return }
+            isActive = false
+        }
     }
 }
 
@@ -109,7 +149,7 @@ private extension SystemNotification {
         }
     }
     
-    #if os(iOS) || os(macOS) || os(watchOS)
+    #if os(iOS) || os(macOS) || os(watchOS) || os(visionOS)
     var swipeGesture: some Gesture {
         DragGesture(minimumDistance: 20, coordinateSpace: .global)
             .onEnded { value in
@@ -119,27 +159,147 @@ private extension SystemNotification {
                 let isUp = verticalTranslation < 0
                 // let isLeft = horizontalTranslation < 0
                 guard isVertical else { return }            // We only use vertical edges
-                if isUp && style.edge == .top { dismiss() }
-                if !isUp && style.edge == .bottom { dismiss() }
+                if isUp && edge == .top { dismiss() }
+                if !isUp && edge == .bottom { dismiss() }
             }
     }
     #endif
 }
 
-
-// MARK: - Private Logic
-
-private extension SystemNotification {
+#Preview {
     
-    var verticalOffset: CGFloat {
-        if isActive { return 0 }
-        switch style.edge {
-        case .top: return -250
-        case .bottom: return 250
+    struct Preview: View {
+        
+        @State var isPresented = false
+        
+        var body: some View {
+            ZStack {
+                AsyncImage(url: .init(string: "https://picsum.photos/500/500")) {
+                    $0.image?
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                }
+                .clipped()
+                .ignoresSafeArea()
+                
+                SystemNotification(
+                    isActive: $isPresented
+                ) { _ in
+                    SystemNotificationMessage(
+                        icon: Image(systemName: "bell.fill"),
+                        title: "Silent mode",
+                        text: "Silent mode is off"
+                    )
+                }
+                .systemNotificationStyle(.standard)
+                .systemNotificationConfiguration(
+                    .init(animation: .bouncy)
+                )
+                
+                SystemNotification(
+                    isActive: $isPresented
+                ) { _ in
+                    Text("HELLO")
+                        .padding()
+                }
+                .systemNotificationStyle(
+                    .init(backgroundColor: .blue)
+                )
+                .systemNotificationConfiguration(
+                    .init(animation: .smooth, edge: .bottom)
+                )
+            }
+            #if os(iOS)
+            .onTapGesture {
+                isPresented.toggle()
+            }
+            #endif
         }
     }
     
-    func dismiss() {
-        isActive = false
+    return Preview()
+}
+
+#Preview("README #1") {
+    
+    struct MyView: View {
+
+        @State
+        var isActive = false
+
+        var body: some View {
+            VStack {
+                Button("Show notification") {
+                    isActive = true
+                }
+            }
+            .systemNotification(isActive: $isActive) {
+                Text("You can use any custom content view")
+                    .padding()
+            }
+        }
     }
+    
+    return MyView()
+}
+
+
+#Preview("README #2") {
+    
+    struct MyView: View {
+
+        @StateObject
+        var notification = SystemNotificationContext()
+
+        var body: some View {
+            VStack {
+                Button("Show text") {
+                    notification.present {
+                        Text("Context-based notifications are more flexible.")
+                            .padding()
+                            .multilineTextAlignment(.center)
+                    }
+                }
+                Button("Show message") {
+                    notification.present {
+                        SystemNotificationMessage(
+                            icon: Text("👍"),
+                            title: "Great job!",
+                            text: "You presented a native-looking message!"
+                        )
+                    }
+                }
+            }
+            .systemNotification(notification)
+        }
+    }
+    
+    return MyView()
+}
+
+
+#Preview("README #3") {
+    
+    struct MyView: View {
+        
+        @State
+        var isSilentModeEnabled = false
+
+        @StateObject
+        var notification = SystemNotificationContext()
+
+        var body: some View {
+            VStack {
+                List {
+                    Toggle("Silent Mode", isOn: $isSilentModeEnabled)
+                }
+            }
+            .systemNotification(notification)
+            .onChange(of: isSilentModeEnabled) { value in
+                notification.presentMessage(.silentMode(isOn: value))
+            }
+        }
+    }
+    
+    return MyView()
 }

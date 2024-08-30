@@ -3,44 +3,40 @@
 //  SystemNotification
 //
 //  Created by Daniel Saidi on 2021-06-01.
-//  Copyright © 2021-2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2021-2024 Daniel Saidi. All rights reserved.
 //
 
 import SwiftUI
 
-/**
- This configuration can be used to configure the behavior of
- a ``SystemNotification``.
- 
- You can easily create new configurations like this:
- 
- ```swift
- extension SystemNotificationConfiguration {
- 
-    static var custom = Self(animation: .easeInOut)
- }
- ```
-
- The ``standard`` configuration will be used by default when
- you don't provide a custom configuration.
- */
+/// This type can configure a ``SystemNotification``.
+///
+/// See <doc:Getting-Started> for more information on how to
+/// style and configure system notifications.
+///
+/// You can apply a custom value with the corresponding view
+/// modifier. The ``standard`` value is used by default when
+/// you don't apply a custom value.
+///
+/// You can use the ``standardToast`` configuration when you
+/// want to present the notification as a bottom toast.
 public struct SystemNotificationConfiguration {
 
-    /**
-     Create a system notification configuration.
-
-     - Parameters:
-       - animation: The animation to apply when sliding in the notification, by default `.spring()`.
-       - duration: The number of seconds the notification should be presented, by default `3`.
-       - isSwipeToDismissEnabled: Whether or not a user can swipe to dismiss a notification, by default `true`.
-     */
+    /// Create a custom system notification configuration.
+    ///
+    /// - Parameters:
+    ///   - animation: The animation to apply when sliding in the notification, by default `.bouncy`.
+    ///   - duration: The number of seconds the notification should be presented, by default `3`.
+    ///   - edge: The edge from which to present the notification, by default `.top`.
+    ///   - isSwipeToDismissEnabled: Whether or not a user can swipe to dismiss a notification, by default `true`.
     public init(
-        animation: Animation = .spring(),
+        animation: Animation = .easeOut,
         duration: TimeInterval = 3,
+        edge: SystemNotificationEdge = .top,
         isSwipeToDismissEnabled: Bool = true
     ) {
         self.animation = animation
         self.duration = duration
+        self.edge = edge
         self.isSwipeToDismissEnabled = isSwipeToDismissEnabled
     }
 
@@ -49,20 +45,64 @@ public struct SystemNotificationConfiguration {
 
     /// The number of seconds a notification should be shown.
     public var duration: TimeInterval
+    
+    /// The edge to present from.
+    public var edge: SystemNotificationEdge = .top
 
     /// Whether or not swiping can to dismiss a notification.
     public var isSwipeToDismissEnabled: Bool
-
-    @available(*, deprecated, message: "This is just used to bridge between the configuration and the new style. This will be removed in the next minor update.")
-    var style: SystemNotificationStyle = .standard
 }
 
 public extension SystemNotificationConfiguration {
     
-    /**
-     The standard system notification configuration.
+    /// The standard system notification configuration.
+    static var standard: Self { .init() }
+    
+    /// A standard toast configuration.
+    static var standardToast: Self {
+        .init(
+            animation: .bouncy,
+            edge: .bottom
+        )
+    }
+}
 
-     You can change this value to affect the global default.
-     */
-    static var standard = Self()
+public extension View {
+
+    /// Apply a ``SystemNotificationConfiguration`` to the view.
+    func systemNotificationConfiguration(
+        _ configuration: SystemNotificationConfiguration
+    ) -> some View {
+        self.environment(\.systemNotificationConfiguration, configuration)
+    }
+}
+
+extension View {
+
+    @ViewBuilder
+    func systemNotificationConfiguration(
+        _ configuration: SystemNotificationConfiguration?
+    ) -> some View {
+        if let configuration {
+            self.environment(\.systemNotificationConfiguration, configuration)
+        } else {
+            self
+        }
+    }
+}
+
+private extension SystemNotificationConfiguration {
+
+    struct Key: EnvironmentKey {
+
+        static var defaultValue: SystemNotificationConfiguration { .init() }
+    }
+}
+
+public extension EnvironmentValues {
+
+    var systemNotificationConfiguration: SystemNotificationConfiguration {
+        get { self [SystemNotificationConfiguration.Key.self] }
+        set { self [SystemNotificationConfiguration.Key.self] = newValue }
+    }
 }

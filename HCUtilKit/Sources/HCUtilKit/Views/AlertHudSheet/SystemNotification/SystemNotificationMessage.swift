@@ -3,122 +3,132 @@
 //  SystemNotification
 //
 //  Created by Daniel Saidi on 2021-06-01.
-//  Copyright © 2021-2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2021-2024 Daniel Saidi. All rights reserved.
 //
 
 import SwiftUI
 
-/**
- This view mimics the native iOS system notification content
- view, which for instance is shown when toggling silent mode
- on and off.
- 
- You can provide this message with a custom  `icon`, `title`,
- `text` and `style`. You can use any custom view as icon, to
- be able to e.g. animate the view when it's presented.
- */
+/// This view mimics the message view that is shown within a
+/// native iOS system notification.
+///
+/// You can provide a custom icon view, title, and text, and
+/// e.g. animate the icon when it's presented.
+///
+/// You can easily create custom messages, by extending this
+/// type with static message builders, for instance:
+///
+/// ```swift
+/// extension SystemNotificationMessage where IconView == Image {
+///
+///     static func silentMode(on: Bool) -> Self {
+///
+///     }
+/// }
+///
+/// ```
 public struct SystemNotificationMessage<IconView: View>: View {
     
-    /**
-     Create a standard system notification message that uses
-     a custom view as its icon.
-
-     - Parameters:
-       - icon: The leading icon view.
-       - title: The bold title text, by default `nil`.
-       - text: The plain message text.
-       - style: The style to use, by default `.standard`.
-     */
+    /// Create a system notification message view.
+    ///
+    /// - Parameters:
+    ///   - icon: The leading icon view.
+    ///   - title: The bold title text, by default `nil`.
+    ///   - text: The plain message text.
+    ///   - style: An optional, explicit style to apply.
     public init(
         icon: IconView,
         title: LocalizedStringKey? = nil,
         text: LocalizedStringKey,
-        style: SystemNotificationMessageStyle = .standard
+        style: SystemNotificationMessageStyle? = nil
     ) {
         self.icon = icon
-        self.title = Self.title(for: title)
+        self.title = title
         self.text = text
-        self.style = style
+        self.initStyle = style
     }
 
-    /**
-     Create a standard system notification message that uses
-     an image as its icon.
-
-     - Parameters:
-       - icon: The leading icon image.
-       - title: The bold title text, by default `nil`.
-       - text: The plain message text.
-       - style: The style to use, by default `.standard`.
-     */
+    /// Create a system notification message view.
+    ///
+    /// - Parameters:
+    ///   - icon: The leading icon image.
+    ///   - title: The bold title text, by default `nil`.
+    ///   - text: The plain message text.
+    ///   - style: An optional, explicit style to apply.
     public init(
         icon: Image,
         title: LocalizedStringKey? = nil,
         text: LocalizedStringKey,
-        style: SystemNotificationMessageStyle = .standard
+        style: SystemNotificationMessageStyle? = nil
     ) where IconView == Image {
         self.icon = icon
-        self.title = Self.title(for: title)
+        self.title = title
         self.text = text
-        self.style = style
+        self.initStyle = style
     }
 
-    /**
-     Create a standard system notification message that uses
-     an `EmptyView` as its icon.
-
-     - Parameters:
-       - title: The bold title text, by default `nil`.
-       - text: The plain message text.
-       - style: The style to use, by default `.standard`.
-     */
+    /// Create a system notification message view.
+    ///
+    /// - Parameters:
+    ///   - title: The bold title text, by default `nil`.
+    ///   - text: The plain message text.
+    ///   - style: An optional, explicit style to apply.
     public init(
         title: LocalizedStringKey? = nil,
         text: LocalizedStringKey,
-        style: SystemNotificationMessageStyle = .standard
+        style: SystemNotificationMessageStyle? = nil
     ) where IconView == EmptyView {
         self.icon = EmptyView()
-        self.title = Self.title(for: title)
+        self.title = title
         self.text = text
-        self.style = style
+        self.initStyle = style
     }
     
     let icon: IconView
     let title: LocalizedStringKey?
     let text: LocalizedStringKey
-    let style: SystemNotificationMessageStyle
+    let initStyle: SystemNotificationMessageStyle?
+    
+    @Environment(\.systemNotificationMessageStyle)
+    private var environmentStyle
     
     public var body: some View {
         HStack(spacing: style.iconTextSpacing) {
             iconView
+                .id(UUID())
             textContent
             iconView.opacity(0.001)
         }
         .padding(.vertical, style.padding.height)
         .padding(.horizontal, style.padding.width)
+        .background(style.backgroundColor)
+    }
+}
+
+private extension SystemNotificationMessage {
+    
+    var style: SystemNotificationMessageStyle {
+        initStyle ?? environmentStyle
+    }
+    
+    func foregroundColor(
+        for color: Color
+    ) -> Color {
+        style.foregroundColor ?? color
     }
 }
 
 private extension SystemNotificationMessage {
 
-    static func title(for title: LocalizedStringKey?) -> LocalizedStringKey? {
-        if let title = title {
-            return title
-        } else {
-            return nil
-        }
-    }
-    
     var textContent: some View {
         VStack(spacing: style.titleTextSpacing) {
             if let title = title {
                 Text(title)
                     .font(style.titleFont)
-                    .foregroundColor(style.titleColor)
+                    .foregroundStyle(foregroundColor(for: style.titleColor))
             }
             Text(text)
                 .font(style.textFont)
-                .foregroundColor(style.textColor)
+                .foregroundStyle(foregroundColor(for: style.textColor))
         }
         .multilineTextAlignment(.center)
     }
@@ -126,58 +136,52 @@ private extension SystemNotificationMessage {
     @ViewBuilder
     var iconView: some View {
         icon.font(style.iconFont)
-            .foregroundColor(style.iconColor)
+            .foregroundStyle(foregroundColor(for: style.iconColor))
     }
 }
 
-struct SystemNotificationMessage_Previews: PreviewProvider {
+#Preview {
 
-    struct Preview: View {
+    VStack {
+        Group {
+            SystemNotificationMessage(
+                icon: Image(systemName: "bell.slash.fill"),
+                title: "Silent mode",
+                text: "On"
+            )
+            .systemNotificationMessageStyle(
+                .init(
+                    backgroundColor: .yellow,
+                    iconColor: .red
+                )
+            )
 
-        var body: some View {
-            VStack {
-                Group {
-                    SystemNotificationMessage(
-                        icon: Image(systemName: "bell.slash.fill"),
-                        title: "Silent mode",
-                        text: "On",
-                        style: .init(iconColor: .red)
-                    )
+            SystemNotificationMessage(
+                icon: Color.red.frame(width: 20, height: 20),
+                text: "Custom icon view, no title"
+            )
+            .systemNotificationMessageStyle(
+                .init(iconColor: .red)
+            )
 
-                    SystemNotificationMessage(
-                        icon: Color.red.frame(width: 20, height: 20),
-                        text: "Custom icon view, no title",
-                        style: .init(iconColor: .red)
-                    )
+            SystemNotificationMessage(
+                title: "No icon",
+                text: "On"
+            )
+            .systemNotificationMessageStyle(
+                .init(iconColor: .red)
+            )
 
-                    SystemNotificationMessage(
-                        title: "No icon",
-                        text: "On",
-                        style: .init(iconColor: .red)
-                    )
-
-                    SystemNotificationMessage(
-                        icon: Image(systemName: "exclamationmark.triangle"),
-                        title: "Warning",
-                        text: "This is a long message to demonstrate multiline messages.",
-                        style: .init(
-                            iconColor: .orange,
-                            iconFont: .headline,
-                            textColor: .orange,
-                            titleColor: .orange,
-                            titleFont: .headline
-                        )
-                    )
-                }
-                .background(Color.white)
-                .cornerRadius(5)
-                .padding()
-
-            }.background(Color.gray)
+            SystemNotificationMessage(
+                icon: Image(systemName: "exclamationmark.triangle"),
+                title: "Warning",
+                text: "This is a long warning message to demonstrate multiline messages."
+            )
+            .systemNotificationMessageStyle(.warning)
         }
+        .background(Color.white)
+        .cornerRadius(5)
+        .padding()
     }
-    
-    static var previews: some View {
-        Preview()
-    }
+    .background(Color.gray)
 }
