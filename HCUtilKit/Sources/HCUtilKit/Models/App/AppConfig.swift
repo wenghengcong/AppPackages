@@ -34,19 +34,19 @@ public  extension AppConfig {
 
     ///  Application name (if applicable).
     static  var displayName: String? {
-        return Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+        return NKDevice.Application.displayName
     }
 
     /// bundle name
     static  var bundleName: String? {
-        return Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+        return NKDevice.Application.bundleName
     }
 }
 
 // MARK: - 版本
 public extension AppConfig {
     static var version: String {
-        let ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let ver = NKDevice.Application.version
         return ver
     }
 
@@ -59,6 +59,6 @@ public extension AppConfig {
 
     /// The complete app version with build number (i.e. : "2.1.3 (343)").
     static var completeAppVersion: String {
-        return "\(AppConfig.version) (\(AppConfig.buildNumber))"
+        return NKDevice.Application.completeAppVersion
     }
 }

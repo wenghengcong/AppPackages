@@ -14,7 +14,7 @@ public extension Theme {
         switch token {
             /// 主要的背景色，一般灰色
         case .background:
-            return GlobalTokens.neutralColor(.gray92)
+            return GlobalTokens.neutralColor(.gray94)
 
             /// 主要的前景色
         case .foreground:

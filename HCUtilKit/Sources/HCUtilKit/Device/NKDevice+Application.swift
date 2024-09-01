@@ -66,13 +66,15 @@ public extension NKDevice {
     /// Application information.
     public struct Application {
         /// The current app version.
-        public static var version: String? {
-            return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        public static var version: String {
+            let version = (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0.0"
+            return version
         }
         
         /// The build number.
-        public static var buildNumber: String? {
-            return Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        public static var buildNumber: String {
+            let buildNumber = (Bundle.main.infoDictionary?["CFBundleVersion"] as? String) ?? "10"
+            return buildNumber
         }
         
         ///  Application name (if applicable).
