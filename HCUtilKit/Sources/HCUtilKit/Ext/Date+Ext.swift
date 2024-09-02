@@ -114,8 +114,6 @@ public extension Date {
 public extension Date {
     
     // MARK: Components
-
-
     var mediumString: String? {
         return self.toString(.date(.medium))
     }
