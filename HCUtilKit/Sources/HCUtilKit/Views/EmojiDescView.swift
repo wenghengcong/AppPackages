@@ -11,13 +11,13 @@ public struct EmojiDescView: View {
     
     @EnvironmentObject private var theme: Theme
 
-    @State var emoji = "📭️"
-    @State var title: LocalizedStringKey = "text.No entries found"
-    @State var desc: LocalizedStringKey = "text.Memo today!"
+    @State public var emoji = "📭️"
+    @State public var title: LocalizedStringKey = "trans.No entries found"
+    @State public var desc: LocalizedStringKey = "trans.Memo today!"
 
     public init(emoji: String = "📭️", 
-                title: LocalizedStringKey = "text.No entries found",
-                desc: LocalizedStringKey = "text.Memo today!") {
+                title: LocalizedStringKey = "trans.No entries found",
+                desc: LocalizedStringKey = "trans.Memo today!") {
         self._emoji = State(initialValue: emoji)
         self._title = State(initialValue: title)
         self._desc = State(initialValue: desc)
