@@ -87,7 +87,7 @@ public enum CD_KEY: String {
     /// 时间戳
     case timestamp
     /// 唯一时间： 格式2023-12-27T05:50:56Z
-    case uniqueTime
+    case itemISOTime
     /// 时间全部的格式：2023-12-27T05:50:56.694Z
     case fulltime
 
