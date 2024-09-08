@@ -114,8 +114,15 @@ public extension Date {
 public extension Date {
     
     // MARK: Components
-    var mediumString: String? {
+    /// 获取日期
+    var mediumDateString: String? {
         return self.toString(.date(.medium))
+    }
+
+
+    /// 获取时间
+    var mediumTimeString: String? {
+        return self.toString(.time(.medium))
     }
 
     /// 获取日期-天
