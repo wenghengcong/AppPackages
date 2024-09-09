@@ -122,7 +122,10 @@ public extension Date {
 
     /// 获取时间
     var mediumTimeString: String? {
-        return self.toString(.time(.medium))
+        let region = Region(calendar: Calendar.user, locale: Locale.user)
+        let dateInRange = DateInRegion(self,region: region).convertTo(timezone: UserLocale.currentTimeZone)
+        let convertToTimezone = dateInRange.toFormat("HH:mm:ss")
+        return convertToTimezone
     }
 
     /// 获取日期-天
