@@ -116,7 +116,10 @@ public extension Date {
     // MARK: Components
     /// 获取日期
     var mediumDateString: String? {
-        return self.toString(.date(.medium))
+        let region = Region(calendar: Calendar.user, locale: Locale.user)
+        let dateInRange = DateInRegion(self,region: region).convertTo(timezone: UserLocale.currentTimeZone)
+        let date = dateInRange.toString(.date(.medium))
+        return date
     }
 
 
