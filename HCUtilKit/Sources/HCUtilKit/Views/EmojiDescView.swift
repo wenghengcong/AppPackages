@@ -6,30 +6,27 @@
 //
 
 import SwiftUI
-
-import SwiftUI
-
 public struct EmojiDescView: View {
-    
+
     @EnvironmentObject private var theme: Theme
-    
-    // 使用@Binding代替@State，如果这些值是由父视图提供的
-    @Binding public var emoji: String
-    @Binding public var title: LocalizedStringKey
-    @Binding public var desc: LocalizedStringKey
-    
+
+    // 直接使用String和LocalizedStringKey类型的属性
+    public var emoji: String
+    public var title: LocalizedStringKey
+    public var desc: LocalizedStringKey?
+
     // 按钮文字和动作闭包，提供默认值为nil
-    let buttonLabel: String?
+    let buttonLabel: LocalizedStringKey?
     let action: (() -> Void)?
 
-    public init(emoji: Binding<String> = .constant("📭️"),
-                title: Binding<LocalizedStringKey> = .constant("trans.No entries found"),
-                desc: Binding<LocalizedStringKey> = .constant("trans.Memo now!"),
-                buttonLabel: String? = nil,
+    public init(emoji: String = "📭️",
+                title: LocalizedStringKey = "trans.No entries found",
+                desc: LocalizedStringKey? = nil,
+                buttonLabel: LocalizedStringKey? = nil,
                 action: (() -> Void)? = nil) {
-        self._emoji = emoji
-        self._title = title
-        self._desc = desc
+        self.emoji = emoji
+        self.title = title
+        self.desc = desc
         self.buttonLabel = buttonLabel
         self.action = action
     }
@@ -39,18 +36,19 @@ public struct EmojiDescView: View {
             VStack(spacing: 2) {
                 Text(emoji)
                     .font(.system(size: 50))
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 10)
                 Text(title)
                     .font(.themeTitle3)
                     .fontWeight(.medium)
                     .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .foregroundColor(.themeSecondaryText)
 
-                Text(desc)
-                    .font(.themeSubheadline).fontWeight(.regular)
-                    .font(.system(.subheadline, design: .rounded).weight(.regular))
-                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
-                    .foregroundColor(.themeTertiaryText)
+                if let desc {
+                    Text(desc)
+                        .font(.themeSubheadline).fontWeight(.thin)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .foregroundColor(.themeSecondaryText)
+                }
             }
             .frame(alignment: .center)
 
@@ -58,12 +56,12 @@ public struct EmojiDescView: View {
             if let buttonLabel = buttonLabel, let action = action {
                 Button(action: action) {
                     Text(buttonLabel)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .font(.themeTitle3).fontWeight(.regular)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .foregroundColor(.themeTint)
+                        .padding([.leading, .trailing], 40)
                 }
-                .padding(.top, 20)
+                .padding(.top, 2)
             }
         }
         .frame(maxHeight: .infinity)
