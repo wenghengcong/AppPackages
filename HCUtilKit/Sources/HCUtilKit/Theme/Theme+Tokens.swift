@@ -56,6 +56,9 @@ public extension Theme {
         /// 第4级：Non-interactive icons and symbols
         case quaternaryLabel
         
+        /// 输入框焦点的边框色
+        case focusedBorder
+        
         // Neutral colors - Stroke
         case stroke
 

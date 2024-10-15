@@ -35,6 +35,9 @@ public extension Theme {
         case .quaternaryLabel:
             return Color(assetName: "lightQuaternaryLabel")
 
+        case .focusedBorder:
+            return GlobalTokens.neutralColor(.gray92)
+            
         case .tint:
             return GlobalTokens.brandColor(.tint)
 

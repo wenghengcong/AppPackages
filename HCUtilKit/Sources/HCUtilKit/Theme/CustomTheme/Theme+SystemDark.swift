@@ -36,6 +36,9 @@ public extension Theme {
             return Color(assetName: "darkSecondaryText")
         case .tertiaryText:
             return Color(assetName: "darkTertiaryText")
+        case .focusedBorder:
+            return GlobalTokens.neutralColor(.gray6)
+            
         case .quaternaryLabel:
             return Color(assetName: "darkQuaternaryLabel")
 

@@ -30,7 +30,6 @@ public extension Color {
         return themeShared.color(.tabbarBackground)
     }
 
-
     // MARK: - 文本
     /// 第1文本色
     static var themePrimaryText: Color {
@@ -45,6 +44,11 @@ public extension Color {
     /// 第3文本色
     static var themeTertiaryText: Color {
         return themeShared.color(.tertiaryText)
+    }
+    
+    /// 焦点边框的颜色
+    static var themeFocusedBorder: Color {
+        return themeShared.color(.focusedBorder)
     }
 
     // MARK: - ICON
