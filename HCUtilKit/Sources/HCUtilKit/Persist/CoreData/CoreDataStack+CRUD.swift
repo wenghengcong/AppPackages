@@ -96,13 +96,8 @@ public extension CoreDataStack {
     func fetch<T: NSManagedObject>(_ entityType: T.Type, attribute: String, value: Any) -> [T] {
         let request = NSFetchRequest<T>(entityName: String(describing: entityType))
         let predicate = NSPredicate(format: "%K == %@", attribute, value as! CVarArg)
-        request.predicate = predicate
-        do {
-            return try viewContext.fetch(request)
-        } catch {
-            print("Error fetching entities by attribute: \(error)")
-            return []
-        }
+        
+        return _fetchLast(entityType, predicate: predicate, sortDescriptors: nil)
     }
 
     func fetch<T: NSManagedObject>(_ entityType: T.Type, attributes: [String: Any]) -> [T] {
@@ -115,14 +110,7 @@ public extension CoreDataStack {
         }
 
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        request.predicate = compoundPredicate
-
-        do {
-            return try viewContext.fetch(request)
-        } catch {
-            print("Error fetching entities by attributes: \(error)")
-            return []
-        }
+        return _fetchLast(entityType, predicate: compoundPredicate, sortDescriptors: nil)
     }
 
     /// 获取
@@ -148,16 +136,7 @@ public extension CoreDataStack {
         }
 
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        request.predicate = compoundPredicate
-
-        request.sortDescriptors = sortDescriptors
-
-        do {
-            return try viewContext.fetch(request)
-        } catch {
-            print("Error fetching entities by attributes: \(error)")
-            return []
-        }
+        return _fetchLast(entityType, predicate: compoundPredicate, sortDescriptors: sortDescriptors)
     }
 
     func fetch<T: NSManagedObject>(
@@ -166,18 +145,38 @@ public extension CoreDataStack {
         sortKey: String?,
         ascending: Bool = true
     ) -> [T] {
-        let request = NSFetchRequest<T>(entityName: String(describing: entityType))
-
         var predicates = [NSPredicate]()
         for (key, value) in attributes {
             let predicate = NSPredicate(format: "%K == %@", key, value as! CVarArg)
             predicates.append(predicate)
         }
         let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-        request.predicate = compoundPredicate
+        var sortDescriptors:[NSSortDescriptor] = []
         if let sortKey {
-            let sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: true)]
-            request.sortDescriptors = sortDescriptors
+            sortDescriptors = [NSSortDescriptor(key: sortKey, ascending: true)]
+        }
+        return _fetchLast(entityType, predicate: compoundPredicate, sortDescriptors: sortDescriptors)
+    }
+    
+    func fetch<T: NSManagedObject>(
+        _ entityType: T.Type,
+        predicate: NSPredicate?,
+        sortDescriptors: [NSSortDescriptor]?
+    ) -> [T] {
+        return _fetchLast(entityType, predicate: predicate, sortDescriptors: sortDescriptors)
+    }
+    
+    private func _fetchLast<T: NSManagedObject>(
+        _ entityType: T.Type,
+        predicate: NSPredicate?,
+        sortDescriptors: [NSSortDescriptor]?
+    ) -> [T]  {
+        let request = NSFetchRequest<T>(entityName: String(describing: entityType))
+        if let predicate {
+            request.predicate = predicate
+        }
+        if let sorts = sortDescriptors, sorts.count > 0 {
+            request.sortDescriptors = sorts
         }
         do {
             return try viewContext.fetch(request)
@@ -186,8 +185,7 @@ public extension CoreDataStack {
             return []
         }
     }
-
-
+    
     /// Mark: - Save
     func saveContext () -> Bool {
         let context = container.viewContext
