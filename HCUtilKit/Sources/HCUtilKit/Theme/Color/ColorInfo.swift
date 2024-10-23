@@ -193,8 +193,8 @@ public struct ColorInfo {
 public extension Color {
     
     /// 通过 ColorInfo 字符串创建 Color 对象
-    init?(colorInfoString: String?) {
-        guard let infoStr = colorInfoString else {
+    init?(infoString: String?) {
+        guard let infoStr = infoString else {
             self.init(red: 0, green: 0, blue: 0, opacity: 1)
             return
         }
@@ -210,7 +210,7 @@ public extension Color {
 #endif
     }
     
-    func toColorInfoString() -> String {
+    func toinfoString() -> String {
         let colorInfo = toColorInfo()
         let string = colorInfo.stringify()
         return string
