@@ -7,6 +7,6 @@
 
 import Foundation
 
-public func CD_SaveContent() {
-    _ = CoreDataStack.shared.saveContext()
+public func CD_SaveContent(completion: ((Bool, Error?) -> Void)? = nil) {
+    CoreDataStack.shared.saveContext(completion: completion)
 }

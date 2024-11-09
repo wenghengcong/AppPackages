@@ -187,21 +187,21 @@ public extension CoreDataStack {
     }
     
     /// Mark: - Save
-    func saveContext () -> Bool {
-        let context = container.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                debugPrint(nserror)
-                //                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                return false
-            }
-            return true
-        }
-        return false
-    }
+    func saveContext(completion: ((Bool, Error?) -> Void)? = nil) {
+          let context = container.viewContext
+          if context.hasChanges {
+              do {
+                  try context.save()
+                  completion?(true, nil)
+              } catch {
+                  let nserror = error as NSError
+                  debugPrint(nserror)
+                  completion?(false, nserror)
+              }
+          } else {
+              completion?(true, nil)
+          }
+      }
 
     // Mark: - Property
     func getMaxSort<T: NSManagedObject>(_ entityType: T.Type) -> Int? {
