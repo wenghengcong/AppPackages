@@ -8,6 +8,22 @@
 import SwiftUI
 
 public extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+
+        ZStack(alignment: alignment) {
+            HStack {
+                Spacer()
+                placeholder().opacity(shouldShow ? 1 : 0)
+            }
+            self
+        }
+    }
+}
+
+public extension View {
     func hideKeyboardWhenTappedAround() -> some View  {
         return self.onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
